@@ -16,7 +16,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 For support, please feel free to contact me at https://www.linkedin.com/in/syedabsar */
 
 /**
- * com.example.olegweatherapp.models.bycityname.Main data class for call by City name (also possible to get by city ID, Zip, coord)
+ * Main data class for call by City name (also possible to get by city ID, Zip, coord)
  * https://openweathermap.org/current#parameter
  */
 data class ForecastByCity (
