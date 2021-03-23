@@ -1,12 +1,13 @@
 package com.example.olegweatherapp
 
+import android.content.Context
 import androidx.lifecycle.ViewModelProvider
+import androidx.room.Room
+import com.example.olegweatherapp.database.ForecastOnecallDatabase
 import com.example.olegweatherapp.network.OpenWeatherMapApi
 import com.example.olegweatherapp.repository.FavoritesRepository
-import com.example.olegweatherapp.repository.HomeRepository
 import com.example.olegweatherapp.repository.SettingsRepository
 import com.example.olegweatherapp.viewmodels.factories.FavoritesViewModelFactory
-import com.example.olegweatherapp.viewmodels.factories.HomeViewModelFactory
 import com.example.olegweatherapp.viewmodels.factories.SettingsViewModelFactory
 
 /**
@@ -16,10 +17,8 @@ import com.example.olegweatherapp.viewmodels.factories.SettingsViewModelFactory
  */
 object Injection {
     private val networkApi = OpenWeatherMapApi.create()
+    private lateinit var  databaseINSTANCE : ForecastOnecallDatabase
 
-    private fun provideHomeRepository(): HomeRepository {
-        return HomeRepository()
-    }
 
     private fun provideFavoritesRepository(): FavoritesRepository {
         return FavoritesRepository()
@@ -34,9 +33,15 @@ object Injection {
     fun provideNetworkApi(): OpenWeatherMapApi {
         return networkApi
     }
-
-    fun provideHomeViewModelFactory(): ViewModelProvider.Factory {
-        return HomeViewModelFactory(provideHomeRepository())
+    fun provideDatabase(context: Context) : ForecastOnecallDatabase {
+        synchronized(ForecastOnecallDatabase::class.java) {
+            if(!::databaseINSTANCE.isInitialized) {
+                databaseINSTANCE = Room.databaseBuilder(context.applicationContext,
+                ForecastOnecallDatabase::class.java,
+                "databaseforecastonecall").build()
+            }
+        }
+        return databaseINSTANCE
     }
 
     fun provideFavoritesViewModelFactory(): ViewModelProvider.Factory {
