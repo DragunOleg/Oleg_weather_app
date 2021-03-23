@@ -1,22 +1,36 @@
 package com.example.olegweatherapp.network
 
-import retrofit2.Call
+import com.example.olegweatherapp.models.bycityname.ForecastByCity
+import com.example.olegweatherapp.models.onecall.ForecastOnecall
 import retrofit2.Retrofit
-import retrofit2.converter.scalars.ScalarsConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface OpenWeatherMapApi {
 
     @GET("data/2.5/onecall")
-    fun getByCoordinates(
+    suspend fun getByCoordinates(
             @Query("lat") lat: Double,
             @Query("lon") lon: Double,
             @Query("appid") appId : String = APP_ID,
             //TODO make swap based on settings to metric/standard/imperial
             //https://openweathermap.org/api/one-call-api#data Units of measurement
             @Query("units") units : String = "metric"
-    ): Call<String>
+    ): ForecastOnecall
+
+    /**
+     * @param city might be City, City + state code, City + state + country divided by comma
+     * more: https://openweathermap.org/current#name
+     */
+    @GET("data/2.5/weather")
+    suspend fun getByCityName(
+        @Query("q") city: String,
+        @Query("appid") appId : String = APP_ID,
+        //TODO make swap based on settings to metric/standard/imperial
+        //https://openweathermap.org/api/one-call-api#data Units of measurement
+        @Query("units") units : String = "metric"
+    ): ForecastByCity
 
     companion object {
         private const val BASE_URL = "https://api.openweathermap.org/"
@@ -25,7 +39,7 @@ interface OpenWeatherMapApi {
         fun create() : OpenWeatherMapApi {
             return Retrofit.Builder()
                     .baseUrl(BASE_URL)
-                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
                     .build()
                     .create(OpenWeatherMapApi::class.java)
         }

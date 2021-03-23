@@ -1,6 +1,5 @@
 package com.example.olegweatherapp.models.onecall
 
-import com.example.olegweatherapp.models.Rain
 import com.example.olegweatherapp.models.Temp
 import com.example.olegweatherapp.models.Weather
 import com.google.gson.annotations.SerializedName
@@ -34,6 +33,5 @@ data class Daily (
 		@SerializedName("clouds") val clouds : Int,
 		@SerializedName("pop") val pop : Double,
 		@SerializedName("snow") val snow : Double,
-		@SerializedName("rain") val rain: Rain,
 		@SerializedName("uvi") val uvi : Double
 )

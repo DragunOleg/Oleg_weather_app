@@ -1,6 +1,7 @@
 package com.example.olegweatherapp
 
 import androidx.lifecycle.ViewModelProvider
+import com.example.olegweatherapp.network.OpenWeatherMapApi
 import com.example.olegweatherapp.repository.FavoritesRepository
 import com.example.olegweatherapp.repository.HomeRepository
 import com.example.olegweatherapp.repository.SettingsRepository
@@ -14,6 +15,7 @@ import com.example.olegweatherapp.viewmodels.factories.SettingsViewModelFactory
  * testing, where needed.
  */
 object Injection {
+    private val networkApi = OpenWeatherMapApi.create()
 
     private fun provideHomeRepository(): HomeRepository {
         return HomeRepository()
@@ -25,6 +27,12 @@ object Injection {
 
     private fun provideSettingsRepository(): SettingsRepository {
         return SettingsRepository()
+    }
+    /**
+     * provide singleton network Api
+     */
+    fun provideNetworkApi(): OpenWeatherMapApi {
+        return networkApi
     }
 
     fun provideHomeViewModelFactory(): ViewModelProvider.Factory {

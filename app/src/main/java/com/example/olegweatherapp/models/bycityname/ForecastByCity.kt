@@ -1,6 +1,5 @@
 package com.example.olegweatherapp.models.bycityname
 
-import com.example.olegweatherapp.models.Snow
 import com.example.olegweatherapp.models.Weather
 import com.google.gson.annotations.SerializedName
 
@@ -27,7 +26,6 @@ data class ForecastByCity (
 		@SerializedName("main") val main : Main,
 		@SerializedName("visibility") val visibility : Int,
 		@SerializedName("wind") val wind : Wind,
-		@SerializedName("snow") val snow : Snow,
 		@SerializedName("clouds") val clouds : Clouds,
 		@SerializedName("dt") val dt : Int,
 		@SerializedName("sys") val sys : Sys,

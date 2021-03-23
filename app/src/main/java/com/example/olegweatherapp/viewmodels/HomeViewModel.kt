@@ -3,11 +3,10 @@ package com.example.olegweatherapp.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.olegweatherapp.network.OpenWeatherMapApi
+import androidx.lifecycle.viewModelScope
+import com.example.olegweatherapp.Injection
 import com.example.olegweatherapp.repository.HomeRepository
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.launch
 
 class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
 
@@ -20,18 +19,14 @@ class HomeViewModel(private val repository: HomeRepository) : ViewModel() {
     }
 
     private fun getWeatherByLocation () {
-        val apiObject = OpenWeatherMapApi.create()
-        apiObject.getByCoordinates(53.895487, 27.559835).enqueue(
-            object : Callback<String> {
-                override fun onResponse(call: Call<String>, response: Response<String>) {
-                    _text.value = response.body()
-                }
-
-                override fun onFailure(call: Call<String>, t: Throwable) {
-                    _text.value = "Failure: " + t.message
-                }
-
+        viewModelScope.launch {
+            try {
+                val forecastOnecall = Injection.provideNetworkApi()
+                    .getByCoordinates(53.895487, 27.559835)
+                _text.value = forecastOnecall.current.toString()
+            } catch (e: Exception) {
+                _text.value = "Failure: ${e.message}"
             }
-        )
+        }
     }
 }

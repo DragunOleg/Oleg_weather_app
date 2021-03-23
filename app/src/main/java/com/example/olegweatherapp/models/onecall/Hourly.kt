@@ -1,7 +1,5 @@
 package com.example.olegweatherapp.models.onecall
 
-import com.example.olegweatherapp.models.Rain
-import com.example.olegweatherapp.models.Snow
 import com.example.olegweatherapp.models.Weather
 import com.google.gson.annotations.SerializedName
 
@@ -25,14 +23,12 @@ data class Hourly (
 		@SerializedName("pressure") val pressure : Int,
 		@SerializedName("humidity") val humidity : Int,
 		@SerializedName("dew_point") val dew_point : Double,
-		@SerializedName("uvi") val uvi : Int,
+		@SerializedName("uvi") val uvi : Double,
 		@SerializedName("clouds") val clouds : Int,
 		@SerializedName("visibility") val visibility : Int,
 		@SerializedName("wind_speed") val windSpeed : Double,
 		@SerializedName("wind_deg") val windDeg : Int,
 		@SerializedName("wind_gust") val windGust : Double,
 		@SerializedName("weather") val weather : List<Weather>,
-		@SerializedName("pop") val pop : Double,
-		@SerializedName("rain") val rain : Rain,
-		@SerializedName("snow") val snow : Snow
+		@SerializedName("pop") val pop : Double
 )
