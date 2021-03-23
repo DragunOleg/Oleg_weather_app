@@ -1,4 +1,4 @@
 package com.example.olegweatherapp.repository;
 
-public class FavoritesRepository {
+class FavoritesRepository {
 }
