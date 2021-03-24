@@ -4,14 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.example.olegweatherapp.Injection
 import com.example.olegweatherapp.database.DatabaseForecastOnecall
-import com.example.olegweatherapp.database.ForecastOnecallDatabase
+import com.example.olegweatherapp.database.ForecastDatabase
 import com.example.olegweatherapp.models.onecall.ForecastOnecall
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-class HomeRepository (private val database: ForecastOnecallDatabase) {
+class HomeRepository (private val database: ForecastDatabase) {
 
     private val gson = Gson()
 

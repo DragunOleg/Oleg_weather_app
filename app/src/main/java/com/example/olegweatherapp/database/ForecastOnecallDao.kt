@@ -1,16 +1,16 @@
 package com.example.olegweatherapp.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Transaction
+import androidx.room.*
 
 /**
- * D
+ * Dao for both tables
  */
 @Dao
 interface ForecastOnecallDao {
+    /**
+     * Onecall methods
+     */
     @Query("select * from databaseforecastonecall")
     fun getOnecall(): LiveData<DatabaseForecastOnecall>
 
@@ -25,4 +25,30 @@ interface ForecastOnecallDao {
 
     @Query("DELETE FROM databaseforecastonecall")
     fun deleteAllForecastOnecall()
+
+    /**
+     * Cities methods
+     */
+    @Query("select * from databaseforecastcity")
+    fun getAllCities(): LiveData<List<DatabaseForecastCity>>
+
+    //transaction make sure BOTH operations done
+    @Transaction
+    fun updateCitiesData(cities: List<DatabaseForecastCity>) {
+        deleteAllCities()
+        insertAllCities(cities)
+    }
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertCity(city: DatabaseForecastCity)
+
+    @Delete
+    fun deleteCity(city: DatabaseForecastCity)
+
+
+    @Insert
+    fun insertAllCities(cities: List<DatabaseForecastCity>)
+
+    @Query("DELETE FROM databaseforecastcity")
+    fun deleteAllCities()
 }
