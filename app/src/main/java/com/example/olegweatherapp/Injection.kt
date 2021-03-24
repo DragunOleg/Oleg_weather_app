@@ -1,13 +1,11 @@
 package com.example.olegweatherapp
 
-import FavoritesRepository
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
 import com.example.olegweatherapp.database.ForecastDatabase
 import com.example.olegweatherapp.network.OpenWeatherMapApi
 import com.example.olegweatherapp.repository.SettingsRepository
-import com.example.olegweatherapp.viewmodels.factories.FavoritesViewModelFactory
 import com.example.olegweatherapp.viewmodels.factories.SettingsViewModelFactory
 import timber.log.Timber
 
@@ -20,11 +18,6 @@ object Injection {
     private val networkApi = OpenWeatherMapApi.create()
     private lateinit var  databaseINSTANCE : ForecastDatabase
 
-
-    private fun provideFavoritesRepository(): FavoritesRepository {
-        return FavoritesRepository()
-    }
-
     private fun provideSettingsRepository(): SettingsRepository {
         return SettingsRepository()
     }
@@ -34,6 +27,10 @@ object Injection {
     fun provideNetworkApi(): OpenWeatherMapApi {
         return networkApi
     }
+
+    /**
+     * provide singleton database instance
+     */
     fun provideDatabase(context: Context) : ForecastDatabase {
         synchronized(ForecastDatabase::class.java) {
             if(!::databaseINSTANCE.isInitialized) {
@@ -44,10 +41,6 @@ object Injection {
             }
         }
         return databaseINSTANCE
-    }
-
-    fun provideFavoritesViewModelFactory(): ViewModelProvider.Factory {
-        return FavoritesViewModelFactory(provideFavoritesRepository())
     }
 
     fun provideSettingsViewModelFactory(): ViewModelProvider.Factory {

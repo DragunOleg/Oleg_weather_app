@@ -66,8 +66,6 @@ class HomeFragment : Fragment() {
             if(isNetworkError) onNetworkError()
         })
 
-
-
         return binding.root
     }
 

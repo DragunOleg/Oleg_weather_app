@@ -7,4 +7,4 @@ import androidx.room.PrimaryKey
 data class DatabaseForecastCity(
         @PrimaryKey
         val cityId: String,
-        val forecastOnecall: String)
+        val forecastCity: String)

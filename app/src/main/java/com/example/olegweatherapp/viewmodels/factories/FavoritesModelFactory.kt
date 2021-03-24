@@ -3,16 +3,17 @@ package com.example.olegweatherapp.viewmodels.factories
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.olegweatherapp.viewmodels.HomeViewModel
+import com.example.olegweatherapp.viewmodels.FavoritesViewModel
+
 
 /**
- * Factory for constructing HomeViewModel with parameter
+ * Factory for constructing FavoritesViewModel with parameter
  */
-class HomeViewModelFactory(val app: Application) : ViewModelProvider.Factory {
+class FavoritesModelFactory(val app: Application) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(FavoritesViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return HomeViewModel(app) as T
+            return FavoritesViewModel(app) as T
         }
         throw IllegalArgumentException("Unable to construct viewmodel")
     }

@@ -6,9 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.olegweatherapp.Injection
-import com.example.olegweatherapp.models.onecall.ForecastOnecall
 import com.example.olegweatherapp.repository.HomeRepository
-import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.IOException
@@ -97,28 +95,28 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
 
 
-    private val _text = MutableLiveData<String>()
-    val text: LiveData<String>
-        get() = _text
-
-    private fun getWeatherByLocation () {
-        viewModelScope.launch {
-            try {
-                val forecastOnecall = Injection.provideNetworkApi()
-                    .getByCoordinates(53.895487, 27.559835)
-                val gson = Gson()
-                //from object to Json string
-                val string : String = gson.toJson(forecastOnecall)
-                //from Json string to object
-                val newForecastonecall = gson.fromJson(string, ForecastOnecall::class.java)
-                if (forecastOnecall == newForecastonecall) {
-                    _text.value = newForecastonecall.toString()
-                }
-            } catch (e: Exception) {
-                _text.value = "Failure: ${e.message}"
-            }
-        }
-    }
+//    private val _text = MutableLiveData<String>()
+//    val text: LiveData<String>
+//        get() = _text
+//
+//    private fun getWeatherByLocation () {
+//        viewModelScope.launch {
+//            try {
+//                val forecastOnecall = Injection.provideNetworkApi()
+//                    .getByCoordinates(53.895487, 27.559835)
+//                val gson = Gson()
+//                //from object to Json string
+//                val string : String = gson.toJson(forecastOnecall)
+//                //from Json string to object
+//                val newForecastonecall = gson.fromJson(string, ForecastOnecall::class.java)
+//                if (forecastOnecall == newForecastonecall) {
+//                    _text.value = newForecastonecall.toString()
+//                }
+//            } catch (e: Exception) {
+//                _text.value = "Failure: ${e.message}"
+//            }
+//        }
+//    }
 
 
 }

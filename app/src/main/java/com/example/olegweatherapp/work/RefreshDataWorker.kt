@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.olegweatherapp.Injection
+import com.example.olegweatherapp.repository.FavoritesRepository
 import com.example.olegweatherapp.repository.HomeRepository
 import retrofit2.HttpException
 import timber.log.Timber
@@ -22,9 +23,11 @@ class RefreshDataWorker(appContext: Context, params: WorkerParameters) :
     override suspend fun doWork(): Result {
         val database = Injection.provideDatabase(applicationContext)
         val homeRepository = HomeRepository(database)
+        val favoritesRepository = FavoritesRepository(database)
 
         try {
             homeRepository.refreshForecastOnecall()
+            favoritesRepository.refreshForecastCities()
             Timber.d("forecast: WorkManager: Work request for sync is run")
         } catch (e: HttpException) {
             return Result.retry()
