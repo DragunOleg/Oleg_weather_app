@@ -1,6 +1,5 @@
 package com.example.olegweatherapp.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.example.olegweatherapp.Injection
@@ -10,6 +9,7 @@ import com.example.olegweatherapp.models.onecall.ForecastOnecall
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 class HomeRepository (private val database: ForecastOnecallDatabase) {
 
@@ -22,7 +22,7 @@ class HomeRepository (private val database: ForecastOnecallDatabase) {
 
     suspend fun refreshForecastOnecall(){
         withContext(Dispatchers.IO) {
-            Log.d("forecast", "refresh home is called")
+            Timber.d("forecast: refresh home is called")
             val forecastOnecall =
                 Injection.provideNetworkApi().getByCoordinates(53.895487, 27.559835)
             database.forecastOnecallDao.updateData(forecastOnecall.asDatabaseModel())

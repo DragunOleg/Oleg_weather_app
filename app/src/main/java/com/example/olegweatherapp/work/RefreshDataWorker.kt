@@ -1,12 +1,12 @@
 package com.example.olegweatherapp.work
 
 import android.content.Context
-import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.olegweatherapp.Injection
 import com.example.olegweatherapp.repository.HomeRepository
 import retrofit2.HttpException
+import timber.log.Timber
 
 class RefreshDataWorker(appContext: Context, params: WorkerParameters) :
     CoroutineWorker(appContext, params) {
@@ -25,7 +25,7 @@ class RefreshDataWorker(appContext: Context, params: WorkerParameters) :
 
         try {
             homeRepository.refreshForecastOnecall()
-            Log.d("forecast", "Work request for sync is run")
+            Timber.d("forecast: WorkManager: Work request for sync is run")
         } catch (e: HttpException) {
             return Result.retry()
         }

@@ -9,6 +9,7 @@ import com.example.olegweatherapp.repository.FavoritesRepository
 import com.example.olegweatherapp.repository.SettingsRepository
 import com.example.olegweatherapp.viewmodels.factories.FavoritesViewModelFactory
 import com.example.olegweatherapp.viewmodels.factories.SettingsViewModelFactory
+import timber.log.Timber
 
 /**
  * Class that handles object creation.
@@ -39,6 +40,7 @@ object Injection {
                 databaseINSTANCE = Room.databaseBuilder(context.applicationContext,
                 ForecastOnecallDatabase::class.java,
                 "databaseforecastonecall").build()
+                Timber.d("forecast: Database initialized")
             }
         }
         return databaseINSTANCE

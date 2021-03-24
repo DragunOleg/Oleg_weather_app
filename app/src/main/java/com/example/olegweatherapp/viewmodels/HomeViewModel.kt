@@ -10,6 +10,7 @@ import com.example.olegweatherapp.models.onecall.ForecastOnecall
 import com.example.olegweatherapp.repository.HomeRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.io.IOException
 
 /**
@@ -65,6 +66,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
      */
     init {
         refreshDataFromRepository()
+        Timber.d("forecast: HomeViewModel init")
     }
 
     /**

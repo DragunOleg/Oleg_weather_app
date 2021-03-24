@@ -68,6 +68,8 @@ dependencies {
     def work_version = "1.0.1"
     implementation "android.arch.work:work-runtime-ktx:$work_version"
 
+    // logging
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
