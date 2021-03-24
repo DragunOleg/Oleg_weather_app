@@ -15,9 +15,9 @@ class HomeRepository (private val database: ForecastOnecallDatabase) {
 
     private val gson = Gson()
 
-    val forecastOnecall : LiveData<ForecastOnecall> =
+    val forecastOnecall: LiveData<ForecastOnecall> =
         Transformations.map(database.forecastOnecallDao.getOnecall()) {
-            it.asDomainModel()
+            it?.asDomainModel()
         }
 
     suspend fun refreshForecastOnecall(){
@@ -25,7 +25,7 @@ class HomeRepository (private val database: ForecastOnecallDatabase) {
             Log.d("forecast", "refresh home is called")
             val forecastOnecall =
                 Injection.provideNetworkApi().getByCoordinates(53.895487, 27.559835)
-            database.forecastOnecallDao.insertAll(forecastOnecall.asDatabaseModel())
+            database.forecastOnecallDao.updateData(forecastOnecall.asDatabaseModel())
         }
     }
 
@@ -33,11 +33,9 @@ class HomeRepository (private val database: ForecastOnecallDatabase) {
 
     private fun ForecastOnecall.asDatabaseModel() : DatabaseForecastOnecall {
         //from object to Json string
-        val string : String = gson.toJson(this)
-        val dt = this.current.dt
         return DatabaseForecastOnecall(
-            dt = dt,
-            forecastOnecall = string
+            dt = this.current.dt,
+            forecastOnecall = gson.toJson(this)
         )
     }
 

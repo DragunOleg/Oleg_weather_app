@@ -3,8 +3,8 @@ package com.example.olegweatherapp.database
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 
 /**
  * D
@@ -14,6 +14,15 @@ interface ForecastOnecallDao {
     @Query("select * from databaseforecastonecall")
     fun getOnecall(): LiveData<DatabaseForecastOnecall>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Transaction
+    fun updateData(forecastOnecall: DatabaseForecastOnecall) {
+        deleteAllForecastOnecall()
+        insertAll(forecastOnecall)
+    }
+
+    @Insert
     fun insertAll(forecastOnecall: DatabaseForecastOnecall)
+
+    @Query("DELETE FROM databaseforecastonecall")
+    fun deleteAllForecastOnecall()
 }
