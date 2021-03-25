@@ -23,6 +23,7 @@ class FavoritesRepository (private val database: ForecastDatabase) {
                 it?.asDomainModel()
             }
 
+    //TODO refresh database is never called
     suspend fun refreshForecastCities(){
         withContext(Dispatchers.IO) {
             Timber.d("forecast: refresh favorites is called")
@@ -48,8 +49,10 @@ class FavoritesRepository (private val database: ForecastDatabase) {
                 }
                 //if all new objects are valid we add it to db, invalid won't be in list
                 //otherwise do nothing
+                Timber.d("forecast: list to update site ${listToUpdate.size} cities ${citiesNames.size}")
                 if(listToUpdate.size == citiesNames.size) {
                     try {
+                        Timber.d("forecast: updateCitiesData")
                         database.forecastOnecallDao.updateCitiesData(listToUpdate)
                     }catch (e:Exception) {
                         throw IOException()

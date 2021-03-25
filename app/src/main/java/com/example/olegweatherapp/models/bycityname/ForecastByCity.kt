@@ -2,6 +2,7 @@ package com.example.olegweatherapp.models.bycityname
 
 import com.example.olegweatherapp.models.Weather
 import com.google.gson.annotations.SerializedName
+import java.time.format.DateTimeFormatter
 
 /*
 Copyright (c) 2021 Kotlin Data Classes Generated from JSON powered by http://www.json2kotlin.com
@@ -34,4 +35,13 @@ data class ForecastByCity (
 		@SerializedName("name") val name : String,
 		//error gonna be here
 		@SerializedName("cod") val cod : Int
-)
+) {
+	val dateTime: String
+	get() = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+		"calculated at local\n" + DateTimeFormatter.ISO_INSTANT
+			.format(java.time.Instant.ofEpochSecond((dt+timezone).toLong()))
+	} else {
+		""
+	}
+
+}

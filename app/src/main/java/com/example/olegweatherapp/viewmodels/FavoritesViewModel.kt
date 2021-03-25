@@ -70,7 +70,6 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
         viewModelScope.launch {
             try {
                 favoritesRepository.refreshForecastCities()
-                addCity("Singapore")
                 _eventNetworkError.value = false
                 _isNetworkErrorShown.value = false
             } catch (networkError: IOException) {

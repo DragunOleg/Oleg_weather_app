@@ -1,10 +1,12 @@
 package com.example.olegweatherapp.ui
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -40,17 +42,17 @@ class FavoritesFragment : Fragment() {
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val textView: TextView = view.findViewById(R.id.text_favorites)
-        viewModel.citiesList.observe(viewLifecycleOwner, {cities ->
-            cities.apply {
-                if(cities.isNotEmpty()) {
-                    textView.text = cities.toString()
-                    }
-                else {
-                    textView.text = "waiting for network"
-                }
-            }
-        })
+//        val textView: TextView = view.findViewById(R.id.text_favorites)
+//        viewModel.citiesList.observe(viewLifecycleOwner, {cities ->
+//            cities.apply {
+//                if(cities.isNotEmpty()) {
+//                    textView.text = cities.toString()
+//                    }
+//                else {
+//                    textView.text = "waiting for network"
+//                }
+//            }
+//        })
     }
 
     override fun onCreateView(
@@ -70,6 +72,8 @@ class FavoritesFragment : Fragment() {
         viewModel.eventNetworkError.observe(viewLifecycleOwner, { isNetworkError ->
             if(isNetworkError) onNetworkError()
         })
+        binding.cityList.adapter = FavortesAdapter()
+        setButtonsBehavior(binding)
 
         return binding.root
     }
@@ -83,4 +87,40 @@ class FavoritesFragment : Fragment() {
             viewModel.onNetworkErrorShown()
         }
     }
+
+    private fun setButtonsBehavior(binding: FragmentFavoritesBinding) {
+        //fab behavior
+        with(binding) {
+            fab.setOnClickListener {
+                button.visibility = View.VISIBLE
+                textLayout.visibility = View.VISIBLE
+                view?.let { activity?.showKeyboard(it) }
+                textInput.requestFocus()
+            }
+        }
+
+        //add city button behavior
+        with(binding) {
+            button.setOnClickListener {
+                if (!textInput.text.isNullOrBlank()) {
+                    viewModel?.addCity(textInput.text.toString())
+                }
+                textLayout.visibility = View.GONE
+                textInput.text?.clear()
+                button.visibility = View.GONE
+                view?.let { activity?.hideKeyboard(it) }
+            }
+        }
+    }
+
+    private fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    private fun Context.showKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.toggleSoftInputFromWindow(view.windowToken,0,0)
+    }
+
 }
