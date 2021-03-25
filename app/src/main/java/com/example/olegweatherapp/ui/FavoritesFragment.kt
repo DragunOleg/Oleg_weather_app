@@ -43,9 +43,8 @@ class FavoritesFragment : Fragment() {
         val textView: TextView = view.findViewById(R.id.text_favorites)
         viewModel.citiesList.observe(viewLifecycleOwner, {cities ->
             cities.apply {
-                if(cities.isNotEmpty())
-                    if(cities[0].cod == 200) {
-                        textView.text = cities[0].toString()
+                if(cities.isNotEmpty()) {
+                    textView.text = cities[0].toString()
                     }
                 else {
                     textView.text = "waiting for network"

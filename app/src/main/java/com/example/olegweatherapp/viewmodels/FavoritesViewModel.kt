@@ -70,6 +70,7 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
         viewModelScope.launch {
             try {
                 favoritesRepository.refreshForecastCities()
+                favoritesRepository.insertCity("Homel")
                 _eventNetworkError.value = false
                 _isNetworkErrorShown.value = false
             } catch (networkError: IOException) {
@@ -87,28 +88,4 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
     fun onNetworkErrorShown() {
         _isNetworkErrorShown.value = true
     }
-
-
-
-
-//    private val _text = MutableLiveData<String>().apply {
-//        value = "This is favorites Fragment"
-//    }
-//    val text: LiveData<String> = _text
-//
-//    init {
-//        getWeatherByCityName()
-//    }
-//
-//    private fun getWeatherByCityName () {
-//        viewModelScope.launch {
-//            try {
-//                val forecastByCity = Injection.provideNetworkApi()
-//                    .getByCityName("Moscow")
-//                _text.value = forecastByCity.toString()
-//            } catch (e: Exception) {
-//                _text.value = "Failure: ${e.message}"
-//            }
-//        }
-//    }
 }

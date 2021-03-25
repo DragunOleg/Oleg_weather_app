@@ -48,8 +48,8 @@ interface ForecastOnecallDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCity(city: DatabaseForecastCity)
 
-    @Delete
-    fun deleteCity(city: DatabaseForecastCity)
+    @Query("DELETE FROM databaseforecastcity WHERE cityId = :cityID")
+    fun deleteCity(cityID: String)
 
 
     @Insert

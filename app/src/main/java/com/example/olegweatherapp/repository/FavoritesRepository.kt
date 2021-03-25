@@ -26,10 +26,46 @@ class FavoritesRepository (private val database: ForecastDatabase) {
     suspend fun refreshForecastCities(){
         withContext(Dispatchers.IO) {
             Timber.d("forecast: refresh favorites is called")
+
+            //if database cities is empty or null do nothing
+            if(!cities.value.isNullOrEmpty()){
+                //copy to be sure db change won't affect us when we work with network
+                val citiesCopy = cities.value
+                val citiesNames : List<String> = citiesCopy!!.map { it.name }
+                //on each successful network call add valid db object
+                val listToUpdate: List<DatabaseForecastCity> = listOf()
+
+                citiesNames.forEach {
+                    try {
+                        val networkCity = Injection.provideNetworkApi().getByCityName(it)
+                        //cod 200 = valid, add to list
+                        if (networkCity.cod == 200) {
+                            listToUpdate.plus(networkCity)
+                        }
+                    }catch (e: Exception) {
+                        throw IOException()
+                    }
+                }
+                //if all new objects are valid we add it to db, invalid won't be in list
+                //otherwise do nothing
+                if(listToUpdate.size == citiesNames.size) {
+                    try {
+                        database.forecastOnecallDao.updateCitiesData(listToUpdate)
+                    }catch (e:Exception) {
+                        throw IOException()
+                    }
+                }
+            }
+        }
+    }
+
+    suspend fun insertCity (name: String) {
+        withContext(Dispatchers.IO) {
+            Timber.d("forecast: insert city with $name name")
             try {
-                val tempCities = Injection.provideNetworkApi().getByCityName("sdfkhjsdaf")
-                if (tempCities.cod == 200) {
-                    database.forecastOnecallDao.updateCitiesData(listOf(tempCities).asDatabaseModel())
+                val networkCityToIncert = Injection.provideNetworkApi().getByCityName(name)
+                if (networkCityToIncert.cod == 200) {
+                    database.forecastOnecallDao.insertCity(networkCityToIncert.asDatabaseModel())
                 }
             } catch (e: Exception) {
                 throw IOException()
@@ -37,11 +73,16 @@ class FavoritesRepository (private val database: ForecastDatabase) {
         }
     }
 
-    //suspend fun insertCity(name: String) {}
-
-    //suspend fun deleteCity(name: String) {}
-
-    //suspend fun deleteAllCities() {}
+    suspend fun deleteCity(name: String) {
+        withContext(Dispatchers.IO) {
+            Timber.d("forecast: delete city with $name name")
+            try {
+                database.forecastOnecallDao.deleteCity(name)
+            } catch(e: Exception) {
+                throw IOException()
+            }
+        }
+    }
 
     /**
      * Transform domain list to database list
@@ -54,6 +95,16 @@ class FavoritesRepository (private val database: ForecastDatabase) {
                     forecastCity = gson.toJson(it)
             )
         }
+    }
+
+    /**
+     * Transform domain city to database city
+     */
+    private fun ForecastByCity.asDatabaseModel() : DatabaseForecastCity {
+        return DatabaseForecastCity(
+                cityId = this.name,
+                forecastCity = gson.toJson(this)
+        )
     }
 
     /**
