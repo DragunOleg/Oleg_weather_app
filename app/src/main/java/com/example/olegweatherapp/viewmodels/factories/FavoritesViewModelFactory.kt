@@ -9,7 +9,7 @@ import com.example.olegweatherapp.viewmodels.FavoritesViewModel
 /**
  * Factory for constructing FavoritesViewModel with parameter
  */
-class FavoritesModelFactory(val app: Application) : ViewModelProvider.Factory {
+class FavoritesViewModelFactory(val app: Application) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(FavoritesViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")

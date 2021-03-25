@@ -9,26 +9,32 @@ import androidx.room.*
 @Dao
 interface ForecastOnecallDao {
     /**
-     * Onecall methods
+     * Onecall methods******************************************
      */
+
+    //it is always single instance because update recreate it
     @Query("select * from databaseforecastonecall")
     fun getOnecall(): LiveData<DatabaseForecastOnecall>
 
+    //transaction make sure BOTH operations done
     @Transaction
     fun updateData(forecastOnecall: DatabaseForecastOnecall) {
         deleteAllForecastOnecall()
         insertAll(forecastOnecall)
     }
 
+    //don't call this from repo
     @Insert
     fun insertAll(forecastOnecall: DatabaseForecastOnecall)
 
+    //don't call this from repo
     @Query("DELETE FROM databaseforecastonecall")
     fun deleteAllForecastOnecall()
 
     /**
-     * Cities methods
+     * Cities methods*********************************************
      */
+
     @Query("select * from databaseforecastcity")
     fun getAllCities(): LiveData<List<DatabaseForecastCity>>
 

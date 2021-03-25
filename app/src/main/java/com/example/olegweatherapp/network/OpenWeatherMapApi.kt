@@ -4,7 +4,6 @@ import com.example.olegweatherapp.models.bycityname.ForecastByCity
 import com.example.olegweatherapp.models.onecall.ForecastOnecall
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -41,7 +40,6 @@ interface OpenWeatherMapApi {
         fun create() : OpenWeatherMapApi {
             return Retrofit.Builder()
                     .baseUrl(BASE_URL)
-                    .addConverterFactory(ScalarsConverterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
                     .create(OpenWeatherMapApi::class.java)

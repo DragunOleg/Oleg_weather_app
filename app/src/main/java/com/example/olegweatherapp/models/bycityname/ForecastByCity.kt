@@ -32,5 +32,6 @@ data class ForecastByCity (
 		@SerializedName("timezone") val timezone : Int,
 		@SerializedName("id") val id : Int,
 		@SerializedName("name") val name : String,
+		//error gonna be here
 		@SerializedName("cod") val cod : Int
 )

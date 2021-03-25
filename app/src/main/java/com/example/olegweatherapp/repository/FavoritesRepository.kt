@@ -9,11 +9,15 @@ import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.io.IOException
 
 class FavoritesRepository (private val database: ForecastDatabase) {
 
     private val gson = Gson()
 
+    /**
+     * Observable list of favorite cities. Show this in your UI
+     */
     val cities: LiveData<List<ForecastByCity>> =
             Transformations.map(database.forecastOnecallDao.getAllCities()){
                 it?.asDomainModel()
@@ -22,9 +26,14 @@ class FavoritesRepository (private val database: ForecastDatabase) {
     suspend fun refreshForecastCities(){
         withContext(Dispatchers.IO) {
             Timber.d("forecast: refresh favorites is called")
-            val tempCities =
-                    Injection.provideNetworkApi().getByCityName("Moscow")
-            database.forecastOnecallDao.updateCitiesData(listOf(tempCities).asDatabaseModel())
+            try {
+                val tempCities = Injection.provideNetworkApi().getByCityName("sdfkhjsdaf")
+                if (tempCities.cod == 200) {
+                    database.forecastOnecallDao.updateCitiesData(listOf(tempCities).asDatabaseModel())
+                }
+            } catch (e: Exception) {
+                throw IOException()
+            }
         }
     }
 
@@ -34,6 +43,9 @@ class FavoritesRepository (private val database: ForecastDatabase) {
 
     //suspend fun deleteAllCities() {}
 
+    /**
+     * Transform domain list to database list
+     */
     private fun List<ForecastByCity>.asDatabaseModel(): List<DatabaseForecastCity> {
         //from object to Json string
         return map {
@@ -44,6 +56,9 @@ class FavoritesRepository (private val database: ForecastDatabase) {
         }
     }
 
+    /**
+     * Transform database list to domain list
+     */
     private fun List<DatabaseForecastCity>.asDomainModel() : List<ForecastByCity> {
         //from Json string to object
         return map {

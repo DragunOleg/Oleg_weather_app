@@ -74,7 +74,7 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
                 _isNetworkErrorShown.value = false
             } catch (networkError: IOException) {
                 //Show a Toast error message
-                if(citiesList.value == null) {
+                if(citiesList.value .isNullOrEmpty()) {
                     _eventNetworkError.value = true
                 }
             }

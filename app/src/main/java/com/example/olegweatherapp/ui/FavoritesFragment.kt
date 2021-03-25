@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.olegweatherapp.R
 import com.example.olegweatherapp.databinding.FragmentFavoritesBinding
 import com.example.olegweatherapp.viewmodels.FavoritesViewModel
-import com.example.olegweatherapp.viewmodels.factories.FavoritesModelFactory
+import com.example.olegweatherapp.viewmodels.factories.FavoritesViewModelFactory
 
 /**
  * Show favorite cities from db, add/delete cities
@@ -28,7 +28,7 @@ class FavoritesFragment : Fragment() {
         val activity = requireNotNull(this.activity) {
             "You can only access the viewModel after onActivityCreated()"
         }
-        ViewModelProvider(this, FavoritesModelFactory(activity.application))
+        ViewModelProvider(this, FavoritesViewModelFactory(activity.application))
                 .get(FavoritesViewModel::class.java)
     }
 
@@ -42,8 +42,14 @@ class FavoritesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val textView: TextView = view.findViewById(R.id.text_favorites)
         viewModel.citiesList.observe(viewLifecycleOwner, {cities ->
-            cities?.apply {
-                textView.text = cities.toString()
+            cities.apply {
+                if(cities.isNotEmpty())
+                    if(cities[0].cod == 200) {
+                        textView.text = cities[0].toString()
+                    }
+                else {
+                    textView.text = "waiting for network"
+                }
             }
         })
     }
