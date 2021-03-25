@@ -70,7 +70,7 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
         viewModelScope.launch {
             try {
                 favoritesRepository.refreshForecastCities()
-                favoritesRepository.insertCity("Homel")
+                addCity("Singapore")
                 _eventNetworkError.value = false
                 _isNetworkErrorShown.value = false
             } catch (networkError: IOException) {
@@ -80,6 +80,45 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
                 }
             }
         }
+    }
+
+    private fun privateAddCity(city: String) {
+        viewModelScope.launch {
+            try {
+                favoritesRepository.insertCity(city)
+                _eventNetworkError.value = false
+                _isNetworkErrorShown.value = false
+            } catch (networkError: IOException) {
+                //Show a Toast error message
+                _eventNetworkError.value = true
+            }
+        }
+    }
+
+    /**
+     * add new city
+     */
+    fun addCity(city: String) {
+        privateAddCity(city)
+    }
+
+    private fun privateDeleteCity(city: String) {
+        viewModelScope.launch {
+            try {
+                favoritesRepository.deleteCity(city)
+            } catch (networkError: IOException) {
+                //Show a Toast error message
+                _eventNetworkError.value = true
+            }
+        }
+    }
+
+    /**
+     * delete existing city
+     * @param city name of the city. It is in [citiesList.value[i].name]
+     */
+    fun deleteCity(city:String) {
+        privateDeleteCity(city)
     }
 
     /**

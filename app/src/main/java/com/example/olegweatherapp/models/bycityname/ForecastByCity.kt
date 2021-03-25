@@ -24,7 +24,7 @@ data class ForecastByCity (
 		@SerializedName("weather") val weather : List<Weather>,
 		@SerializedName("base") val base : String,
 		@SerializedName("main") val main : Main,
-		@SerializedName("visibility") val visibility : Int,
+		@SerializedName("visibility") val visibility : Double,
 		@SerializedName("wind") val wind : Wind,
 		@SerializedName("clouds") val clouds : Clouds,
 		@SerializedName("dt") val dt : Int,

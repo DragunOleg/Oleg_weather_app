@@ -16,7 +16,7 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 
 data class Wind (
 
-		@SerializedName("speed") val speed : Int,
-		@SerializedName("deg") val deg : Int,
+		@SerializedName("speed") val speed : Double,
+		@SerializedName("deg") val deg : Double,
 		@SerializedName("gust") val gust : Double
 )

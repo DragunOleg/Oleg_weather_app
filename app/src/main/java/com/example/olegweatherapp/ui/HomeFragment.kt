@@ -43,7 +43,7 @@ class HomeFragment : Fragment() {
         val textView: TextView = view.findViewById(R.id.text_home)
         viewModel.forecastOnecall.observe(viewLifecycleOwner, { forecast ->
             forecast?.apply {
-                textView.text = forecast.current.toString()
+                textView.text = forecast.toString()
             }
         })
     }

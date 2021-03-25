@@ -44,7 +44,7 @@ class FavoritesFragment : Fragment() {
         viewModel.citiesList.observe(viewLifecycleOwner, {cities ->
             cities.apply {
                 if(cities.isNotEmpty()) {
-                    textView.text = cities[0].toString()
+                    textView.text = cities.toString()
                     }
                 else {
                     textView.text = "waiting for network"

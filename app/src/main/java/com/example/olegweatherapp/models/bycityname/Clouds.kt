@@ -16,5 +16,5 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 
 data class Clouds (
 
-	@SerializedName("all") val all : Int
+	@SerializedName("all") val all : Double
 )

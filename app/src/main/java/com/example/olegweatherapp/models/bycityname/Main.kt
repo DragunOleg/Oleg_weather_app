@@ -20,9 +20,9 @@ data class Main (
 		@SerializedName("feels_like") val feelsLike : Double,
 		@SerializedName("temp_min") val tempMin : Double,
 		@SerializedName("temp_max") val tempMax : Double,
-		@SerializedName("pressure") val pressure : Int,
-		@SerializedName("humidity") val humidity : Int,
+		@SerializedName("pressure") val pressure : Double,
+		@SerializedName("humidity") val humidity : Double,
 		//not sure in int type of levels bellow
-		@SerializedName("sea_level") val seaLevel : Int,
-		@SerializedName("grnd_level") val grndLevel: Int
+		@SerializedName("sea_level") val seaLevel : Double,
+		@SerializedName("grnd_level") val grndLevel: Double
 )
