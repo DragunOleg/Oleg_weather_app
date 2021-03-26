@@ -32,35 +32,6 @@ class FavoritesRepository (private val database: ForecastDatabase) {
                 Timber.d("forecast: refresh $it")
                 insertCity(it)
             }
-//            //if database cities is empty or null do nothing
-//            if (!db.value.isNullOrEmpty()){
-//                Timber.d("forecast: if passed")
-//                val dbNames = db.value!!.map { it.cityId }
-//                dbNames.forEach{
-//                    try {
-//                        //on each successful network call add valid db object
-//                        val networkCity = Injection.provideNetworkApi().getByCityName(it)
-//                        //cod 200 = valid, add to list
-//                        if (networkCity.cod == 200) {
-//                            listToUpdate.plus(networkCity)
-//                        }
-//                    }catch (e: Exception) {
-//                        throw IOException()
-//                    }
-//                }
-//                //if all new objects are valid we add it to db, invalid won't be in list
-//                //otherwise do nothing
-//                Timber.d("forecast: list to update site ${listToUpdate.size} cities ${dbNames.size}")
-//                if(listToUpdate.size == dbNames.size) {
-//                    try {
-//                        Timber.d("forecast: updateCitiesData")
-//                        database.forecastOnecallDao.updateCitiesData(listToUpdate)
-//                    }catch (e:Exception) {
-//                        throw IOException()
-//                    }
-//                }
-//
-//            }
         }
     }
 

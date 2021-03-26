@@ -36,7 +36,7 @@ data class ForecastByCity (
 		//error gonna be here
 		@SerializedName("cod") val cod : Int
 ) {
-	// TODO: change string for lower devices
+	// TODO: change string for lower API devices
 	val dateTime: String
 	get() = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 		"calculated at local\n" + DateTimeFormatter.ISO_INSTANT

@@ -12,8 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.olegweatherapp.R
 import com.example.olegweatherapp.databinding.FragmentHomeBinding
+import com.example.olegweatherapp.extencions.moveLocationToPref
 import com.example.olegweatherapp.viewmodels.HomeViewModel
 import com.example.olegweatherapp.viewmodels.factories.HomeViewModelFactory
+import timber.log.Timber
 
 /**
  * Show last available forecast
@@ -73,6 +75,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun getLocationFromPref() : Pair<Double,Double> {
+        Timber.d("forecast: update location")
+        moveLocationToPref(activity)
         val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
         if (sharedPref!= null && sharedPref.contains("latitude") && sharedPref.contains("longtitude")) {
             val lat = sharedPref.getFloat("latitude",(40.462212).toFloat()).toDouble()

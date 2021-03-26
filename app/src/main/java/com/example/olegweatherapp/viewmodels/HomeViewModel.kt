@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.olegweatherapp.Injection
 import com.example.olegweatherapp.repository.HomeRepository
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.io.IOException
 
 /**
@@ -59,16 +58,11 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     val isNetworkErrorShown: LiveData<Boolean>
         get() = _isNetworkErrorShown
 
-    /**
-     * init{} is called immediately when this ViewModel is created.
-     */
-    init {
-        Timber.d("forecast: HomeViewModel init")
-    }
 
     /**
      * Refresh data from the repository. Use a coroutine launch to run in a
      * background thread.
+     * @param loc is pair with lat/lon to update weather with current location
      */
     fun refreshDataFromRepository(loc :Pair<Double,Double>) {
         viewModelScope.launch {

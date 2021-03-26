@@ -34,27 +34,6 @@ class FavoritesFragment : Fragment() {
                 .get(FavoritesViewModel::class.java)
     }
 
-    /**
-     * Called immediately after onCreateView() has returned, and fragment's
-     * view hierarchy has been created. It can be used to do final
-     * initialization once these pieces are in place, such as retrieving
-     * views or restoring state.
-     */
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-//        val textView: TextView = view.findViewById(R.id.text_favorites)
-//        viewModel.citiesList.observe(viewLifecycleOwner, {cities ->
-//            cities.apply {
-//                if(cities.isNotEmpty()) {
-//                    textView.text = cities.toString()
-//                    }
-//                else {
-//                    textView.text = "waiting for network"
-//                }
-//            }
-//        })
-    }
-
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,

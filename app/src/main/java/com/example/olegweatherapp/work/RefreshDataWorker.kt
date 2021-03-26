@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.olegweatherapp.Injection
+import com.example.olegweatherapp.extencions.getLocationWithoutActivity
 import com.example.olegweatherapp.repository.FavoritesRepository
 import com.example.olegweatherapp.repository.HomeRepository
 import retrofit2.HttpException
@@ -26,8 +27,7 @@ class RefreshDataWorker(appContext: Context, params: WorkerParameters) :
         val favoritesRepository = FavoritesRepository(database)
 
         try {
-            //todo
-            //homeRepository.refreshForecastOnecall()
+            homeRepository.refreshForecastOnecall(getLocationWithoutActivity(applicationContext))
             favoritesRepository.refreshForecastCities()
             Timber.d("forecast: WorkManager: Work request for sync is run")
         } catch (e: HttpException) {
