@@ -63,7 +63,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
      * init{} is called immediately when this ViewModel is created.
      */
     init {
-        refreshDataFromRepository()
         Timber.d("forecast: HomeViewModel init")
     }
 
@@ -71,10 +70,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
      * Refresh data from the repository. Use a coroutine launch to run in a
      * background thread.
      */
-    private fun refreshDataFromRepository() {
+    fun refreshDataFromRepository(loc :Pair<Double,Double>) {
         viewModelScope.launch {
             try {
-                homeRepository.refreshForecastOnecall()
+                homeRepository.refreshForecastOnecall(loc)
                 _eventNetworkError.value = false
                 _isNetworkErrorShown.value = false
             } catch (networkError: IOException) {
@@ -92,31 +91,4 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     fun onNetworkErrorShown() {
         _isNetworkErrorShown.value = true
     }
-
-
-
-//    private val _text = MutableLiveData<String>()
-//    val text: LiveData<String>
-//        get() = _text
-//
-//    private fun getWeatherByLocation () {
-//        viewModelScope.launch {
-//            try {
-//                val forecastOnecall = Injection.provideNetworkApi()
-//                    .getByCoordinates(53.895487, 27.559835)
-//                val gson = Gson()
-//                //from object to Json string
-//                val string : String = gson.toJson(forecastOnecall)
-//                //from Json string to object
-//                val newForecastonecall = gson.fromJson(string, ForecastOnecall::class.java)
-//                if (forecastOnecall == newForecastonecall) {
-//                    _text.value = newForecastonecall.toString()
-//                }
-//            } catch (e: Exception) {
-//                _text.value = "Failure: ${e.message}"
-//            }
-//        }
-//    }
-
-
 }

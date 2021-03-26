@@ -8,6 +8,7 @@
         <variable
             name="clickListener"
             type="com.example.olegweatherapp.ui.ForecastListener" />
+        <!--forecast model to access any param to show-->
         <variable
             name="forecastByCity"
             type="com.example.olegweatherapp.models.bycityname.ForecastByCity"/>

@@ -1,5 +1,6 @@
 package com.example.olegweatherapp.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -66,7 +67,18 @@ class HomeFragment : Fragment() {
             if(isNetworkError) onNetworkError()
         })
 
+        viewModel.refreshDataFromRepository(getLocationFromPref())
+
         return binding.root
+    }
+
+    private fun getLocationFromPref() : Pair<Double,Double> {
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
+        if (sharedPref!= null && sharedPref.contains("latitude") && sharedPref.contains("longtitude")) {
+            val lat = sharedPref.getFloat("latitude",(40.462212).toFloat()).toDouble()
+            val lon = sharedPref.getFloat("longtitude",(-2.96039).toFloat()).toDouble()
+            return Pair(lat, lon)
+        } else return Pair(40.462212, -2.96039)
     }
 
     /**
@@ -78,6 +90,4 @@ class HomeFragment : Fragment() {
             viewModel.onNetworkErrorShown()
         }
     }
-
-
 }

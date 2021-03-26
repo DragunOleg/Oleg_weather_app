@@ -26,7 +26,8 @@ class RefreshDataWorker(appContext: Context, params: WorkerParameters) :
         val favoritesRepository = FavoritesRepository(database)
 
         try {
-            homeRepository.refreshForecastOnecall()
+            //todo
+            //homeRepository.refreshForecastOnecall()
             favoritesRepository.refreshForecastCities()
             Timber.d("forecast: WorkManager: Work request for sync is run")
         } catch (e: HttpException) {

@@ -24,12 +24,12 @@ class HomeRepository (private val database: ForecastDatabase) {
             it?.asDomainModel()
         }
 
-    suspend fun refreshForecastOnecall(){
+    suspend fun refreshForecastOnecall(loc: Pair<Double,Double>){
         withContext(Dispatchers.IO) {
-            Timber.d("forecast: refresh home is called")
+            Timber.d("forecast: refresh home is called. lat ${loc.first}, lon ${loc.second}")
             try {
                 val forecastOnecall =
-                        Injection.provideNetworkApi().getByCoordinates(53.895487, 27.559835)
+                        Injection.provideNetworkApi().getByCoordinates(loc.first, loc.second)
                 database.forecastOnecallDao.updateData(forecastOnecall.asDatabaseModel())
             } catch (e: Exception) {
                 throw IOException()
