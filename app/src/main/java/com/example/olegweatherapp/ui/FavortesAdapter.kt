@@ -14,8 +14,10 @@ import kotlin.math.roundToInt
 /**
  * This class implements a [RecyclerView] [ListAdapter] which uses Data Binding to present [List]
  * data, including computing diffs between lists.
+ * Tricky item click listener to delete explained here
+ * https://developer.android.com/codelabs/kotlin-android-training-interacting-with-items#3
  */
-class FavortesAdapter: ListAdapter<ForecastByCity, FavortesAdapter.ForecastViewHolder>(DiffCallback) {
+class FavortesAdapter(val clickListener: ForecastListener): ListAdapter<ForecastByCity, FavortesAdapter.ForecastViewHolder>(DiffCallback) {
 
     /**
      * The PictureViewHolder constructor takes the binding variable from the associated
@@ -23,10 +25,11 @@ class FavortesAdapter: ListAdapter<ForecastByCity, FavortesAdapter.ForecastViewH
      */
     class ForecastViewHolder(private var binding: FavoritesViewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-            fun bind(forecastByCity: ForecastByCity) {
+            fun bind(forecastByCity: ForecastByCity, clickListener: ForecastListener) {
                 binding.forecastByCity = forecastByCity
                 binding.temperature.text = forecastByCity.main.temp.roundToInt().toString()+"°"
                 binding.feelsLikeValue.text = forecastByCity.main.feelsLike.roundToInt().toString()+"°"
+                binding.clickListener = clickListener
 
                 binding.executePendingBindings()
             }
@@ -68,7 +71,10 @@ class FavortesAdapter: ListAdapter<ForecastByCity, FavortesAdapter.ForecastViewH
      */
     override fun onBindViewHolder(holder: ForecastViewHolder, position: Int) {
         val forecastByCity = getItem(position)
-        holder.bind(forecastByCity)
+        holder.bind(forecastByCity, clickListener)
     }
+}
 
+class ForecastListener(val clickListener: (cityName: String) -> Unit) {
+    fun onClick(forecastCity: ForecastByCity) = clickListener(forecastCity.name)
 }

@@ -27,38 +27,40 @@ class FavoritesRepository (private val database: ForecastDatabase) {
     suspend fun refreshForecastCities(){
         withContext(Dispatchers.IO) {
             Timber.d("forecast: refresh favorites is called")
-
-            //if database cities is empty or null do nothing
-            if(!cities.value.isNullOrEmpty()){
-                //copy to be sure db change won't affect us when we work with network
-                val citiesCopy = cities.value
-                val citiesNames : List<String> = citiesCopy!!.map { it.name }
-                //on each successful network call add valid db object
-                val listToUpdate: List<DatabaseForecastCity> = listOf()
-
-                citiesNames.forEach {
-                    try {
-                        val networkCity = Injection.provideNetworkApi().getByCityName(it)
-                        //cod 200 = valid, add to list
-                        if (networkCity.cod == 200) {
-                            listToUpdate.plus(networkCity)
-                        }
-                    }catch (e: Exception) {
-                        throw IOException()
-                    }
-                }
-                //if all new objects are valid we add it to db, invalid won't be in list
-                //otherwise do nothing
-                Timber.d("forecast: list to update site ${listToUpdate.size} cities ${citiesNames.size}")
-                if(listToUpdate.size == citiesNames.size) {
-                    try {
-                        Timber.d("forecast: updateCitiesData")
-                        database.forecastOnecallDao.updateCitiesData(listToUpdate)
-                    }catch (e:Exception) {
-                        throw IOException()
-                    }
-                }
+            val db = database.forecastOnecallDao.getCitiesNames()
+            db.forEach {
+                Timber.d("forecast: refresh $it")
+                insertCity(it)
             }
+//            //if database cities is empty or null do nothing
+//            if (!db.value.isNullOrEmpty()){
+//                Timber.d("forecast: if passed")
+//                val dbNames = db.value!!.map { it.cityId }
+//                dbNames.forEach{
+//                    try {
+//                        //on each successful network call add valid db object
+//                        val networkCity = Injection.provideNetworkApi().getByCityName(it)
+//                        //cod 200 = valid, add to list
+//                        if (networkCity.cod == 200) {
+//                            listToUpdate.plus(networkCity)
+//                        }
+//                    }catch (e: Exception) {
+//                        throw IOException()
+//                    }
+//                }
+//                //if all new objects are valid we add it to db, invalid won't be in list
+//                //otherwise do nothing
+//                Timber.d("forecast: list to update site ${listToUpdate.size} cities ${dbNames.size}")
+//                if(listToUpdate.size == dbNames.size) {
+//                    try {
+//                        Timber.d("forecast: updateCitiesData")
+//                        database.forecastOnecallDao.updateCitiesData(listToUpdate)
+//                    }catch (e:Exception) {
+//                        throw IOException()
+//                    }
+//                }
+//
+//            }
         }
     }
 

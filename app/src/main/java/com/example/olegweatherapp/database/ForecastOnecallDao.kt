@@ -38,23 +38,12 @@ interface ForecastOnecallDao {
     @Query("select * from databaseforecastcity")
     fun getAllCities(): LiveData<List<DatabaseForecastCity>>
 
-    //transaction make sure BOTH operations done
-    @Transaction
-    fun updateCitiesData(cities: List<DatabaseForecastCity>) {
-        deleteAllCities()
-        insertAllCities(cities)
-    }
+    @Query("select cityId FROM databaseforecastcity")
+    fun getCitiesNames(): List<String>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCity(city: DatabaseForecastCity)
 
     @Query("DELETE FROM databaseforecastcity WHERE cityId = :cityID")
     fun deleteCity(cityID: String)
-
-
-    @Insert
-    fun insertAllCities(cities: List<DatabaseForecastCity>)
-
-    @Query("DELETE FROM databaseforecastcity")
-    fun deleteAllCities()
 }

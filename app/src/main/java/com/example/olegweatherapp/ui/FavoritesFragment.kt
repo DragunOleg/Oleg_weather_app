@@ -72,7 +72,11 @@ class FavoritesFragment : Fragment() {
         viewModel.eventNetworkError.observe(viewLifecycleOwner, { isNetworkError ->
             if(isNetworkError) onNetworkError()
         })
-        binding.cityList.adapter = FavortesAdapter()
+
+        binding.cityList.adapter = FavortesAdapter(ForecastListener { cityName ->
+            Toast.makeText(context, "$cityName gone", Toast.LENGTH_LONG).show()
+            viewModel.deleteCity(cityName)
+        })
         setButtonsBehavior(binding)
 
         return binding.root
