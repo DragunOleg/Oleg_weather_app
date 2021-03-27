@@ -18,8 +18,8 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 data class Current (
 
 		@SerializedName("dt") val dt : Int,
-		@SerializedName("sunrise") val sunrise : Double,
-		@SerializedName("sunset") val sunset : Double,
+		@SerializedName("sunrise") val sunrise : Int,
+		@SerializedName("sunset") val sunset : Int,
 		@SerializedName("temp") val temp : Double,
 		@SerializedName("feels_like") val feelsLike : Double,
 		@SerializedName("pressure") val pressure : Double,

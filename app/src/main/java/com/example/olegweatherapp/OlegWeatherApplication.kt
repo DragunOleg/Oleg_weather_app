@@ -34,7 +34,7 @@ class OlegWeatherApplication : Application() {
 
     /**
      * Setup WorkManager background job to 'fetch' new network data.
-     * TODO implement update based on settings; implement favorites update
+     * TODO implement update based on settings
      */
     private fun setupRecurringWork() {
 

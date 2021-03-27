@@ -14,6 +14,8 @@ import timber.log.Timber
  * Like this, objects can be passed as parameters in the constructors and then replaced for
  * testing, where needed.
  */
+
+//
 object Injection {
     private val networkApi = OpenWeatherMapApi.create()
     private lateinit var  databaseINSTANCE : ForecastDatabase
@@ -27,7 +29,6 @@ object Injection {
     fun provideNetworkApi(): OpenWeatherMapApi {
         return networkApi
     }
-
     /**
      * provide singleton database instance
      */

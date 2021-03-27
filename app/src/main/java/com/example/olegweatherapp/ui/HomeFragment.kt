@@ -5,14 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.olegweatherapp.R
 import com.example.olegweatherapp.databinding.FragmentHomeBinding
-import com.example.olegweatherapp.extencions.moveLocationToPref
+import com.example.olegweatherapp.extensions.moveLocationToPref
 import com.example.olegweatherapp.viewmodels.HomeViewModel
 import com.example.olegweatherapp.viewmodels.factories.HomeViewModelFactory
 import timber.log.Timber
@@ -43,12 +42,6 @@ class HomeFragment : Fragment() {
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val textView: TextView = view.findViewById(R.id.text_home)
-        viewModel.forecastOnecall.observe(viewLifecycleOwner, { forecast ->
-            forecast?.apply {
-                textView.text = forecast.toString()
-            }
-        })
     }
 
     override fun onCreateView(
@@ -65,9 +58,12 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
+
+
         viewModel.eventNetworkError.observe(viewLifecycleOwner, { isNetworkError ->
             if(isNetworkError) onNetworkError()
         })
+
 
         viewModel.refreshDataFromRepository(getLocationFromPref())
 
@@ -78,9 +74,9 @@ class HomeFragment : Fragment() {
         Timber.d("forecast: update location")
         moveLocationToPref(activity)
         val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
-        if (sharedPref!= null && sharedPref.contains("latitude") && sharedPref.contains("longtitude")) {
+        if (sharedPref!= null && sharedPref.contains("latitude") && sharedPref.contains("longitude")) {
             val lat = sharedPref.getFloat("latitude",(40.462212).toFloat()).toDouble()
-            val lon = sharedPref.getFloat("longtitude",(-2.96039).toFloat()).toDouble()
+            val lon = sharedPref.getFloat("longitude",(-2.96039).toFloat()).toDouble()
             return Pair(lat, lon)
         } else return Pair(40.462212, -2.96039)
     }

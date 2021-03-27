@@ -2,7 +2,8 @@ package com.example.olegweatherapp.models.bycityname
 
 import com.example.olegweatherapp.models.Weather
 import com.google.gson.annotations.SerializedName
-import java.time.format.DateTimeFormatter
+import java.text.SimpleDateFormat
+import java.util.*
 
 /*
 Copyright (c) 2021 Kotlin Data Classes Generated from JSON powered by http://www.json2kotlin.com
@@ -36,16 +37,18 @@ data class ForecastByCity (
 		//error gonna be here
 		@SerializedName("cod") val cod : Int
 ) {
-	// TODO: change string for lower API devices
 	val dateTime: String
-	get() = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-		"calculated at local\n" + DateTimeFormatter.ISO_INSTANT
-			.format(java.time.Instant.ofEpochSecond((dt+timezone).toLong()))
-				.replace('T',' ')
-				.dropLast(1)
+	get() = dtToTime(dt)
 
-	} else {
-		""
+	private fun dtToTime(utc: Int) : String {
+		try {
+			val sdf = SimpleDateFormat("HH:mm:ss")
+			val diff = TimeZone.getDefault().rawOffset/1000 - timezone
+			val netDate = Date((utc-diff) * 1000L)
+			return sdf.format(netDate)
+		} catch (e: Exception) {
+			return e.toString()
+		}
 	}
 
 }

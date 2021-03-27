@@ -23,7 +23,6 @@ class FavoritesRepository (private val database: ForecastDatabase) {
                 it?.asDomainModel()
             }
 
-    //TODO refresh database is never called
     suspend fun refreshForecastCities(){
         withContext(Dispatchers.IO) {
             Timber.d("forecast: refresh favorites is called")

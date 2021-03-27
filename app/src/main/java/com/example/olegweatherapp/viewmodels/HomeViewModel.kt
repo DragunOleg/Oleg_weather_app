@@ -1,14 +1,13 @@
 package com.example.olegweatherapp.viewmodels
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.olegweatherapp.Injection
 import com.example.olegweatherapp.repository.HomeRepository
 import kotlinx.coroutines.launch
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * HomeViewModel designed to store and manage UI-related data in a lifecycle conscious way. This
@@ -32,6 +31,24 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
      */
     val forecastOnecall = homeRepository.forecastOnecall
 
+    private var _sunrise : LiveData<String> = Transformations.map(forecastOnecall) {
+        "sunrise \n"+dtToTime(it?.current?.sunrise)
+    }
+    val sunrise: LiveData<String>
+        get() = _sunrise
+
+    private var _sunset : LiveData<String> = Transformations.map(forecastOnecall) {
+        "sunset \n"+dtToTime(it?.current?.sunset)
+    }
+    val sunset: LiveData<String>
+        get() = _sunset
+
+    private var _date: LiveData<String> = Transformations.map(forecastOnecall) {
+        dtToDateTime(it?.current?.dt)
+    }
+
+    val date: LiveData<String>
+    get() = _date
     /**
      * Event triggered for network error. This is private to avoid exposing a
      * way to set this value to observers.
@@ -65,6 +82,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
      * @param loc is pair with lat/lon to update weather with current location
      */
     fun refreshDataFromRepository(loc :Pair<Double,Double>) {
+        
         viewModelScope.launch {
             try {
                 homeRepository.refreshForecastOnecall(loc)
@@ -84,5 +102,31 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun onNetworkErrorShown() {
         _isNetworkErrorShown.value = true
+    }
+
+    private fun dtToTime(utc: Int?) : String {
+        if (utc != null) {
+            try {
+                val sdf = SimpleDateFormat("HH:mm:ss")
+                val netDate = Date(utc.toLong() * 1000)
+                return sdf.format(netDate)
+            } catch (e: Exception) {
+                return e.toString()
+            }
+        }
+        return ""
+    }
+
+    private fun dtToDateTime(utc: Int?) : String {
+        if (utc != null) {
+            try {
+                val sdf = SimpleDateFormat("MMM dd, yyyy\nHH:mm:ss")
+                val netDate = Date(utc.toLong() * 1000)
+                return sdf.format(netDate)
+            } catch (e: Exception) {
+                return e.toString()
+            }
+        }
+        return ""
     }
 }
