@@ -43,7 +43,7 @@ data class Daily(
     private fun dtToTime(utc: Int?): String {
         if (utc != null) {
             try {
-                val sdf = SimpleDateFormat("EEEE")
+                val sdf = SimpleDateFormat("EEE")
                 val netDate = Date(utc.toLong() * 1000)
                 return sdf.format(netDate)
             } catch (e: Exception) {
