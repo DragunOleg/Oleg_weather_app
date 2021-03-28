@@ -10,7 +10,7 @@ import com.example.olegweatherapp.repository.HomeRepository
 import timber.log.Timber
 
 class RefreshDataWorker(appContext: Context, params: WorkerParameters) :
-    CoroutineWorker(appContext, params) {
+        CoroutineWorker(appContext, params) {
 
     companion object {
         const val WORK_NAME = "com.example.olegweatherapp.work.RefreshDataWorker"
@@ -23,12 +23,16 @@ class RefreshDataWorker(appContext: Context, params: WorkerParameters) :
     override suspend fun doWork(): Result {
         Timber.d("forecast: doWork called")
         try {
+            //shame on me. Should move app/appContext to Injection. So it would be almost
+            //no boilerplate with shared pref and settings
             val database = Injection.provideDatabase(applicationContext)
             val homeRepository = HomeRepository(database)
             val favoritesRepository = FavoritesRepository(database)
             val loc = getLocationWithoutActivity(applicationContext)
-            homeRepository.refreshForecastOnecall(loc)
-            favoritesRepository.refreshForecastCities()
+            val sharedPref = applicationContext.getSharedPreferences("settings", Context.MODE_PRIVATE)
+            val scale = sharedPref.getInt("scale", 1)
+            homeRepository.refreshForecastOnecall(loc, scale)
+            favoritesRepository.refreshForecastCities(scale)
             Timber.d("forecast: WorkManager: dowork end of try")
         } catch (e: Exception) {
             Timber.d("forecast: WorkManager e: $e")

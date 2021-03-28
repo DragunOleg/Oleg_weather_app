@@ -3,6 +3,8 @@ package com.example.olegweatherapp.models.onecall
 import com.example.olegweatherapp.models.Temp
 import com.example.olegweatherapp.models.Weather
 import com.google.gson.annotations.SerializedName
+import java.text.SimpleDateFormat
+import java.util.*
 
 /*
 Copyright (c) 2021 Kotlin Data Classes Generated from JSON powered by http://www.json2kotlin.com
@@ -16,22 +18,38 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 For support, please feel free to contact me at https://www.linkedin.com/in/syedabsar */
 
 
-data class Daily (
+data class Daily(
 
-		@SerializedName("dt") val dt : Int,
-		@SerializedName("sunrise") val sunrise : Double,
-		@SerializedName("sunset") val sunset : Double,
-		@SerializedName("temp") val temp : Temp,
-		@SerializedName("feels_like") val feels_like : FeelsLike,
-		@SerializedName("pressure") val pressure : Double,
-		@SerializedName("humidity") val humidity : Double,
-		@SerializedName("dew_point") val dewPoint : Double,
-		@SerializedName("wind_speed") val windSpeed : Double,
-		@SerializedName("wind_gust") val windGust : Double,
-		@SerializedName("wind_deg") val windLeg : Double,
-		@SerializedName("weather") val weather : List<Weather>,
-		@SerializedName("clouds") val clouds : Double,
-		@SerializedName("pop") val pop : Double,
-		@SerializedName("snow") val snow : Double,
-		@SerializedName("uvi") val uvi : Double
-)
+		@SerializedName("dt") val dt: Int,
+		@SerializedName("sunrise") val sunrise: Double,
+		@SerializedName("sunset") val sunset: Double,
+		@SerializedName("temp") val temp: Temp,
+		@SerializedName("feels_like") val feels_like: FeelsLike,
+		@SerializedName("pressure") val pressure: Double,
+		@SerializedName("humidity") val humidity: Double,
+		@SerializedName("dew_point") val dewPoint: Double,
+		@SerializedName("wind_speed") val windSpeed: Double,
+		@SerializedName("wind_gust") val windGust: Double,
+		@SerializedName("wind_deg") val windLeg: Double,
+		@SerializedName("weather") val weather: List<Weather>,
+		@SerializedName("clouds") val clouds: Double,
+		@SerializedName("pop") val pop: Double,
+		@SerializedName("snow") val snow: Double,
+		@SerializedName("uvi") val uvi: Double
+) {
+    val formattedDt: String
+        get() = dtToTime(dt)
+
+    private fun dtToTime(utc: Int?): String {
+        if (utc != null) {
+            try {
+                val sdf = SimpleDateFormat("EEEE")
+                val netDate = Date(utc.toLong() * 1000)
+                return sdf.format(netDate)
+            } catch (e: Exception) {
+                return e.toString()
+            }
+        }
+        return ""
+    }
+}

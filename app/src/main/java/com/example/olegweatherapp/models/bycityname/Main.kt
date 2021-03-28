@@ -14,15 +14,15 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 For support, please feel free to contact me at https://www.linkedin.com/in/syedabsar */
 
 
-data class Main (
+data class Main(
 
-		@SerializedName("temp") val temp : Double,
-		@SerializedName("feels_like") val feelsLike : Double,
-		@SerializedName("temp_min") val tempMin : Double,
-		@SerializedName("temp_max") val tempMax : Double,
-		@SerializedName("pressure") val pressure : Double,
-		@SerializedName("humidity") val humidity : Double,
+		@SerializedName("temp") val temp: Double,
+		@SerializedName("feels_like") val feelsLike: Double,
+		@SerializedName("temp_min") val tempMin: Double,
+		@SerializedName("temp_max") val tempMax: Double,
+		@SerializedName("pressure") val pressure: Double,
+		@SerializedName("humidity") val humidity: Double,
 		//not sure in int type of levels bellow
-		@SerializedName("sea_level") val seaLevel : Double,
+		@SerializedName("sea_level") val seaLevel: Double,
 		@SerializedName("grnd_level") val grndLevel: Double
 )

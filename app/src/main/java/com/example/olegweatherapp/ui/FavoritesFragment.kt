@@ -49,14 +49,17 @@ class FavoritesFragment : Fragment() {
         binding.viewModel = viewModel
 
         viewModel.eventNetworkError.observe(viewLifecycleOwner, { isNetworkError ->
-            if(isNetworkError) onNetworkError()
+            if (isNetworkError) onNetworkError()
         })
 
         binding.cityList.adapter = FavortesAdapter(ForecastListener { cityName ->
             Toast.makeText(context, "$cityName gone", Toast.LENGTH_LONG).show()
             viewModel.deleteCity(cityName)
         })
-        setButtonsBehavior(binding)
+
+        val sharedPref = requireActivity().getSharedPreferences("settings", Context.MODE_PRIVATE)
+        val scale = sharedPref.getInt("scale", 1)
+        setButtonsBehavior(binding, scale)
 
         return binding.root
     }
@@ -65,13 +68,13 @@ class FavoritesFragment : Fragment() {
      * Method for displaying a Toast error message for network errors.
      */
     private fun onNetworkError() {
-        if(!viewModel.isNetworkErrorShown.value!!) {
+        if (!viewModel.isNetworkErrorShown.value!!) {
             Toast.makeText(activity, "Network Error", Toast.LENGTH_LONG).show()
             viewModel.onNetworkErrorShown()
         }
     }
 
-    private fun setButtonsBehavior(binding: FragmentFavoritesBinding) {
+    private fun setButtonsBehavior(binding: FragmentFavoritesBinding, scale: Int) {
         //fab behavior
         with(binding) {
             fab.setOnClickListener {
@@ -86,7 +89,7 @@ class FavoritesFragment : Fragment() {
         with(binding) {
             button.setOnClickListener {
                 if (!textInput.text.isNullOrBlank()) {
-                    viewModel?.addCity(textInput.text.toString())
+                    viewModel?.addCity(textInput.text.toString(), scale)
                 }
                 textLayout.visibility = View.GONE
                 textInput.text?.clear()
@@ -103,7 +106,7 @@ class FavoritesFragment : Fragment() {
 
     private fun Context.showKeyboard(view: View) {
         val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.toggleSoftInputFromWindow(view.windowToken,0,0)
+        inputMethodManager.toggleSoftInputFromWindow(view.windowToken, 0, 0)
     }
 
 }

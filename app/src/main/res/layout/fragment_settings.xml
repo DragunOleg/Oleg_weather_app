@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.SettingsFragment">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -12,7 +13,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:stepSize="0.25"
             android:valueFrom="0.25"
@@ -20,22 +21,78 @@
             app:labelBehavior="withinBounds"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tickVisible="true" />
 
         <TextView
-            android:id="@+id/text_settings"
+            android:id="@+id/text_settings_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:text="background update in hours"
-            android:textAlignment="center"
+            android:textAlignment="textStart"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/slider"
             tools:text="background update in hours" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_settings_background" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider">
+
+            <RadioButton
+                android:id="@+id/radio_metric"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="metric (Celsius, wind meter/sec)" />
+
+            <RadioButton
+                android:id="@+id/radio_standard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="standard (Kelvin, wind meter/sec)" />
+
+            <RadioButton
+                android:id="@+id/radio_imperial"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="imperial(Fahrenheit, wind miles/hour)" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/text_settings_scale"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="scale of notation"
+            android:textAlignment="textStart"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+        <View
+            android:id="@+id/divider_two"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_settings_scale" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

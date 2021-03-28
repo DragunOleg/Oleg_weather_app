@@ -43,14 +43,14 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         it.daily
     }
 
-    private var _sunrise : LiveData<String> = Transformations.map(forecastOnecall) {
-        "sunrise \n"+dtToTime(it?.current?.sunrise)
+    private var _sunrise: LiveData<String> = Transformations.map(forecastOnecall) {
+        "sunrise \n" + dtToTime(it?.current?.sunrise)
     }
     val sunrise: LiveData<String>
         get() = _sunrise
 
-    private var _sunset : LiveData<String> = Transformations.map(forecastOnecall) {
-        "sunset \n"+dtToTime(it?.current?.sunset)
+    private var _sunset: LiveData<String> = Transformations.map(forecastOnecall) {
+        "sunset \n" + dtToTime(it?.current?.sunset)
     }
     val sunset: LiveData<String>
         get() = _sunset
@@ -60,7 +60,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     val date: LiveData<String>
-    get() = _date
+        get() = _date
+
     /**
      * Event triggered for network error. This is private to avoid exposing a
      * way to set this value to observers.
@@ -92,12 +93,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
      * Refresh data from the repository. Use a coroutine launch to run in a
      * background thread.
      * @param loc is pair with lat/lon to update weather with current location
+     * @param scale 1 = metric, 2 = standard, 3 = imperial
      */
-    fun refreshDataFromRepository(loc :Pair<Double,Double>) {
-        
+    fun refreshDataFromRepository(loc: Pair<Double, Double>, scale: Int) {
+
         viewModelScope.launch {
             try {
-                homeRepository.refreshForecastOnecall(loc)
+                homeRepository.refreshForecastOnecall(loc, scale)
                 _eventNetworkError.value = false
                 _isNetworkErrorShown.value = false
             } catch (networkError: IOException) {
@@ -116,7 +118,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         _isNetworkErrorShown.value = true
     }
 
-    private fun dtToTime(utc: Int?) : String {
+    private fun dtToTime(utc: Int?): String {
         if (utc != null) {
             try {
                 val sdf = SimpleDateFormat("HH:mm:ss")
@@ -129,7 +131,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         return ""
     }
 
-    private fun dtToDateTime(utc: Int?) : String {
+    private fun dtToDateTime(utc: Int?): String {
         if (utc != null) {
             try {
                 val sdf = SimpleDateFormat("MMM dd, yyyy\nHH:mm:ss")

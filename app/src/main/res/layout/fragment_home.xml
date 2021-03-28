@@ -5,10 +5,12 @@
     tools:context=".ui.HomeFragment">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.example.olegweatherapp.viewmodels.HomeViewModel" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -18,36 +20,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="8dp"/>
+            app:layout_constraintGuide_begin="8dp" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/bottom_wall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_end="8dp"/>
+            app:layout_constraintGuide_end="8dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/left_wall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="8dp"/>
+            app:layout_constraintGuide_begin="8dp" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/right_wall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="8dp"/>
+            app:layout_constraintGuide_end="8dp" />
 
         <ImageView
             android:id="@+id/weather_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:contentDescription="@{viewModel.forecastOnecall.current.weather.get(0).description}"
             app:imageUrl="@{viewModel.forecastOnecall.current.weather.get(0).iconUrl}"
             app:layout_constraintStart_toStartOf="@+id/left_wall"
             app:layout_constraintTop_toTopOf="@+id/top_wall"
-            app:srcCompat="@drawable/ic_action_name"
-            android:contentDescription="@{viewModel.forecastOnecall.current.weather.get(0).main}" />
+            app:srcCompat="@drawable/ic_action_name" />
 
         <TextView
             android:id="@+id/home_city_name"
@@ -106,7 +110,7 @@
             android:layout_marginTop="8dp"
             android:text="@{@string/latitude(viewModel.forecastOnecall.latitude)}"
             app:layout_constraintStart_toStartOf="@+id/left_wall"
-            app:layout_constraintTop_toBottomOf="@+id/one_description"
+            app:layout_constraintTop_toBottomOf="@+id/wind_speed"
             tools:text="latitude:" />
 
         <TextView
@@ -140,14 +144,14 @@
             tools:text="humidity" />
 
         <TextView
-            android:id="@+id/one_description"
+            android:id="@+id/wind_speed"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.forecastOnecall.current.weather.get(0).description}"
+            android:text="@{@string/wind(Double.toString(viewModel.forecastOnecall.current.windSpeed))}"
             app:layout_constraintEnd_toStartOf="@+id/feel_like"
             app:layout_constraintStart_toStartOf="@+id/left_wall"
             app:layout_constraintTop_toBottomOf="@+id/cur_temp"
-            tools:text="clouds" />
+            tools:text="15m/s" />
 
         <TextView
             android:id="@+id/date_time"
@@ -160,14 +164,39 @@
             tools:text="01/01/2021" />
 
         <TextView
-            android:id="@+id/one_main"
+            android:id="@+id/one_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.forecastOnecall.current.weather.get(0).main}"
+            android:text="@{viewModel.forecastOnecall.current.weather.get(0).description}"
             android:textSize="36sp"
             app:layout_constraintStart_toStartOf="@+id/left_wall"
             app:layout_constraintTop_toBottomOf="@+id/sunrise"
             tools:text="rain" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/hourly_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:hourlyListData="@{viewModel.hourlyList}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toStartOf="@+id/right_wall"
+            app:layout_constraintStart_toStartOf="@+id/left_wall"
+            app:layout_constraintTop_toBottomOf="@+id/longtitude" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/daily_list"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            app:dailyListData="@{viewModel.dailyList}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_wall"
+            app:layout_constraintEnd_toStartOf="@+id/right_wall"
+            app:layout_constraintStart_toStartOf="@+id/left_wall"
+            app:layout_constraintTop_toBottomOf="@+id/hourly_list" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

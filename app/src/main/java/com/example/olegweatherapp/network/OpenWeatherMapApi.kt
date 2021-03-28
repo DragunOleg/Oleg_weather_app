@@ -13,10 +13,8 @@ interface OpenWeatherMapApi {
     suspend fun getByCoordinates(
             @Query("lat") lat: Double,
             @Query("lon") lon: Double,
-            @Query("appid") appId : String = APP_ID,
-            //TODO make swap based on settings to metric/standard/imperial
-            //https://openweathermap.org/api/one-call-api#data Units of measurement
-            @Query("units") units : String = "metric"
+            @Query("appid") appId: String = APP_ID,
+            @Query("units") units: String = "metric"
     ): ForecastOnecall
 
     /**
@@ -25,11 +23,9 @@ interface OpenWeatherMapApi {
      */
     @GET("data/2.5/weather")
     suspend fun getByCityName(
-        @Query("q") city: String,
-        @Query("appid") appId : String = APP_ID,
-        //TODO make swap based on settings to metric/standard/imperial
-        //https://openweathermap.org/api/one-call-api#data Units of measurement
-        @Query("units") units : String = "metric"
+            @Query("q") city: String,
+            @Query("appid") appId: String = APP_ID,
+            @Query("units") units: String = "metric"
     ): ForecastByCity
 
 
@@ -37,7 +33,7 @@ interface OpenWeatherMapApi {
         private const val BASE_URL = "https://api.openweathermap.org/"
         private const val APP_ID = "5c7190d55851716b076fb3da74fcf737"
 
-        fun create() : OpenWeatherMapApi {
+        fun create(): OpenWeatherMapApi {
             return Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())

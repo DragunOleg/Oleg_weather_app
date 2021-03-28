@@ -31,7 +31,7 @@ class HomeFragment : Fragment() {
             "You can only access the viewModel after onActivityCreated()"
         }
         ViewModelProvider(this, HomeViewModelFactory(activity.application))
-            .get(HomeViewModel::class.java)
+                .get(HomeViewModel::class.java)
     }
 
     /**
@@ -45,38 +45,41 @@ class HomeFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         val binding: FragmentHomeBinding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_home,
-            container,
-            false)
+                inflater,
+                R.layout.fragment_home,
+                container,
+                false)
         // Set the lifecycleOwner so DataBinding can observe LiveData
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-
+        binding.hourlyList.adapter = HourlyAdapter()
+        binding.dailyList.adapter = DailyAdapter()
 
 
         viewModel.eventNetworkError.observe(viewLifecycleOwner, { isNetworkError ->
-            if(isNetworkError) onNetworkError()
+            if (isNetworkError) onNetworkError()
         })
 
+        val sharedPref = requireActivity().getSharedPreferences("settings", Context.MODE_PRIVATE)
+        val scale = sharedPref.getInt("scale", 1)
+        viewModel.refreshDataFromRepository(getLocationFromPref(), scale)
 
-        viewModel.refreshDataFromRepository(getLocationFromPref())
 
         return binding.root
     }
 
-    private fun getLocationFromPref() : Pair<Double,Double> {
+    private fun getLocationFromPref(): Pair<Double, Double> {
         Timber.d("forecast: update location")
         moveLocationToPref(activity)
-        val sharedPref = requireActivity().getSharedPreferences("settings",Context.MODE_PRIVATE)
-        if (sharedPref!= null && sharedPref.contains("latitude") && sharedPref.contains("longitude")) {
-            val lat = sharedPref.getFloat("latitude",(40.462212).toFloat()).toDouble()
-            val lon = sharedPref.getFloat("longitude",(-2.96039).toFloat()).toDouble()
+        val sharedPref = requireActivity().getSharedPreferences("settings", Context.MODE_PRIVATE)
+        if (sharedPref != null && sharedPref.contains("latitude") && sharedPref.contains("longitude")) {
+            val lat = sharedPref.getFloat("latitude", (40.462212).toFloat()).toDouble()
+            val lon = sharedPref.getFloat("longitude", (-2.96039).toFloat()).toDouble()
             return Pair(lat, lon)
         } else return Pair(40.462212, -2.96039)
     }
@@ -85,7 +88,7 @@ class HomeFragment : Fragment() {
      * Method for displaying a Toast error message for network errors.
      */
     private fun onNetworkError() {
-        if(!viewModel.isNetworkErrorShown.value!!) {
+        if (!viewModel.isNetworkErrorShown.value!!) {
             Toast.makeText(activity, "Network Error", Toast.LENGTH_LONG).show()
             viewModel.onNetworkErrorShown()
         }

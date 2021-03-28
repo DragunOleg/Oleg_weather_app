@@ -12,7 +12,7 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.IOException
 
-class HomeRepository (private val database: ForecastDatabase) {
+class HomeRepository(private val database: ForecastDatabase) {
 
     private val gson = Gson()
 
@@ -20,16 +20,26 @@ class HomeRepository (private val database: ForecastDatabase) {
      * Observable object of home weather. Show this in your UI
      */
     val forecastOnecall: LiveData<ForecastOnecall> =
-        Transformations.map(database.forecastOnecallDao.getOnecall()) {
-            it?.asDomainModel()
-        }
+            Transformations.map(database.forecastOnecallDao.getOnecall()) {
+                it?.asDomainModel()
+            }
 
-    suspend fun refreshForecastOnecall(loc: Pair<Double,Double>){
+    /**
+     * @param loc is lat + lon
+     * @param scale is int. 1 = metric, 2 = standard, 3 = imperial
+     */
+    suspend fun refreshForecastOnecall(loc: Pair<Double, Double>, scale: Int) {
         withContext(Dispatchers.IO) {
             Timber.d("forecast: refresh home is called. lat ${loc.first}, lon ${loc.second}")
             try {
+                val scaleString = when (scale) {
+                    1 -> "metric"
+                    2 -> "standard"
+                    3 -> "imperial"
+                    else -> "metric"
+                }
                 val forecastOnecall =
-                        Injection.provideNetworkApi().getByCoordinates(loc.first, loc.second)
+                        Injection.provideNetworkApi().getByCoordinates(loc.first, loc.second, units = scaleString)
                 database.forecastOnecallDao.updateData(forecastOnecall.asDatabaseModel())
             } catch (e: Exception) {
                 throw IOException()
@@ -41,18 +51,18 @@ class HomeRepository (private val database: ForecastDatabase) {
     /**
      * Transform domain object to database object
      */
-    private fun ForecastOnecall.asDatabaseModel() : DatabaseForecastOnecall {
+    private fun ForecastOnecall.asDatabaseModel(): DatabaseForecastOnecall {
         //from object to Json string
         return DatabaseForecastOnecall(
-            dt = this.current.dt,
-            forecastOnecall = gson.toJson(this)
+                dt = this.current.dt,
+                forecastOnecall = gson.toJson(this)
         )
     }
 
     /**
      * Transform database object to domain object
      */
-    private fun DatabaseForecastOnecall.asDomainModel() : ForecastOnecall {
+    private fun DatabaseForecastOnecall.asDomainModel(): ForecastOnecall {
         //from Json string to object
         return gson.fromJson(this.forecastOnecall, ForecastOnecall::class.java) as ForecastOnecall
     }

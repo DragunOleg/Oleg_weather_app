@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.example.olegweatherapp.viewmodels.FavoritesViewModel" />
@@ -19,8 +20,8 @@
             android:id="@+id/city_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:favoritesListData="@{viewModel.citiesList}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -65,9 +66,9 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/text_input"
-                android:digits="- abcdefghijklmnopqrstuvwxyzQWERTYUIOPASDFGHJKLZXCVBNM"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:digits="- abcdefghijklmnopqrstuvwxyzQWERTYUIOPASDFGHJKLZXCVBNM"
                 android:hint="City name, english" />
         </com.google.android.material.textfield.TextInputLayout>
 

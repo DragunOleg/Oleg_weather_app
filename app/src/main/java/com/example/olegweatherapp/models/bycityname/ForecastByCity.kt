@@ -20,35 +20,35 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
  * Main data class for call by City name (also possible to get by city ID, Zip, coord)
  * https://openweathermap.org/current#parameter
  */
-data class ForecastByCity (
+data class ForecastByCity(
 
-		@SerializedName("coord") val coord : Coord,
-		@SerializedName("weather") val weather : List<Weather>,
-		@SerializedName("base") val base : String,
-		@SerializedName("main") val main : Main,
-		@SerializedName("visibility") val visibility : Double,
-		@SerializedName("wind") val wind : Wind,
-		@SerializedName("clouds") val clouds : Clouds,
-		@SerializedName("dt") val dt : Int,
-		@SerializedName("sys") val sys : Sys,
-		@SerializedName("timezone") val timezone : Int,
-		@SerializedName("id") val id : Int,
-		@SerializedName("name") val name : String,
+		@SerializedName("coord") val coord: Coord,
+		@SerializedName("weather") val weather: List<Weather>,
+		@SerializedName("base") val base: String,
+		@SerializedName("main") val main: Main,
+		@SerializedName("visibility") val visibility: Double,
+		@SerializedName("wind") val wind: Wind,
+		@SerializedName("clouds") val clouds: Clouds,
+		@SerializedName("dt") val dt: Int,
+		@SerializedName("sys") val sys: Sys,
+		@SerializedName("timezone") val timezone: Int,
+		@SerializedName("id") val id: Int,
+		@SerializedName("name") val name: String,
 		//error gonna be here
-		@SerializedName("cod") val cod : Int
+		@SerializedName("cod") val cod: Int
 ) {
-	val dateTime: String
-	get() = dtToTime(dt)
+    val dateTime: String
+        get() = dtToTime(dt)
 
-	private fun dtToTime(utc: Int) : String {
-		try {
-			val sdf = SimpleDateFormat("HH:mm:ss")
-			val diff = TimeZone.getDefault().rawOffset/1000 - timezone
-			val netDate = Date((utc-diff) * 1000L)
-			return sdf.format(netDate)
-		} catch (e: Exception) {
-			return e.toString()
-		}
-	}
+    private fun dtToTime(utc: Int): String {
+        try {
+            val sdf = SimpleDateFormat("MMM dd, yyyy HH:mm:ss")
+            val diff = TimeZone.getDefault().rawOffset / 1000 - timezone
+            val netDate = Date((utc - diff) * 1000L)
+            return sdf.format(netDate)
+        } catch (e: Exception) {
+            return e.toString()
+        }
+    }
 
 }

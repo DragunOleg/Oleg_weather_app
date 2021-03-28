@@ -14,11 +14,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 For support, please feel free to contact me at https://www.linkedin.com/in/syedabsar */
 
 
-data class Sys (
+data class Sys(
 
-		@SerializedName("type") val type : Double,
-		@SerializedName("id") val id : Int,
-		@SerializedName("country") val country : String,
-		@SerializedName("sunrise") val sunrise : Double,
-		@SerializedName("sunset") val sunset : Double
+		@SerializedName("type") val type: Double,
+		@SerializedName("id") val id: Int,
+		@SerializedName("country") val country: String,
+		@SerializedName("sunrise") val sunrise: Double,
+		@SerializedName("sunset") val sunset: Double
 )

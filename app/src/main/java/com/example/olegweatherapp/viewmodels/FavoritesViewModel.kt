@@ -1,6 +1,7 @@
 package com.example.olegweatherapp.viewmodels
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -58,7 +59,9 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
      * init{} is called immediately when this ViewModel is created.
      */
     init {
-        refreshDataFromRepository()
+        val sharedPref = application.applicationContext.getSharedPreferences("settings", Context.MODE_PRIVATE)
+        val scale = sharedPref.getInt("scale", 1)
+        refreshDataFromRepository(scale)
         Timber.d("forecast: FavoritesViewModel init")
     }
 
@@ -66,25 +69,25 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
      * Refresh data from the repository. Use a coroutine launch to run in a
      * background thread.
      */
-    private fun refreshDataFromRepository() {
+    private fun refreshDataFromRepository(scale: Int) {
         viewModelScope.launch {
             try {
-                favoritesRepository.refreshForecastCities()
+                favoritesRepository.refreshForecastCities(scale)
                 _eventNetworkError.value = false
                 _isNetworkErrorShown.value = false
             } catch (networkError: IOException) {
                 //Show a Toast error message
-                if(citiesList.value .isNullOrEmpty()) {
+                if (citiesList.value.isNullOrEmpty()) {
                     _eventNetworkError.value = true
                 }
             }
         }
     }
 
-    private fun privateAddCity(city: String) {
+    private fun privateAddCity(city: String, scale: Int) {
         viewModelScope.launch {
             try {
-                favoritesRepository.insertCity(city)
+                favoritesRepository.insertCity(city, scale)
                 _eventNetworkError.value = false
                 _isNetworkErrorShown.value = false
             } catch (networkError: IOException) {
@@ -97,8 +100,8 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
     /**
      * add new city
      */
-    fun addCity(city: String) {
-        privateAddCity(city)
+    fun addCity(city: String, scale: Int) {
+        privateAddCity(city, scale)
     }
 
     private fun privateDeleteCity(city: String) {
@@ -114,9 +117,9 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
 
     /**
      * delete existing city
-     * @param city name of the city. It is in [citiesList.value[i].name]
+     * @param city name of the city. It is in [citiesList.value[0].name]
      */
-    fun deleteCity(city:String) {
+    fun deleteCity(city: String) {
         privateDeleteCity(city)
     }
 

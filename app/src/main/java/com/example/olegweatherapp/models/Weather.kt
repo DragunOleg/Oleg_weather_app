@@ -14,13 +14,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 For support, please feel free to contact me at https://www.linkedin.com/in/syedabsar */
 
 
-data class Weather (
+data class Weather(
 
-	@SerializedName("id") val id : Int,
-	@SerializedName("main") val main : String,
-	@SerializedName("description") val description : String,
-	@SerializedName("icon") val icon : String
+		@SerializedName("id") val id: Int,
+		@SerializedName("main") val main: String,
+		@SerializedName("description") val description: String,
+		@SerializedName("icon") val icon: String
 ) {
-	val iconUrl: String
-		get() = "https://openweathermap.org/img/wn/$icon@2x.png"
+    val iconUrl: String
+        get() = "https://openweathermap.org/img/wn/$icon@2x.png"
 }

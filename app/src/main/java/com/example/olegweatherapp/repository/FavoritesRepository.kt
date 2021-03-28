@@ -1,4 +1,5 @@
 package com.example.olegweatherapp.repository
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.example.olegweatherapp.Injection
@@ -11,7 +12,7 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.IOException
 
-class FavoritesRepository (private val database: ForecastDatabase) {
+class FavoritesRepository(private val database: ForecastDatabase) {
 
     private val gson = Gson()
 
@@ -19,11 +20,11 @@ class FavoritesRepository (private val database: ForecastDatabase) {
      * Observable list of favorite cities. Show this in your UI
      */
     val cities: LiveData<List<ForecastByCity>> =
-            Transformations.map(database.forecastOnecallDao.getAllCities()){
+            Transformations.map(database.forecastOnecallDao.getAllCities()) {
                 it?.asDomainModel()
             }
 
-    suspend fun refreshForecastCities(){
+    suspend fun refreshForecastCities(scale: Int) {
         withContext(Dispatchers.IO) {
             Timber.d("forecast: refresh favorites is called")
             val db = database.forecastOnecallDao.getCitiesNames()
@@ -31,20 +32,33 @@ class FavoritesRepository (private val database: ForecastDatabase) {
             try {
                 db.forEach {
                     Timber.d("forecast: refresh $it")
-                    citiesToInsert.add(Injection.provideNetworkApi().getByCityName(it))
+                    citiesToInsert.add(Injection.provideNetworkApi().getByCityName(it,
+                            units = when (scale) {
+                                1 -> "metric"
+                                2 -> "standard"
+                                3 -> "imperial"
+                                else -> "metric"
+                            }))
                 }
                 database.forecastOnecallDao.insertAllCities(citiesToInsert.asDatabaseModel())
-            } catch(e: Exception) {
+            } catch (e: Exception) {
                 throw IOException()
             }
         }
     }
 
-    suspend fun insertCity (name: String) {
+    suspend fun insertCity(name: String, scale: Int) {
         withContext(Dispatchers.IO) {
             Timber.d("forecast: insert city with $name name")
             try {
-                val networkCityToIncert = Injection.provideNetworkApi().getByCityName(name)
+                val networkCityToIncert = Injection.provideNetworkApi().getByCityName(
+                        name,
+                        units = when (scale) {
+                            1 -> "metric"
+                            2 -> "standard"
+                            3 -> "imperial"
+                            else -> "metric"
+                        })
                 if (networkCityToIncert.cod == 200) {
                     database.forecastOnecallDao.insertCity(networkCityToIncert.asDatabaseModel())
                 }
@@ -59,7 +73,7 @@ class FavoritesRepository (private val database: ForecastDatabase) {
             Timber.d("forecast: delete city with $name name")
             try {
                 database.forecastOnecallDao.deleteCity(name)
-            } catch(e: Exception) {
+            } catch (e: Exception) {
                 throw IOException()
             }
         }
@@ -81,7 +95,7 @@ class FavoritesRepository (private val database: ForecastDatabase) {
     /**
      * Transform domain city to database city
      */
-    private fun ForecastByCity.asDatabaseModel() : DatabaseForecastCity {
+    private fun ForecastByCity.asDatabaseModel(): DatabaseForecastCity {
         return DatabaseForecastCity(
                 cityId = this.name,
                 forecastCity = gson.toJson(this)
@@ -91,7 +105,7 @@ class FavoritesRepository (private val database: ForecastDatabase) {
     /**
      * Transform database list to domain list
      */
-    private fun List<DatabaseForecastCity>.asDomainModel() : List<ForecastByCity> {
+    private fun List<DatabaseForecastCity>.asDomainModel(): List<ForecastByCity> {
         //from Json string to object
         return map {
             gson.fromJson(it.forecastCity, ForecastByCity::class.java) as ForecastByCity

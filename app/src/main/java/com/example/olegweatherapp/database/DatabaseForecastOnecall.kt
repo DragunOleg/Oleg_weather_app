@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
  */
 @Entity
 data class DatabaseForecastOnecall constructor(
-    @PrimaryKey
-    val dt: Int,
-    val forecastOnecall: String)
+        @PrimaryKey
+        val dt: Int,
+        val forecastOnecall: String)
 
