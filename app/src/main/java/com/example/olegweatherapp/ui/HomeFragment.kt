@@ -73,7 +73,7 @@ class HomeFragment : Fragment() {
     private fun getLocationFromPref() : Pair<Double,Double> {
         Timber.d("forecast: update location")
         moveLocationToPref(activity)
-        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
+        val sharedPref = requireActivity().getSharedPreferences("settings",Context.MODE_PRIVATE)
         if (sharedPref!= null && sharedPref.contains("latitude") && sharedPref.contains("longitude")) {
             val lat = sharedPref.getFloat("latitude",(40.462212).toFloat()).toDouble()
             val lon = sharedPref.getFloat("longitude",(-2.96039).toFloat()).toDouble()

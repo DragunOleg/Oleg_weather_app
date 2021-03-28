@@ -42,6 +42,9 @@ interface ForecastOnecallDao {
     fun getCitiesNames(): List<String>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAllCities(list: List<DatabaseForecastCity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCity(city: DatabaseForecastCity)
 
     @Query("DELETE FROM databaseforecastcity WHERE cityId = :cityID")

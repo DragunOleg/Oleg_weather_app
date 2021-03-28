@@ -27,9 +27,15 @@ class FavoritesRepository (private val database: ForecastDatabase) {
         withContext(Dispatchers.IO) {
             Timber.d("forecast: refresh favorites is called")
             val db = database.forecastOnecallDao.getCitiesNames()
-            db.forEach {
-                Timber.d("forecast: refresh $it")
-                insertCity(it)
+            val citiesToInsert = mutableListOf<ForecastByCity>()
+            try {
+                db.forEach {
+                    Timber.d("forecast: refresh $it")
+                    citiesToInsert.add(Injection.provideNetworkApi().getByCityName(it))
+                }
+                database.forecastOnecallDao.insertAllCities(citiesToInsert.asDatabaseModel())
+            } catch(e: Exception) {
+                throw IOException()
             }
         }
     }

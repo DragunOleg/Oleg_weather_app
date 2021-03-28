@@ -3,6 +3,8 @@ package com.example.olegweatherapp.viewmodels
 import android.app.Application
 import androidx.lifecycle.*
 import com.example.olegweatherapp.Injection
+import com.example.olegweatherapp.models.onecall.Daily
+import com.example.olegweatherapp.models.onecall.Hourly
 import com.example.olegweatherapp.repository.HomeRepository
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -30,6 +32,16 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
      * forecast displayed on the screen.
      */
     val forecastOnecall = homeRepository.forecastOnecall
+
+    //hourly list to show on screen
+    val hourlyList: LiveData<List<Hourly>> = Transformations.map(forecastOnecall) {
+        it.hourly
+    }
+
+    //daily list to show on screen
+    val dailyList: LiveData<List<Daily>> = Transformations.map(forecastOnecall) {
+        it.daily
+    }
 
     private var _sunrise : LiveData<String> = Transformations.map(forecastOnecall) {
         "sunrise \n"+dtToTime(it?.current?.sunrise)

@@ -21,17 +21,20 @@ class RefreshDataWorker(appContext: Context, params: WorkerParameters) :
      * to finish its execution and return a ListenableWorker.Result object
      */
     override suspend fun doWork(): Result {
-        val database = Injection.provideDatabase(applicationContext)
-        val homeRepository = HomeRepository(database)
-        val favoritesRepository = FavoritesRepository(database)
-
+        Timber.d("forecast: doWork called")
         try {
-            homeRepository.refreshForecastOnecall(getLocationWithoutActivity(applicationContext))
+            val database = Injection.provideDatabase(applicationContext)
+            val homeRepository = HomeRepository(database)
+            val favoritesRepository = FavoritesRepository(database)
+            val loc = getLocationWithoutActivity(applicationContext)
+            homeRepository.refreshForecastOnecall(loc)
             favoritesRepository.refreshForecastCities()
-            Timber.d("forecast: WorkManager: Work request for sync is run")
+            Timber.d("forecast: WorkManager: dowork end of try")
         } catch (e: Exception) {
+            Timber.d("forecast: WorkManager e: $e")
             return Result.retry()
         }
+        Timber.d("Forecast WorkManager end for trycatch")
         return Result.success()
     }
 }

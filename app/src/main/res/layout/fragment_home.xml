@@ -39,7 +39,6 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="8dp"/>
 
-        <!--app:imageUrl="@{viewModel.forecastOnecall.current.weather.get(0).iconUrl}"-->
         <ImageView
             android:id="@+id/weather_image"
             android:layout_width="100dp"
@@ -47,12 +46,14 @@
             app:imageUrl="@{viewModel.forecastOnecall.current.weather.get(0).iconUrl}"
             app:layout_constraintStart_toStartOf="@+id/left_wall"
             app:layout_constraintTop_toTopOf="@+id/top_wall"
-            app:srcCompat="@drawable/ic_action_name" />
+            app:srcCompat="@drawable/ic_action_name"
+            android:contentDescription="@{viewModel.forecastOnecall.current.weather.get(0).main}" />
 
         <TextView
             android:id="@+id/home_city_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="@{viewModel.forecastOnecall.timezone}"
             android:textSize="36sp"
             app:layout_constraintEnd_toStartOf="@+id/right_wall"
@@ -109,7 +110,7 @@
             tools:text="latitude:" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/longtitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -157,6 +158,16 @@
             app:layout_constraintStart_toEndOf="@+id/weather_image"
             app:layout_constraintTop_toBottomOf="@+id/home_city_name"
             tools:text="01/01/2021" />
+
+        <TextView
+            android:id="@+id/one_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.forecastOnecall.current.weather.get(0).main}"
+            android:textSize="36sp"
+            app:layout_constraintStart_toStartOf="@+id/left_wall"
+            app:layout_constraintTop_toBottomOf="@+id/sunrise"
+            tools:text="rain" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

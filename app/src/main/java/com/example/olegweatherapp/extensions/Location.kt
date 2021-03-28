@@ -35,7 +35,7 @@ fun moveLocationToPref (activity: Activity?){
                 val fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity.applicationContext)
                 fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
                     if (location != null) {
-                        val sharedPref = activity.getPreferences(Context.MODE_PRIVATE)
+                        val sharedPref = activity.getSharedPreferences("settings",Context.MODE_PRIVATE)
                         if (sharedPref != null) {
                             with (sharedPref.edit()) {
                                 putFloat("latitude", location.latitude.toFloat())
