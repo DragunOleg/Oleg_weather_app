@@ -31,7 +31,7 @@ interface OpenWeatherMapApi {
 
     companion object {
         private const val BASE_URL = "https://api.openweathermap.org/"
-        private const val APP_ID = "5c7190d55851716b076fb3da74fcf737"
+        private const val APP_ID = "YOUR KEY"
 
         fun create(): OpenWeatherMapApi {
             return Retrofit.Builder()
