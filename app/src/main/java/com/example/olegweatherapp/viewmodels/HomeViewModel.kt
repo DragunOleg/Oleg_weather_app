@@ -35,12 +35,12 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     //hourly list to show on screen
     val hourlyList: LiveData<List<Hourly>> = Transformations.map(forecastOnecall) {
-        it.hourly
+        it?.hourly
     }
 
     //daily list to show on screen
     val dailyList: LiveData<List<Daily>> = Transformations.map(forecastOnecall) {
-        it.daily
+        it?.daily
     }
 
     private var _sunrise: LiveData<String> = Transformations.map(forecastOnecall) {
