@@ -66,14 +66,15 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
 
     // WorkManager dependency
-    def work_version = "1.0.1"
+    def work_version = "2.5.0"
     implementation "android.arch.work:work-runtime-ktx:$work_version"
+    androidTestImplementation "androidx.work:work-testing:$work_version"
 
     // logging
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.4'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.4'
     testImplementation 'junit:junit:4.13.2'

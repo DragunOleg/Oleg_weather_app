@@ -11,18 +11,20 @@ import androidx.fragment.app.Fragment
 import com.example.olegweatherapp.R
 import com.example.olegweatherapp.databinding.FragmentSettingsBinding
 import com.example.olegweatherapp.setupRecurringWork
+import com.google.android.material.slider.Slider
 import timber.log.Timber
 
 class SettingsFragment : Fragment() {
 
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         val binding: FragmentSettingsBinding = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_settings, container, false)
+            inflater, R.layout.fragment_settings, container, false
+        )
 
         setupSlider(binding)
 
@@ -63,12 +65,15 @@ class SettingsFragment : Fragment() {
         val prefPeriod = sharedPref.getInt("updatePeriod", 60).toFloat() / 60
         Timber.d("forecast pref period is $prefPeriod")
         binding.slider.value = prefPeriod
-        binding.slider.addOnChangeListener { slider, value, fromUser ->
-            // Responds to when slider's value is changed
-            val result = (value * 4).toInt() * 15
-            sharedPref.edit().putInt("updatePeriod", result).apply()
-            Timber.d("forecast: put update $result")
-            setupRecurringWork(result)
-        }
+        binding.slider.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: Slider) {}
+
+            override fun onStopTrackingTouch(slider: Slider) {
+                val result = (slider.value * 4).toInt() * 15
+                sharedPref.edit().putInt("updatePeriod", result).apply()
+                Timber.d("forecast: put update $result")
+                setupRecurringWork(result)
+            }
+        })
     }
 }

@@ -17,25 +17,31 @@ fun moveLocationToPref(activity: Activity?) {
         //check if no permissions granted
         if (ActivityCompat.checkSelfPermission
                 (activity.applicationContext, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
+            != PackageManager.PERMISSION_GRANTED
+        ) {
             //ask user for permission
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
                 ActivityCompat.requestPermissions(
-                        activity, arrayOf(
+                    activity, arrayOf(
                         Manifest.permission.ACCESS_BACKGROUND_LOCATION,
-                        Manifest.permission.ACCESS_FINE_LOCATION), 1)
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ), 1
+                )
                 //in lower version fine location give background loc also
             } else {
                 ActivityCompat.requestPermissions(
-                        activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+                    activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1
+                )
             }
             //permission granted, pass lat&lon
         } else {
             if (activity.applicationContext != null) {
-                val fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity.applicationContext)
+                val fusedLocationClient =
+                    LocationServices.getFusedLocationProviderClient(activity.applicationContext)
                 fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
                     if (location != null) {
-                        val sharedPref = activity.getSharedPreferences("settings", Context.MODE_PRIVATE)
+                        val sharedPref =
+                            activity.getSharedPreferences("settings", Context.MODE_PRIVATE)
                         if (sharedPref != null) {
                             with(sharedPref.edit()) {
                                 putFloat("latitude", location.latitude.toFloat())
@@ -48,18 +54,4 @@ fun moveLocationToPref(activity: Activity?) {
             }
         }
     }
-}
-
-fun getLocationWithoutActivity(context: Context): Pair<Double, Double> {
-    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED) {
-        //no permission = update with dummy location
-    } else {
-        //permission granted, pass lat&lon
-        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
-        val loc = fusedLocationClient.lastLocation.result
-        return Pair(loc.latitude, loc.longitude)
-    }
-    //dummy return
-    return Pair(40.462212, -2.96039)
 }

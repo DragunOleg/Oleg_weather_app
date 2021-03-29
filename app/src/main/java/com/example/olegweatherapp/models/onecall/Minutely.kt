@@ -16,6 +16,6 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 
 data class Minutely(
 
-		@SerializedName("dt") val dt: Int,
-		@SerializedName("precipitation") val precipitation: Double
+	@SerializedName("dt") val dt: Int,
+	@SerializedName("precipitation") val precipitation: Double
 )

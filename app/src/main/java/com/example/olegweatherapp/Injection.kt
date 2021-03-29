@@ -29,9 +29,11 @@ object Injection {
     fun provideDatabase(context: Context): ForecastDatabase {
         synchronized(ForecastDatabase::class.java) {
             if (!::databaseINSTANCE.isInitialized) {
-                databaseINSTANCE = Room.databaseBuilder(context.applicationContext,
-                        ForecastDatabase::class.java,
-                        "databaseforecast").build()
+                databaseINSTANCE = Room.databaseBuilder(
+                    context.applicationContext,
+                    ForecastDatabase::class.java,
+                    "databaseforecast"
+                ).build()
                 Timber.d("forecast: Database initialized")
             }
         }

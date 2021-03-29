@@ -11,10 +11,10 @@ interface OpenWeatherMapApi {
 
     @GET("data/2.5/onecall")
     suspend fun getByCoordinates(
-            @Query("lat") lat: Double,
-            @Query("lon") lon: Double,
-            @Query("appid") appId: String = APP_ID,
-            @Query("units") units: String = "metric"
+        @Query("lat") lat: Double,
+        @Query("lon") lon: Double,
+        @Query("appid") appId: String = APP_ID,
+        @Query("units") units: String = "metric"
     ): ForecastOnecall
 
     /**
@@ -23,9 +23,9 @@ interface OpenWeatherMapApi {
      */
     @GET("data/2.5/weather")
     suspend fun getByCityName(
-            @Query("q") city: String,
-            @Query("appid") appId: String = APP_ID,
-            @Query("units") units: String = "metric"
+        @Query("q") city: String,
+        @Query("appid") appId: String = APP_ID,
+        @Query("units") units: String = "metric"
     ): ForecastByCity
 
 
@@ -35,10 +35,10 @@ interface OpenWeatherMapApi {
 
         fun create(): OpenWeatherMapApi {
             return Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-                    .create(OpenWeatherMapApi::class.java)
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(OpenWeatherMapApi::class.java)
         }
     }
 }

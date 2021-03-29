@@ -31,7 +31,7 @@ class HomeFragment : Fragment() {
             "You can only access the viewModel after onActivityCreated()"
         }
         ViewModelProvider(this, HomeViewModelFactory(activity.application))
-                .get(HomeViewModel::class.java)
+            .get(HomeViewModel::class.java)
     }
 
     /**
@@ -45,15 +45,16 @@ class HomeFragment : Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         val binding: FragmentHomeBinding = DataBindingUtil.inflate(
-                inflater,
-                R.layout.fragment_home,
-                container,
-                false)
+            inflater,
+            R.layout.fragment_home,
+            container,
+            false
+        )
         // Set the lifecycleOwner so DataBinding can observe LiveData
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel

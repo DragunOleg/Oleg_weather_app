@@ -20,9 +20,9 @@ class FavoritesRepository(private val database: ForecastDatabase) {
      * Observable list of favorite cities. Show this in your UI
      */
     val cities: LiveData<List<ForecastByCity>> =
-            Transformations.map(database.forecastOnecallDao.getAllCities()) {
-                it?.asDomainModel()
-            }
+        Transformations.map(database.forecastOnecallDao.getAllCities()) {
+            it?.asDomainModel()
+        }
 
     suspend fun refreshForecastCities(scale: Int) {
         withContext(Dispatchers.IO) {
@@ -32,13 +32,17 @@ class FavoritesRepository(private val database: ForecastDatabase) {
             try {
                 db.forEach {
                     Timber.d("forecast: refresh $it")
-                    citiesToInsert.add(Injection.provideNetworkApi().getByCityName(it,
+                    citiesToInsert.add(
+                        Injection.provideNetworkApi().getByCityName(
+                            it,
                             units = when (scale) {
                                 1 -> "metric"
                                 2 -> "standard"
                                 3 -> "imperial"
                                 else -> "metric"
-                            }))
+                            }
+                        )
+                    )
                 }
                 database.forecastOnecallDao.insertAllCities(citiesToInsert.asDatabaseModel())
             } catch (e: Exception) {
@@ -52,13 +56,14 @@ class FavoritesRepository(private val database: ForecastDatabase) {
             Timber.d("forecast: insert city with $name name")
             try {
                 val networkCityToIncert = Injection.provideNetworkApi().getByCityName(
-                        name,
-                        units = when (scale) {
-                            1 -> "metric"
-                            2 -> "standard"
-                            3 -> "imperial"
-                            else -> "metric"
-                        })
+                    name,
+                    units = when (scale) {
+                        1 -> "metric"
+                        2 -> "standard"
+                        3 -> "imperial"
+                        else -> "metric"
+                    }
+                )
                 if (networkCityToIncert.cod == 200) {
                     database.forecastOnecallDao.insertCity(networkCityToIncert.asDatabaseModel())
                 }
@@ -86,8 +91,8 @@ class FavoritesRepository(private val database: ForecastDatabase) {
         //from object to Json string
         return map {
             DatabaseForecastCity(
-                    cityId = it.name,
-                    forecastCity = gson.toJson(it)
+                cityId = it.name,
+                forecastCity = gson.toJson(it)
             )
         }
     }
@@ -97,8 +102,8 @@ class FavoritesRepository(private val database: ForecastDatabase) {
      */
     private fun ForecastByCity.asDatabaseModel(): DatabaseForecastCity {
         return DatabaseForecastCity(
-                cityId = this.name,
-                forecastCity = gson.toJson(this)
+            cityId = this.name,
+            forecastCity = gson.toJson(this)
         )
     }
 

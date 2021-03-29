@@ -19,12 +19,12 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
  */
 data class ForecastOnecall(
 
-		@SerializedName("lat") val latitude: Double,
-		@SerializedName("lon") val longitude: Double,
-		@SerializedName("timezone") val timezone: String,
-		@SerializedName("timezone_offset") val timezoneOffset: Int,
-		@SerializedName("current") val current: Current,
-		@SerializedName("minutely") val minutely: List<Minutely>,
-		@SerializedName("hourly") val hourly: List<Hourly>,
-		@SerializedName("daily") val daily: List<Daily>
+	@SerializedName("lat") val latitude: Double,
+	@SerializedName("lon") val longitude: Double,
+	@SerializedName("timezone") val timezone: String,
+	@SerializedName("timezone_offset") val timezoneOffset: Int,
+	@SerializedName("current") val current: Current,
+	@SerializedName("minutely") val minutely: List<Minutely>,
+	@SerializedName("hourly") val hourly: List<Hourly>,
+	@SerializedName("daily") val daily: List<Daily>
 )

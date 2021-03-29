@@ -20,9 +20,9 @@ class HomeRepository(private val database: ForecastDatabase) {
      * Observable object of home weather. Show this in your UI
      */
     val forecastOnecall: LiveData<ForecastOnecall> =
-            Transformations.map(database.forecastOnecallDao.getOnecall()) {
-                it?.asDomainModel()
-            }
+        Transformations.map(database.forecastOnecallDao.getOnecall()) {
+            it?.asDomainModel()
+        }
 
     /**
      * @param loc is lat + lon
@@ -39,7 +39,8 @@ class HomeRepository(private val database: ForecastDatabase) {
                     else -> "metric"
                 }
                 val forecastOnecall =
-                        Injection.provideNetworkApi().getByCoordinates(loc.first, loc.second, units = scaleString)
+                    Injection.provideNetworkApi()
+                        .getByCoordinates(loc.first, loc.second, units = scaleString)
                 database.forecastOnecallDao.updateData(forecastOnecall.asDatabaseModel())
             } catch (e: Exception) {
                 throw IOException()
@@ -54,8 +55,8 @@ class HomeRepository(private val database: ForecastDatabase) {
     private fun ForecastOnecall.asDatabaseModel(): DatabaseForecastOnecall {
         //from object to Json string
         return DatabaseForecastOnecall(
-                dt = this.current.dt,
-                forecastOnecall = gson.toJson(this)
+            dt = this.current.dt,
+            forecastOnecall = gson.toJson(this)
         )
     }
 

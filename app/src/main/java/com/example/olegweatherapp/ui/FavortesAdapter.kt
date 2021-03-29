@@ -17,7 +17,8 @@ import kotlin.math.roundToInt
  * Tricky item click listener to delete explained here
  * https://developer.android.com/codelabs/kotlin-android-training-interacting-with-items#3
  */
-class FavortesAdapter(val clickListener: ForecastListener): ListAdapter<ForecastByCity, FavortesAdapter.ForecastViewHolder>(DiffCallback) {
+class FavortesAdapter(val clickListener: ForecastListener) :
+    ListAdapter<ForecastByCity, FavortesAdapter.ForecastViewHolder>(DiffCallback) {
 
     /**
      * The PictureViewHolder constructor takes the binding variable from the associated
@@ -25,15 +26,16 @@ class FavortesAdapter(val clickListener: ForecastListener): ListAdapter<Forecast
      */
     class ForecastViewHolder(private var binding: FavoritesViewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-            fun bind(forecastByCity: ForecastByCity, clickListener: ForecastListener) {
-                binding.forecastByCity = forecastByCity
-                binding.temperature.text = forecastByCity.main.temp.roundToInt().toString()+"°"
-                binding.feelsLikeValue.text = forecastByCity.main.feelsLike.roundToInt().toString()+"°"
-                binding.clickListener = clickListener
+        fun bind(forecastByCity: ForecastByCity, clickListener: ForecastListener) {
+            binding.forecastByCity = forecastByCity
+            binding.temperature.text = forecastByCity.main.temp.roundToInt().toString() + "°"
+            binding.feelsLikeValue.text =
+                forecastByCity.main.feelsLike.roundToInt().toString() + "°"
+            binding.clickListener = clickListener
 
-                binding.executePendingBindings()
-            }
+            binding.executePendingBindings()
         }
+    }
 
     /**
      * Allows the RecyclerView to determine which items have changed when the [List] of [ForecastByCity]
@@ -62,7 +64,8 @@ class FavortesAdapter(val clickListener: ForecastListener): ListAdapter<Forecast
             LayoutInflater.from(parent.context),
             R.layout.favorites_view_item,
             parent,
-            false)
+            false
+        )
         return ForecastViewHolder(withDataBinding)
     }
 

@@ -59,7 +59,8 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
      * init{} is called immediately when this ViewModel is created.
      */
     init {
-        val sharedPref = application.applicationContext.getSharedPreferences("settings", Context.MODE_PRIVATE)
+        val sharedPref =
+            application.applicationContext.getSharedPreferences("settings", Context.MODE_PRIVATE)
         val scale = sharedPref.getInt("scale", 1)
         refreshDataFromRepository(scale)
         Timber.d("forecast: FavoritesViewModel init")

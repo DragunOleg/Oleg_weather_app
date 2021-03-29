@@ -15,7 +15,7 @@ import com.example.olegweatherapp.models.onecall.Daily
 class DailyAdapter() : ListAdapter<Daily, DailyAdapter.DailyViewHolder>(DiffCallback) {
 
     class DailyViewHolder(private var binding: DailyViewItemBinding) :
-            RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(daily: Daily) {
             binding.daily = daily
 
@@ -42,10 +42,11 @@ class DailyAdapter() : ListAdapter<Daily, DailyAdapter.DailyViewHolder>(DiffCall
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DailyViewHolder {
         val withDataBinding: DailyViewItemBinding = DataBindingUtil.inflate(
-                LayoutInflater.from(parent.context),
-                R.layout.daily_view_item,
-                parent,
-                false)
+            LayoutInflater.from(parent.context),
+            R.layout.daily_view_item,
+            parent,
+            false
+        )
         return DailyViewHolder(withDataBinding)
     }
 
