@@ -2,7 +2,7 @@
 
 Was created in case of learning modern android development. 
 
-![home](https://user-images.githubusercontent.com/8080919/112809797-12797f80-9083-11eb-9366-cde6d9a5fa33.png)  ![favorites](https://user-images.githubusercontent.com/8080919/112809801-13aaac80-9083-11eb-921b-1394489a2530.png)  ![settings](https://user-images.githubusercontent.com/8080919/112809807-14dbd980-9083-11eb-8753-24603a147bce.png)
+![home](https://user-images.githubusercontent.com/8080919/113286629-262c1c80-92f5-11eb-9d08-6d64e7f9a5ea.png) ![favorites](https://user-images.githubusercontent.com/8080919/113286637-27f5e000-92f5-11eb-8051-f14d9946431d.png) ![settings](https://user-images.githubusercontent.com/8080919/113286644-29270d00-92f5-11eb-9af9-16fbfef0c082.png)
 
 ## features
 
