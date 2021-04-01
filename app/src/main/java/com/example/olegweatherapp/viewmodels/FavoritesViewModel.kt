@@ -70,7 +70,7 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
      * Refresh data from the repository. Use a coroutine launch to run in a
      * background thread.
      */
-    private fun refreshDataFromRepository(scale: Int) {
+    fun refreshDataFromRepository(scale: Int) {
         viewModelScope.launch {
             try {
                 favoritesRepository.refreshForecastCities(scale)

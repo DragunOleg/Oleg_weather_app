@@ -134,7 +134,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private fun dtToDateTime(utc: Int?): String {
         if (utc != null) {
             try {
-                val sdf = SimpleDateFormat("MMM dd, yyyy\nHH:mm:ss")
+                val sdf = SimpleDateFormat("MMM dd, yyyy\nHH:mm:ss", Locale.US)
                 val netDate = Date(utc.toLong() * 1000)
                 return sdf.format(netDate)
             } catch (e: Exception) {

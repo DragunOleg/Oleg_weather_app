@@ -11,198 +11,204 @@
             type="com.example.olegweatherapp.viewmodels.HomeViewModel" />
     </data>
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/top_wall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_begin="8dp" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/bottom_wall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_end="8dp" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/top_wall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_begin="8dp" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/left_wall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="8dp" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/bottom_wall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_end="8dp" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/right_wall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="8dp" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/left_wall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="8dp" />
 
-            <ImageView
-                android:id="@+id/weather_image"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:contentDescription="@{viewModel.forecastOnecall.current.weather.get(0).description}"
-                app:imageUrl="@{viewModel.forecastOnecall.current.weather.get(0).iconUrl}"
-                app:layout_constraintStart_toStartOf="@+id/left_wall"
-                app:layout_constraintTop_toTopOf="@+id/top_wall"
-                app:srcCompat="@drawable/ic_action_name" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/right_wall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_end="8dp" />
 
-            <TextView
-                android:id="@+id/home_city_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@{viewModel.forecastOnecall.timezone}"
-                android:textSize="36sp"
-                app:layout_constraintEnd_toStartOf="@+id/right_wall"
-                app:layout_constraintStart_toEndOf="@+id/weather_image"
-                app:layout_constraintTop_toTopOf="@+id/top_wall"
-                tools:text="Moscow" />
+                <ImageView
+                    android:id="@+id/weather_image"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:contentDescription="@{viewModel.forecastOnecall.current.weather.get(0).description}"
+                    app:imageUrl="@{viewModel.forecastOnecall.current.weather.get(0).iconUrl}"
+                    app:layout_constraintStart_toStartOf="@+id/left_wall"
+                    app:layout_constraintTop_toTopOf="@+id/top_wall"
+                    app:srcCompat="@drawable/ic_action_name" />
 
-            <TextView
-                android:id="@+id/sunrise"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="@{viewModel.sunrise}"
-                app:layout_constraintStart_toEndOf="@+id/weather_image"
-                app:layout_constraintTop_toBottomOf="@+id/date_time"
-                tools:text="sunrise:" />
+                <TextView
+                    android:id="@+id/home_city_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@{viewModel.forecastOnecall.timezone}"
+                    android:textSize="36sp"
+                    app:layout_constraintEnd_toStartOf="@+id/right_wall"
+                    app:layout_constraintStart_toEndOf="@+id/weather_image"
+                    app:layout_constraintTop_toTopOf="@+id/top_wall"
+                    tools:text="Moscow" />
 
-            <TextView
-                android:id="@+id/sunset"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.sunset}"
-                app:layout_constraintEnd_toStartOf="@+id/right_wall"
-                app:layout_constraintTop_toBottomOf="@+id/date_time"
-                tools:text="sunset" />
+                <TextView
+                    android:id="@+id/sunrise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@{viewModel.sunrise}"
+                    app:layout_constraintStart_toEndOf="@+id/weather_image"
+                    app:layout_constraintTop_toBottomOf="@+id/date_time"
+                    tools:text="sunrise:" />
 
-            <TextView
-                android:id="@+id/cur_temp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{@string/degrees(viewModel.forecastOnecall.current.temp)}"
-                android:textSize="36sp"
-                app:layout_constraintEnd_toStartOf="@+id/right_wall"
-                app:layout_constraintTop_toBottomOf="@+id/sunrise"
-                tools:text="+15" />
+                <TextView
+                    android:id="@+id/sunset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.sunset}"
+                    app:layout_constraintEnd_toStartOf="@+id/right_wall"
+                    app:layout_constraintTop_toBottomOf="@+id/date_time"
+                    tools:text="sunset" />
 
-            <TextView
-                android:id="@+id/feel_like"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{@string/feels_like(viewModel.forecastOnecall.current.feelsLike)}"
-                app:layout_constraintEnd_toStartOf="@+id/right_wall"
-                app:layout_constraintTop_toBottomOf="@+id/cur_temp"
-                tools:text="fells_like +10" />
+                <TextView
+                    android:id="@+id/cur_temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/degrees(viewModel.forecastOnecall.current.temp)}"
+                    android:textSize="36sp"
+                    app:layout_constraintEnd_toStartOf="@+id/right_wall"
+                    app:layout_constraintTop_toBottomOf="@+id/sunrise"
+                    tools:text="+15" />
 
-            <TextView
-                android:id="@+id/latitude"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@{@string/latitude(viewModel.forecastOnecall.latitude)}"
-                app:layout_constraintStart_toStartOf="@+id/left_wall"
-                app:layout_constraintTop_toBottomOf="@+id/wind_speed"
-                tools:text="latitude:" />
+                <TextView
+                    android:id="@+id/feel_like"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/feels_like(viewModel.forecastOnecall.current.feelsLike)}"
+                    app:layout_constraintEnd_toStartOf="@+id/right_wall"
+                    app:layout_constraintTop_toBottomOf="@+id/cur_temp"
+                    tools:text="fells_like +10" />
 
-            <TextView
-                android:id="@+id/longtitude"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@{@string/longitude(viewModel.forecastOnecall.longitude)}"
-                app:layout_constraintStart_toStartOf="@+id/left_wall"
-                app:layout_constraintTop_toBottomOf="@+id/latitude"
-                tools:text="longitude" />
+                <TextView
+                    android:id="@+id/latitude"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@{@string/latitude(viewModel.forecastOnecall.latitude)}"
+                    app:layout_constraintStart_toStartOf="@+id/left_wall"
+                    app:layout_constraintTop_toBottomOf="@+id/wind_speed"
+                    tools:text="latitude:" />
 
-            <TextView
-                android:id="@+id/one_pressure"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@{@string/pressure(Double.toString(viewModel.forecastOnecall.current.pressure))}"
-                app:layout_constraintEnd_toStartOf="@+id/right_wall"
-                app:layout_constraintTop_toBottomOf="@+id/one_humidity"
-                tools:text="pressure" />
+                <TextView
+                    android:id="@+id/longtitude"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@{@string/longitude(viewModel.forecastOnecall.longitude)}"
+                    app:layout_constraintStart_toStartOf="@+id/left_wall"
+                    app:layout_constraintTop_toBottomOf="@+id/latitude"
+                    tools:text="longitude" />
 
-            <TextView
-                android:id="@+id/one_humidity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@{@string/humidity(Double.toString(viewModel.forecastOnecall.current.humidity))}"
-                app:layout_constraintEnd_toStartOf="@+id/right_wall"
-                app:layout_constraintTop_toBottomOf="@+id/feel_like"
-                tools:text="humidity" />
+                <TextView
+                    android:id="@+id/one_pressure"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@{@string/pressure(Double.toString(viewModel.forecastOnecall.current.pressure))}"
+                    app:layout_constraintEnd_toStartOf="@+id/right_wall"
+                    app:layout_constraintTop_toBottomOf="@+id/one_humidity"
+                    tools:text="pressure" />
 
-            <TextView
-                android:id="@+id/wind_speed"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@{@string/wind(Double.toString(viewModel.forecastOnecall.current.windSpeed))}"
-                app:layout_constraintEnd_toStartOf="@+id/feel_like"
-                app:layout_constraintStart_toStartOf="@+id/left_wall"
-                app:layout_constraintTop_toBottomOf="@+id/cur_temp"
-                tools:text="15m/s" />
+                <TextView
+                    android:id="@+id/one_humidity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@{@string/humidity(Double.toString(viewModel.forecastOnecall.current.humidity))}"
+                    app:layout_constraintEnd_toStartOf="@+id/right_wall"
+                    app:layout_constraintTop_toBottomOf="@+id/feel_like"
+                    tools:text="humidity" />
 
-            <TextView
-                android:id="@+id/date_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.date}"
-                app:layout_constraintEnd_toStartOf="@+id/right_wall"
-                app:layout_constraintStart_toEndOf="@+id/weather_image"
-                app:layout_constraintTop_toBottomOf="@+id/home_city_name"
-                tools:text="01/01/2021" />
+                <TextView
+                    android:id="@+id/wind_speed"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/wind(Double.toString(viewModel.forecastOnecall.current.windSpeed))}"
+                    app:layout_constraintEnd_toStartOf="@+id/feel_like"
+                    app:layout_constraintStart_toStartOf="@+id/left_wall"
+                    app:layout_constraintTop_toBottomOf="@+id/cur_temp"
+                    tools:text="15m/s" />
 
-            <TextView
-                android:id="@+id/one_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{viewModel.forecastOnecall.current.weather.get(0).description}"
-                android:textSize="36sp"
-                app:layout_constraintStart_toStartOf="@+id/left_wall"
-                app:layout_constraintTop_toBottomOf="@+id/sunrise"
-                tools:text="rain" />
+                <TextView
+                    android:id="@+id/date_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.date}"
+                    app:layout_constraintEnd_toStartOf="@+id/right_wall"
+                    app:layout_constraintStart_toEndOf="@+id/weather_image"
+                    app:layout_constraintTop_toBottomOf="@+id/home_city_name"
+                    tools:text="01/01/2021" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/hourly_list"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:hourlyListData="@{viewModel.hourlyList}"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toStartOf="@+id/right_wall"
-                app:layout_constraintStart_toStartOf="@+id/left_wall"
-                app:layout_constraintTop_toBottomOf="@+id/longtitude" />
+                <TextView
+                    android:id="@+id/one_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.forecastOnecall.current.weather.get(0).description}"
+                    android:textSize="36sp"
+                    app:layout_constraintStart_toStartOf="@+id/left_wall"
+                    app:layout_constraintTop_toBottomOf="@+id/sunrise"
+                    tools:text="rain" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/daily_list"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:nestedScrollingEnabled="false"
-                android:orientation="vertical"
-                app:dailyListData="@{viewModel.dailyList}"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toTopOf="@+id/bottom_wall"
-                app:layout_constraintEnd_toStartOf="@+id/right_wall"
-                app:layout_constraintStart_toStartOf="@+id/left_wall"
-                app:layout_constraintTop_toBottomOf="@+id/hourly_list" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/hourly_list"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:hourlyListData="@{viewModel.hourlyList}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toStartOf="@+id/right_wall"
+                    app:layout_constraintStart_toStartOf="@+id/left_wall"
+                    app:layout_constraintTop_toBottomOf="@+id/longtitude" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/daily_list"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:nestedScrollingEnabled="false"
+                    android:orientation="vertical"
+                    app:dailyListData="@{viewModel.dailyList}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toTopOf="@+id/bottom_wall"
+                    app:layout_constraintEnd_toStartOf="@+id/right_wall"
+                    app:layout_constraintStart_toStartOf="@+id/left_wall"
+                    app:layout_constraintTop_toBottomOf="@+id/hourly_list" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

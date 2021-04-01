@@ -42,7 +42,7 @@ data class ForecastByCity(
 
     private fun dtToTime(utc: Int): String {
         try {
-            val sdf = SimpleDateFormat("MMM dd, yyyy HH:mm:ss")
+            val sdf = SimpleDateFormat("MMM dd, yyyy HH:mm:ss", Locale.US)
             val diff = TimeZone.getDefault().rawOffset / 1000 - timezone
             val netDate = Date((utc - diff) * 1000L)
             return sdf.format(netDate)

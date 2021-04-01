@@ -60,6 +60,12 @@ class HomeFragment : Fragment() {
         binding.viewModel = viewModel
         binding.hourlyList.adapter = HourlyAdapter()
         binding.dailyList.adapter = DailyAdapter()
+        binding.swipeRefreshHome.setOnRefreshListener {
+            val sharedPref = requireActivity().getSharedPreferences("settings", Context.MODE_PRIVATE)
+            val scale = sharedPref.getInt("scale", 1)
+            viewModel.refreshDataFromRepository(getLocationFromPref(), scale)
+            binding.swipeRefreshHome.isRefreshing = false
+        }
 
 
         viewModel.eventNetworkError.observe(viewLifecycleOwner, { isNetworkError ->

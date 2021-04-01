@@ -41,15 +41,15 @@ data class Daily(
         get() = dtToTime(dt)
 
     private fun dtToTime(utc: Int?): String {
-        if (utc != null) {
-            try {
-                val sdf = SimpleDateFormat("EEE")
-                val netDate = Date(utc.toLong() * 1000)
-                return sdf.format(netDate)
-            } catch (e: Exception) {
-                return e.toString()
-            }
-        }
-        return ""
+		return if (utc != null) {
+			try {
+				val sdf = SimpleDateFormat("EEE", Locale.US)
+				val netDate = Date(utc.toLong() * 1000)
+				sdf.format(netDate)
+			} catch (e: Exception) {
+				e.toString()
+			}
+		}
+		else ""
     }
 }

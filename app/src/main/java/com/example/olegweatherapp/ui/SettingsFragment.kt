@@ -28,33 +28,41 @@ class SettingsFragment : Fragment() {
 
         setupSlider(binding)
 
-        setupRadioGroup(binding)
+        setupButtonsGroup(binding)
 
         return binding.root
     }
 
-    private fun setupRadioGroup(binding: FragmentSettingsBinding) {
+    private fun setupButtonsGroup(binding: FragmentSettingsBinding) {
         val sharedPref = requireActivity().getSharedPreferences("settings", Context.MODE_PRIVATE)
         //1 = metric, 2 = standard, 3 = imperial
         val prefScale = sharedPref.getInt("scale", 1)
         when (prefScale) {
-            1 -> binding.radioMetric.isChecked = true
-            2 -> binding.radioStandard.isChecked = true
-            3 -> binding.radioImperial.isChecked = true
+            1 -> binding.buttonGroup.check(binding.buttonMetric.id)
+            2 -> binding.buttonGroup.check(binding.buttonStandard.id)
+            3 -> binding.buttonGroup.check(binding.buttonImperial.id)
         }
-        binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
+
+        binding.buttonGroup.addOnButtonCheckedListener { _, checkedId, _ ->
             when (checkedId) {
-                binding.radioMetric.id -> {
-                    Toast.makeText(this.context, "changed to metric", Toast.LENGTH_SHORT).show()
-                    sharedPref.edit().putInt("scale", 1).apply()
+                binding.buttonMetric.id -> {
+                    // without if statement previous button also chang state and toggle action
+                    if (binding.buttonMetric.isChecked) {
+                        Toast.makeText(this.context, "changed to metric", Toast.LENGTH_SHORT).show()
+                        sharedPref.edit().putInt("scale", 1).apply()
+                    }
                 }
-                binding.radioStandard.id -> {
-                    Toast.makeText(this.context, "changed to standard", Toast.LENGTH_SHORT).show()
-                    sharedPref.edit().putInt("scale", 2).apply()
+                binding.buttonStandard.id -> {
+                    if (binding.buttonStandard.isChecked) {
+                        Toast.makeText(this.context, "changed to standard", Toast.LENGTH_SHORT).show()
+                        sharedPref.edit().putInt("scale", 2).apply()
+                    }
                 }
-                binding.radioImperial.id -> {
-                    Toast.makeText(this.context, "changed to imperial", Toast.LENGTH_SHORT).show()
-                    sharedPref.edit().putInt("scale", 3).apply()
+                binding.buttonImperial.id -> {
+                    if (binding.buttonImperial.isChecked) {
+                        Toast.makeText(this.context, "changed to imperial", Toast.LENGTH_SHORT).show()
+                        sharedPref.edit().putInt("scale", 3).apply()
+                    }
                 }
             }
         }
@@ -73,6 +81,10 @@ class SettingsFragment : Fragment() {
                 sharedPref.edit().putInt("updatePeriod", result).apply()
                 Timber.d("forecast: put update $result")
                 setupRecurringWork(result)
+                Toast.makeText(requireContext(),
+                    "will update every ${slider.value} hours",
+                    Toast.LENGTH_SHORT)
+                    .show()
             }
         })
     }

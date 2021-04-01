@@ -81,4 +81,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     //location
     implementation 'com.google.android.gms:play-services-location:18.0.0'
+    //swiperefresh
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 }

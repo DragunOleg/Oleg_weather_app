@@ -48,6 +48,12 @@ class FavoritesFragment : Fragment() {
         // Set the lifecycleOwner so DataBinding can observe LiveData
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
+        binding.swipeRefreshFavorites.setOnRefreshListener {
+            val sharedPref = requireActivity().getSharedPreferences("settings", Context.MODE_PRIVATE)
+            val scale = sharedPref.getInt("scale", 1)
+            viewModel.refreshDataFromRepository(scale)
+            binding.swipeRefreshFavorites.isRefreshing = false
+        }
 
         viewModel.eventNetworkError.observe(viewLifecycleOwner, { isNetworkError ->
             if (isNetworkError) onNetworkError()
