@@ -31,27 +31,25 @@ class FavoritesFragment : Fragment() {
             "You can only access the viewModel after onActivityCreated()"
         }
         ViewModelProvider(this, FavoritesViewModelFactory(activity.application))
-            .get(FavoritesViewModel::class.java)
+                .get(FavoritesViewModel::class.java)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         val binding: FragmentFavoritesBinding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_favorites,
-            container,
-            false
+                inflater,
+                R.layout.fragment_favorites,
+                container,
+                false
         )
         // Set the lifecycleOwner so DataBinding can observe LiveData
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         binding.swipeRefreshFavorites.setOnRefreshListener {
-            val sharedPref = requireActivity().getSharedPreferences("settings", Context.MODE_PRIVATE)
-            val scale = sharedPref.getInt("scale", 1)
-            viewModel.refreshDataFromRepository(scale)
+            viewModel.refreshDataFromRepository()
             binding.swipeRefreshFavorites.isRefreshing = false
         }
 
@@ -64,9 +62,7 @@ class FavoritesFragment : Fragment() {
             viewModel.deleteCity(cityName)
         })
 
-        val sharedPref = requireActivity().getSharedPreferences("settings", Context.MODE_PRIVATE)
-        val scale = sharedPref.getInt("scale", 1)
-        setButtonsBehavior(binding, scale)
+        setButtonsBehavior(binding)
 
         return binding.root
     }
@@ -81,7 +77,7 @@ class FavoritesFragment : Fragment() {
         }
     }
 
-    private fun setButtonsBehavior(binding: FragmentFavoritesBinding, scale: Int) {
+    private fun setButtonsBehavior(binding: FragmentFavoritesBinding) {
         //fab behavior
         with(binding) {
             fab.setOnClickListener {
@@ -96,7 +92,7 @@ class FavoritesFragment : Fragment() {
         with(binding) {
             button.setOnClickListener {
                 if (!textInput.text.isNullOrBlank()) {
-                    viewModel?.addCity(textInput.text.toString(), scale)
+                    viewModel?.addCity(textInput.text.toString())
                 }
                 textLayout.visibility = View.GONE
                 textInput.text?.clear()
@@ -108,13 +104,13 @@ class FavoritesFragment : Fragment() {
 
     private fun Context.hideKeyboard(view: View) {
         val inputMethodManager =
-            getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     private fun Context.showKeyboard(view: View) {
         val inputMethodManager =
-            getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.toggleSoftInputFromWindow(view.windowToken, 0, 0)
     }
 

@@ -9,7 +9,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.olegweatherapp.Injection
 import com.example.olegweatherapp.repository.FavoritesRepository
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.io.IOException
 
 /**
@@ -25,6 +24,10 @@ import java.io.IOException
 class FavoritesViewModel(application: Application) : AndroidViewModel(application) {
 
     private val favoritesRepository = FavoritesRepository(Injection.provideDatabase(application))
+
+    //we need to know scale on each refresh/addcity call
+    private val sharedPref = application.getSharedPreferences("settings", Context.MODE_PRIVATE)
+    private val scale = sharedPref.getInt("scale", 1)
 
     //cities displayed on the screen
     val citiesList = favoritesRepository.cities
@@ -55,22 +58,12 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
     val isNetworkErrorShown: LiveData<Boolean>
         get() = _isNetworkErrorShown
 
-    /**
-     * init{} is called immediately when this ViewModel is created.
-     */
-    init {
-        val sharedPref =
-            application.applicationContext.getSharedPreferences("settings", Context.MODE_PRIVATE)
-        val scale = sharedPref.getInt("scale", 1)
-        refreshDataFromRepository(scale)
-        Timber.d("forecast: FavoritesViewModel init")
-    }
 
     /**
      * Refresh data from the repository. Use a coroutine launch to run in a
      * background thread.
      */
-    fun refreshDataFromRepository(scale: Int) {
+    fun refreshDataFromRepository() {
         viewModelScope.launch {
             try {
                 favoritesRepository.refreshForecastCities(scale)
@@ -85,7 +78,7 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    private fun privateAddCity(city: String, scale: Int) {
+    private fun privateAddCity(city: String) {
         viewModelScope.launch {
             try {
                 favoritesRepository.insertCity(city, scale)
@@ -101,8 +94,8 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
     /**
      * add new city
      */
-    fun addCity(city: String, scale: Int) {
-        privateAddCity(city, scale)
+    fun addCity(city: String) {
+        privateAddCity(city)
     }
 
     private fun privateDeleteCity(city: String) {

@@ -1,6 +1,7 @@
 package com.example.olegweatherapp.viewmodels
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.*
 import com.example.olegweatherapp.Injection
 import com.example.olegweatherapp.models.onecall.Daily
@@ -27,6 +28,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
      * The data source this ViewModel will fetch results from.
      */
     private val homeRepository = HomeRepository(Injection.provideDatabase(application))
+
+    //store scale from pref to know it on each update
+    private val sharedPref = application.getSharedPreferences("settings", Context.MODE_PRIVATE)
+    private val scale = sharedPref.getInt("scale", 1)
 
     /**
      * forecast displayed on the screen.
@@ -93,9 +98,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
      * Refresh data from the repository. Use a coroutine launch to run in a
      * background thread.
      * @param loc is pair with lat/lon to update weather with current location
-     * @param scale 1 = metric, 2 = standard, 3 = imperial
      */
-    fun refreshDataFromRepository(loc: Pair<Double, Double>, scale: Int) {
+    fun refreshDataFromRepository(loc: Pair<Double, Double>) {
 
         viewModelScope.launch {
             try {

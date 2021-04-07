@@ -31,54 +31,48 @@ class HomeFragment : Fragment() {
             "You can only access the viewModel after onActivityCreated()"
         }
         ViewModelProvider(this, HomeViewModelFactory(activity.application))
-            .get(HomeViewModel::class.java)
+                .get(HomeViewModel::class.java)
     }
 
-    /**
-     * Called immediately after onCreateView() has returned, and fragment's
-     * view hierarchy has been created. It can be used to do final
-     * initialization once these pieces are in place, such as retrieving
-     * views or restoring state.
-     */
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         val binding: FragmentHomeBinding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_home,
-            container,
-            false
+                inflater,
+                R.layout.fragment_home,
+                container,
+                false
         )
+
         // Set the lifecycleOwner so DataBinding can observe LiveData
         binding.lifecycleOwner = viewLifecycleOwner
+
+        //data binding
         binding.viewModel = viewModel
+
+        //binding adapters would connect adapter with data from ViewModel
         binding.hourlyList.adapter = HourlyAdapter()
         binding.dailyList.adapter = DailyAdapter()
+
+        //refresh only on explicit user action
         binding.swipeRefreshHome.setOnRefreshListener {
-            val sharedPref = requireActivity().getSharedPreferences("settings", Context.MODE_PRIVATE)
-            val scale = sharedPref.getInt("scale", 1)
-            viewModel.refreshDataFromRepository(getLocationFromPref(), scale)
+            viewModel.refreshDataFromRepository(getLocationFromPref())
+            //end of refresh animation
             binding.swipeRefreshHome.isRefreshing = false
         }
 
-
+        //any error would trigger onNetworkError
         viewModel.eventNetworkError.observe(viewLifecycleOwner, { isNetworkError ->
             if (isNetworkError) onNetworkError()
         })
 
-        val sharedPref = requireActivity().getSharedPreferences("settings", Context.MODE_PRIVATE)
-        val scale = sharedPref.getInt("scale", 1)
-        viewModel.refreshDataFromRepository(getLocationFromPref(), scale)
-
 
         return binding.root
     }
+
 
     private fun getLocationFromPref(): Pair<Double, Double> {
         Timber.d("forecast: update location")
