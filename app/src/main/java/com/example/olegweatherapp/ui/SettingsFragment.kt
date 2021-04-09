@@ -43,6 +43,11 @@ class SettingsFragment : Fragment() {
             3 -> binding.buttonGroup.check(binding.buttonImperial.id)
         }
 
+        fun callNetworkUpdate() {
+            val prefPeriod = sharedPref.getInt("updatePeriod", 60)
+            setupRecurringWork(prefPeriod)
+        }
+
         binding.buttonGroup.addOnButtonCheckedListener { _, checkedId, _ ->
             when (checkedId) {
                 binding.buttonMetric.id -> {
@@ -50,18 +55,21 @@ class SettingsFragment : Fragment() {
                     if (binding.buttonMetric.isChecked) {
                         Toast.makeText(this.context, "changed to metric", Toast.LENGTH_SHORT).show()
                         sharedPref.edit().putInt("scale", 1).apply()
+                        callNetworkUpdate()
                     }
                 }
                 binding.buttonStandard.id -> {
                     if (binding.buttonStandard.isChecked) {
                         Toast.makeText(this.context, "changed to standard", Toast.LENGTH_SHORT).show()
                         sharedPref.edit().putInt("scale", 2).apply()
+                        callNetworkUpdate()
                     }
                 }
                 binding.buttonImperial.id -> {
                     if (binding.buttonImperial.isChecked) {
                         Toast.makeText(this.context, "changed to imperial", Toast.LENGTH_SHORT).show()
                         sharedPref.edit().putInt("scale", 3).apply()
+                        callNetworkUpdate()
                     }
                 }
             }
