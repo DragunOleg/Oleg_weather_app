@@ -8,6 +8,7 @@ import com.example.olegweatherapp.models.onecall.Daily
 import com.example.olegweatherapp.models.onecall.Hourly
 import com.example.olegweatherapp.repository.HomeRepository
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -32,6 +33,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     //store scale from pref to know it on each update
     private val sharedPref = application.getSharedPreferences("settings", Context.MODE_PRIVATE)
     private val scale = sharedPref.getInt("scale", 1)
+
+    init {
+        Timber.d("forecast: initViewModel")
+    }
 
     /**
      * forecast displayed on the screen.

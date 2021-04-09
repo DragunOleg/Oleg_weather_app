@@ -18,19 +18,19 @@ import kotlin.math.roundToInt
  * https://developer.android.com/codelabs/kotlin-android-training-interacting-with-items#3
  */
 class FavortesAdapter(val clickListener: ForecastListener) :
-    ListAdapter<ForecastByCity, FavortesAdapter.ForecastViewHolder>(DiffCallback) {
+        ListAdapter<ForecastByCity, FavortesAdapter.ForecastViewHolder>(DiffCallback) {
 
     /**
      * The PictureViewHolder constructor takes the binding variable from the associated
      * FavoritesViewItem, which nicely gives it access to the full [ForecastByCity] information.
      */
     class ForecastViewHolder(private var binding: FavoritesViewItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+            RecyclerView.ViewHolder(binding.root) {
         fun bind(forecastByCity: ForecastByCity, clickListener: ForecastListener) {
             binding.forecastByCity = forecastByCity
             binding.temperature.text = forecastByCity.main.temp.roundToInt().toString() + "°"
             binding.feelsLikeValue.text =
-                forecastByCity.main.feelsLike.roundToInt().toString() + "°"
+                    forecastByCity.main.feelsLike.roundToInt().toString() + "°"
             binding.clickListener = clickListener
 
             binding.executePendingBindings()
@@ -52,6 +52,7 @@ class FavortesAdapter(val clickListener: ForecastListener) :
             //comparing based on content from JSON
             return oldItem.id == newItem.id
         }
+
     }
 
     /**
@@ -61,10 +62,10 @@ class FavortesAdapter(val clickListener: ForecastListener) :
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForecastViewHolder {
         val withDataBinding: FavoritesViewItemBinding = DataBindingUtil.inflate(
-            LayoutInflater.from(parent.context),
-            R.layout.favorites_view_item,
-            parent,
-            false
+                LayoutInflater.from(parent.context),
+                R.layout.favorites_view_item,
+                parent,
+                false
         )
         return ForecastViewHolder(withDataBinding)
     }

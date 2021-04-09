@@ -73,6 +73,15 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Timber.d("forecast: onDestroyView")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Timber.d("forecast: onDestroy")
+    }
 
     private fun getLocationFromPref(): Pair<Double, Double> {
         Timber.d("forecast: update location")
