@@ -58,7 +58,7 @@ class FavoritesFragment : Fragment() {
         })
 
         binding.cityList.adapter = FavortesAdapter(ForecastListener { cityName ->
-            Toast.makeText(context, "$cityName gone", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "$cityName gone", Toast.LENGTH_SHORT).show()
             viewModel.deleteCity(cityName)
         })
 
@@ -72,7 +72,7 @@ class FavoritesFragment : Fragment() {
      */
     private fun onNetworkError() {
         if (!viewModel.isNetworkErrorShown.value!!) {
-            Toast.makeText(activity, "Network Error", Toast.LENGTH_LONG).show()
+            Toast.makeText(activity, "Network Error", Toast.LENGTH_SHORT).show()
             viewModel.onNetworkErrorShown()
         }
     }

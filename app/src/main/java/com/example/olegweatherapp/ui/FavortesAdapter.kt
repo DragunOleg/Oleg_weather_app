@@ -44,15 +44,12 @@ class FavortesAdapter(val clickListener: ForecastListener) :
      */
     companion object DiffCallback : DiffUtil.ItemCallback<ForecastByCity>() {
         override fun areItemsTheSame(oldItem: ForecastByCity, newItem: ForecastByCity): Boolean {
-            //comparing items in memory
-            return oldItem === newItem
-        }
-
-        override fun areContentsTheSame(oldItem: ForecastByCity, newItem: ForecastByCity): Boolean {
-            //comparing based on content from JSON
             return oldItem.id == newItem.id
         }
 
+        override fun areContentsTheSame(oldItem: ForecastByCity, newItem: ForecastByCity): Boolean {
+            return oldItem == newItem
+        }
     }
 
     /**

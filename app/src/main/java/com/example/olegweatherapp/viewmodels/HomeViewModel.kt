@@ -30,9 +30,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
      */
     private val homeRepository = HomeRepository(Injection.provideDatabase(application))
 
-    //store scale from pref to know it on each update
-    private val sharedPref = application.getSharedPreferences("settings", Context.MODE_PRIVATE)
-    private val scale = sharedPref.getInt("scale", 1)
+    private val app = application
 
     init {
         Timber.d("forecast: initViewModel")
@@ -104,9 +102,17 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
      * background thread.
      * @param loc is pair with lat/lon to update weather with current location
      */
-    fun refreshDataFromRepository(loc: Pair<Double, Double>) {
+    fun refreshDataFromRepository() {
 
         viewModelScope.launch {
+            val sharedPref = app.getSharedPreferences("settings", Context.MODE_PRIVATE)
+            val scale = sharedPref.getInt("scale", 1)
+            val loc =
+                    if (sharedPref != null && sharedPref.contains("latitude") && sharedPref.contains("longitude")) {
+                        val lat = sharedPref.getFloat("latitude", (40.462212).toFloat()).toDouble()
+                        val lon = sharedPref.getFloat("longitude", (-2.96039).toFloat()).toDouble()
+                        Pair(lat, lon)
+                    } else Pair(40.462212, -2.96039)
             try {
                 homeRepository.refreshForecastOnecall(loc, scale)
                 _eventNetworkError.value = false

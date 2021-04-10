@@ -25,9 +25,8 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
 
     private val favoritesRepository = FavoritesRepository(Injection.provideDatabase(application))
 
-    //we need to know scale on each refresh/addcity call
-    private val sharedPref = application.getSharedPreferences("settings", Context.MODE_PRIVATE)
-    private val scale = sharedPref.getInt("scale", 1)
+    //hold it to have access to shared pref
+    private val app = application
 
     //cities displayed on the screen
     val citiesList = favoritesRepository.cities
@@ -66,7 +65,7 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
     fun refreshDataFromRepository() {
         viewModelScope.launch {
             try {
-                favoritesRepository.refreshForecastCities(scale)
+                favoritesRepository.refreshForecastCities(getScaleFromPref())
                 _eventNetworkError.value = false
                 _isNetworkErrorShown.value = false
             } catch (networkError: IOException) {
@@ -81,7 +80,7 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
     private fun privateAddCity(city: String) {
         viewModelScope.launch {
             try {
-                favoritesRepository.insertCity(city, scale)
+                favoritesRepository.insertCity(city, getScaleFromPref())
                 _eventNetworkError.value = false
                 _isNetworkErrorShown.value = false
             } catch (networkError: IOException) {
@@ -89,6 +88,11 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
                 _eventNetworkError.value = true
             }
         }
+    }
+
+    private fun getScaleFromPref() : Int {
+        val sharedPref = app.getSharedPreferences("settings", Context.MODE_PRIVATE)
+        return sharedPref.getInt("scale", 1)
     }
 
     /**

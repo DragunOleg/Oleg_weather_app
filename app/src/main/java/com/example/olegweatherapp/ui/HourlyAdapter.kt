@@ -30,12 +30,12 @@ class HourlyAdapter() : ListAdapter<Hourly, HourlyAdapter.HourlyViewHolder>(Diff
     companion object DiffCallback : DiffUtil.ItemCallback<Hourly>() {
         override fun areItemsTheSame(oldItem: Hourly, newItem: Hourly): Boolean {
             //comparing items in memory
-            return oldItem === newItem
+            return oldItem.dt == newItem.dt
         }
 
         override fun areContentsTheSame(oldItem: Hourly, newItem: Hourly): Boolean {
             //comparing based on content from JSON
-            return oldItem.dt == newItem.dt
+            return oldItem == newItem
         }
     }
 

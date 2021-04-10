@@ -31,12 +31,12 @@ class DailyAdapter() : ListAdapter<Daily, DailyAdapter.DailyViewHolder>(DiffCall
     companion object DiffCallback : DiffUtil.ItemCallback<Daily>() {
         override fun areItemsTheSame(oldItem: Daily, newItem: Daily): Boolean {
             //comparing items in memory
-            return oldItem === newItem
+            return oldItem.dt == newItem.dt
         }
 
         override fun areContentsTheSame(oldItem: Daily, newItem: Daily): Boolean {
             //comparing based on content from JSON
-            return oldItem.dt == newItem.dt
+            return oldItem == newItem
         }
     }
 

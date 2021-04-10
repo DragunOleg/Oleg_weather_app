@@ -1,6 +1,5 @@
 package com.example.olegweatherapp.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -59,7 +58,10 @@ class HomeFragment : Fragment() {
 
         //refresh only on explicit user action
         binding.swipeRefreshHome.setOnRefreshListener {
-            viewModel.refreshDataFromRepository(getLocationFromPref())
+            //update current location
+            moveLocationToPref(requireActivity())
+            //refresh data
+            viewModel.refreshDataFromRepository()
             //end of refresh animation
             binding.swipeRefreshHome.isRefreshing = false
         }
@@ -83,23 +85,12 @@ class HomeFragment : Fragment() {
         Timber.d("forecast: onDestroy")
     }
 
-    private fun getLocationFromPref(): Pair<Double, Double> {
-        Timber.d("forecast: update location")
-        moveLocationToPref(activity)
-        val sharedPref = requireActivity().getSharedPreferences("settings", Context.MODE_PRIVATE)
-        if (sharedPref != null && sharedPref.contains("latitude") && sharedPref.contains("longitude")) {
-            val lat = sharedPref.getFloat("latitude", (40.462212).toFloat()).toDouble()
-            val lon = sharedPref.getFloat("longitude", (-2.96039).toFloat()).toDouble()
-            return Pair(lat, lon)
-        } else return Pair(40.462212, -2.96039)
-    }
-
     /**
      * Method for displaying a Toast error message for network errors.
      */
     private fun onNetworkError() {
         if (!viewModel.isNetworkErrorShown.value!!) {
-            Toast.makeText(activity, "Network Error", Toast.LENGTH_LONG).show()
+            Toast.makeText(activity, "Network Error", Toast.LENGTH_SHORT).show()
             viewModel.onNetworkErrorShown()
         }
     }
