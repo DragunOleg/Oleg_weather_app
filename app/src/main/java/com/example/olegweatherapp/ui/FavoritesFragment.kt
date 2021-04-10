@@ -34,37 +34,53 @@ class FavoritesFragment : Fragment() {
                 .get(FavoritesViewModel::class.java)
     }
 
+    private var binding: FragmentFavoritesBinding? = null
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        val binding: FragmentFavoritesBinding = DataBindingUtil.inflate(
+        val fragmentBinding: FragmentFavoritesBinding = DataBindingUtil.inflate(
                 inflater,
                 R.layout.fragment_favorites,
                 container,
                 false
         )
-        // Set the lifecycleOwner so DataBinding can observe LiveData
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
-        binding.swipeRefreshFavorites.setOnRefreshListener {
-            viewModel.refreshDataFromRepository()
-            binding.swipeRefreshFavorites.isRefreshing = false
+
+        binding = fragmentBinding
+
+        return fragmentBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding?.apply {
+            // Set the lifecycleOwner so DataBinding can observe LiveData
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = this@FavoritesFragment.viewModel
+            swipeRefreshFavorites.setOnRefreshListener {
+                this@FavoritesFragment.viewModel.refreshDataFromRepository()
+                swipeRefreshFavorites.isRefreshing = false
+            }
+
+            cityList.adapter = FavortesAdapter(ForecastListener { cityName ->
+                Toast.makeText(context, "$cityName gone", Toast.LENGTH_SHORT).show()
+                this@FavoritesFragment.viewModel.deleteCity(cityName)
+            })
+
+            setButtonsBehavior(binding!!)
         }
 
         viewModel.eventNetworkError.observe(viewLifecycleOwner, { isNetworkError ->
             if (isNetworkError) onNetworkError()
         })
+    }
 
-        binding.cityList.adapter = FavortesAdapter(ForecastListener { cityName ->
-            Toast.makeText(context, "$cityName gone", Toast.LENGTH_SHORT).show()
-            viewModel.deleteCity(cityName)
-        })
-
-        setButtonsBehavior(binding)
-
-        return binding.root
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
     /**

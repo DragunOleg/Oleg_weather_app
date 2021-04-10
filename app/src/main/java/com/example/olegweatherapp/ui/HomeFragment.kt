@@ -13,7 +13,6 @@ import com.example.olegweatherapp.databinding.FragmentHomeBinding
 import com.example.olegweatherapp.extensions.moveLocationToPref
 import com.example.olegweatherapp.viewmodels.HomeViewModel
 import com.example.olegweatherapp.viewmodels.factories.HomeViewModelFactory
-import timber.log.Timber
 
 /**
  * Show last available forecast
@@ -33,37 +32,47 @@ class HomeFragment : Fragment() {
                 .get(HomeViewModel::class.java)
     }
 
+    private var binding: FragmentHomeBinding? = null
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        val binding: FragmentHomeBinding = DataBindingUtil.inflate(
+        val fragmentBinding: FragmentHomeBinding = DataBindingUtil.inflate(
                 inflater,
                 R.layout.fragment_home,
                 container,
                 false
         )
 
-        // Set the lifecycleOwner so DataBinding can observe LiveData
-        binding.lifecycleOwner = viewLifecycleOwner
+        binding = fragmentBinding
 
-        //data binding
-        binding.viewModel = viewModel
+        return fragmentBinding.root
+    }
 
-        //binding adapters would connect adapter with data from ViewModel
-        binding.hourlyList.adapter = HourlyAdapter()
-        binding.dailyList.adapter = DailyAdapter()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        //refresh only on explicit user action
-        binding.swipeRefreshHome.setOnRefreshListener {
-            //update current location
-            moveLocationToPref(requireActivity())
-            //refresh data
-            viewModel.refreshDataFromRepository()
-            //end of refresh animation
-            binding.swipeRefreshHome.isRefreshing = false
+        binding?.apply {
+            // Set the lifecycleOwner so DataBinding can observe LiveData
+            lifecycleOwner = viewLifecycleOwner
+            //data binding
+            viewModel = this@HomeFragment.viewModel
+
+            //binding adapters would connect adapter with data from ViewModel
+            hourlyList.adapter = HourlyAdapter()
+            dailyList.adapter = DailyAdapter()
+
+            //refresh only on explicit user action
+            swipeRefreshHome.setOnRefreshListener {
+                //update current location
+                moveLocationToPref(requireActivity())
+                //refresh data
+                this@HomeFragment.viewModel.refreshDataFromRepository()
+                //end of refresh animation
+                swipeRefreshHome.isRefreshing = false
+            }
         }
 
         //any error would trigger onNetworkError
@@ -71,18 +80,11 @@ class HomeFragment : Fragment() {
             if (isNetworkError) onNetworkError()
         })
 
-
-        return binding.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Timber.d("forecast: onDestroyView")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Timber.d("forecast: onDestroy")
+        binding = null
     }
 
     /**
