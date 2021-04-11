@@ -7,11 +7,13 @@ import com.example.olegweatherapp.Injection
 import com.example.olegweatherapp.models.onecall.Daily
 import com.example.olegweatherapp.models.onecall.Hourly
 import com.example.olegweatherapp.repository.HomeRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 /**
  * HomeViewModel designed to store and manage UI-related data in a lifecycle conscious way. This
@@ -23,7 +25,8 @@ import java.util.*
  * reference to applications across rotation since Application is never recreated during actiivty
  * or fragment lifecycle events.
  */
-class HomeViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class HomeViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
 
     /**
      * The data source this ViewModel will fetch results from.

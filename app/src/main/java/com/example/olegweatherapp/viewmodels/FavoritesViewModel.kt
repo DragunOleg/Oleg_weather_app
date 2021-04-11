@@ -8,8 +8,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.olegweatherapp.Injection
 import com.example.olegweatherapp.repository.FavoritesRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.io.IOException
+import javax.inject.Inject
 
 /**
  * FavoritesViewModel designed to store and manage UI-related data in a lifecycle conscious way. This
@@ -21,7 +23,8 @@ import java.io.IOException
  * reference to applications across rotation since Application is never recreated during actiivty
  * or fragment lifecycle events.
  */
-class FavoritesViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class FavoritesViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
 
     private val favoritesRepository = FavoritesRepository(Injection.provideDatabase(application))
 

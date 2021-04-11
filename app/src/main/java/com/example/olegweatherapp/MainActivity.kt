@@ -8,7 +8,9 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.olegweatherapp.extensions.moveLocationToPref
 import com.example.olegweatherapp.extensions.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private var currentNavController: LiveData<NavController>? = null
