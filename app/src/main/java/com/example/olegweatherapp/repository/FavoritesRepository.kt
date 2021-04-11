@@ -2,10 +2,10 @@ package com.example.olegweatherapp.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import com.example.olegweatherapp.Injection
 import com.example.olegweatherapp.database.DatabaseForecastCity
 import com.example.olegweatherapp.database.ForecastDao
 import com.example.olegweatherapp.models.bycityname.ForecastByCity
+import com.example.olegweatherapp.network.OpenWeatherMapApi
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -15,8 +15,12 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class FavoritesRepository @Inject constructor(private val forecastDao: ForecastDao) {
+class FavoritesRepository @Inject constructor(
+    private val forecastDao: ForecastDao,
+    private val service: OpenWeatherMapApi
+) {
 
+    //TODO() provide with hilt
     private val gson = Gson()
 
     /**
@@ -34,9 +38,8 @@ class FavoritesRepository @Inject constructor(private val forecastDao: ForecastD
             val citiesToInsert = mutableListOf<ForecastByCity>()
             try {
                 db.forEach {
-                    Timber.d("forecast: refresh $it")
                     citiesToInsert.add(
-                        Injection.provideNetworkApi().getByCityName(
+                        service.getByCityName(
                             it,
                             units = when (scale) {
                                 1 -> "metric"
@@ -58,7 +61,7 @@ class FavoritesRepository @Inject constructor(private val forecastDao: ForecastD
         withContext(Dispatchers.IO) {
             Timber.d("forecast: insert city with $name name")
             try {
-                val networkCityToIncert = Injection.provideNetworkApi().getByCityName(
+                val networkCityToIncert = service.getByCityName(
                     name,
                     units = when (scale) {
                         1 -> "metric"

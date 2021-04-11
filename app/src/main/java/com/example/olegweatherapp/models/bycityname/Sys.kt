@@ -16,9 +16,9 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 
 data class Sys(
 
-	@SerializedName("type") val type: Double,
-	@SerializedName("id") val id: Int,
-	@SerializedName("country") val country: String,
-	@SerializedName("sunrise") val sunrise: Double,
-	@SerializedName("sunset") val sunset: Double
+    @SerializedName("type") val type: Double,
+    @SerializedName("id") val id: Int,
+    @SerializedName("country") val country: String,
+    @SerializedName("sunrise") val sunrise: Double,
+    @SerializedName("sunset") val sunset: Double
 )

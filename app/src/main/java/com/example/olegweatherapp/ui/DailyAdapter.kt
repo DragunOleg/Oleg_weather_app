@@ -12,7 +12,7 @@ import com.example.olegweatherapp.models.bycityname.ForecastByCity
 import com.example.olegweatherapp.models.onecall.Daily
 
 
-class DailyAdapter() : ListAdapter<Daily, DailyAdapter.DailyViewHolder>(DiffCallback) {
+class DailyAdapter : ListAdapter<Daily, DailyAdapter.DailyViewHolder>(DiffCallback) {
 
     class DailyViewHolder(private var binding: DailyViewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {

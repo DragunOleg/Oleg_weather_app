@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         // BottomNavigationBar with Navigation
         setupBottomNavigationBar()
     }
+
     /**
      * Called on first creation and when restoring state.
      */
@@ -44,10 +45,10 @@ class MainActivity : AppCompatActivity() {
 
         // Setup the bottom navigation view with a list of navigation graphs
         val controller = bottomNavigationView.setupWithNavController(
-                navGraphIds = navGraphIds,
-                fragmentManager = supportFragmentManager,
-                containerId = R.id.nav_host_fragment,
-                intent = intent
+            navGraphIds = navGraphIds,
+            fragmentManager = supportFragmentManager,
+            containerId = R.id.nav_host_fragment,
+            intent = intent
         )
 
         // Whenever the selected controller changes, setup the action bar.

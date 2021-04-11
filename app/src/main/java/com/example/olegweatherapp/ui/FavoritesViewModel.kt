@@ -23,10 +23,10 @@ import javax.inject.Inject
  * or fragment lifecycle events.
  */
 @HiltViewModel
-class FavoritesViewModel @Inject constructor(private val favoritesRepository: FavoritesRepository, application: Application) : AndroidViewModel(application) {
-
-    //hold it to have access to shared pref
-    private val app = application
+class FavoritesViewModel @Inject constructor(
+    private val favoritesRepository: FavoritesRepository,
+    private val app: Application
+) : AndroidViewModel(app) {
 
     //cities displayed on the screen
     val citiesList = favoritesRepository.cities
@@ -90,7 +90,7 @@ class FavoritesViewModel @Inject constructor(private val favoritesRepository: Fa
         }
     }
 
-    private fun getScaleFromPref() : Int {
+    private fun getScaleFromPref(): Int {
         val sharedPref = app.getSharedPreferences("settings", Context.MODE_PRIVATE)
         return sharedPref.getInt("scale", 1)
     }

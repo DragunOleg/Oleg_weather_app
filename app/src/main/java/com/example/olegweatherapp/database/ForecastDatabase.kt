@@ -14,7 +14,8 @@ abstract class ForecastDatabase : RoomDatabase() {
 
     companion object {
         // For Singleton instantiation
-        @Volatile private var instance: ForecastDatabase? = null
+        @Volatile
+        private var instance: ForecastDatabase? = null
 
         fun getInstance(context: Context): ForecastDatabase {
             return instance ?: synchronized(this) {

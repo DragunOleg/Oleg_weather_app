@@ -3,9 +3,7 @@ package com.example.olegweatherapp.database
 import androidx.lifecycle.LiveData
 import androidx.room.*
 
-/**
- * Dao for both tables
- */
+//TODO() Split it to 2 different DAO so repo is not loading not needed extras
 @Dao
 interface ForecastDao {
     /**

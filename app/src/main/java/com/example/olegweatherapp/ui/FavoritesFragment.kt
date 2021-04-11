@@ -31,15 +31,15 @@ class FavoritesFragment : Fragment() {
     private var binding: FragmentFavoritesBinding? = null
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         val fragmentBinding: FragmentFavoritesBinding = DataBindingUtil.inflate(
-                inflater,
-                R.layout.fragment_favorites,
-                container,
-                false
+            inflater,
+            R.layout.fragment_favorites,
+            container,
+            false
         )
 
         binding = fragmentBinding
@@ -114,13 +114,13 @@ class FavoritesFragment : Fragment() {
 
     private fun Context.hideKeyboard(view: View) {
         val inputMethodManager =
-                getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     private fun Context.showKeyboard(view: View) {
         val inputMethodManager =
-                getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.toggleSoftInputFromWindow(view.windowToken, 0, 0)
     }
 

@@ -8,7 +8,6 @@ import com.example.olegweatherapp.models.onecall.Hourly
 import com.example.olegweatherapp.repository.HomeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -25,13 +24,10 @@ import javax.inject.Inject
  * or fragment lifecycle events.
  */
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val homeRepository: HomeRepository, application: Application) : AndroidViewModel(application) {
-
-    private val app = application
-
-    init {
-        Timber.d("forecast: initViewModel")
-    }
+class HomeViewModel @Inject constructor(
+    private val homeRepository: HomeRepository,
+    private val app: Application
+) : AndroidViewModel(app) {
 
     /**
      * forecast displayed on the screen.
@@ -105,11 +101,11 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
             val sharedPref = app.getSharedPreferences("settings", Context.MODE_PRIVATE)
             val scale = sharedPref.getInt("scale", 1)
             val loc =
-                    if (sharedPref != null && sharedPref.contains("latitude") && sharedPref.contains("longitude")) {
-                        val lat = sharedPref.getFloat("latitude", (40.462212).toFloat()).toDouble()
-                        val lon = sharedPref.getFloat("longitude", (-2.96039).toFloat()).toDouble()
-                        Pair(lat, lon)
-                    } else Pair(40.462212, -2.96039)
+                if (sharedPref != null && sharedPref.contains("latitude") && sharedPref.contains("longitude")) {
+                    val lat = sharedPref.getFloat("latitude", (40.462212).toFloat()).toDouble()
+                    val lon = sharedPref.getFloat("longitude", (-2.96039).toFloat()).toDouble()
+                    Pair(lat, lon)
+                } else Pair(40.462212, -2.96039)
             try {
                 homeRepository.refreshForecastOnecall(loc, scale)
                 _eventNetworkError.value = false

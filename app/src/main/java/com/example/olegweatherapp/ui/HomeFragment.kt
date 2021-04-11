@@ -29,15 +29,15 @@ class HomeFragment : Fragment() {
     private var binding: FragmentHomeBinding? = null
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         val fragmentBinding: FragmentHomeBinding = DataBindingUtil.inflate(
-                inflater,
-                R.layout.fragment_home,
-                container,
-                false
+            inflater,
+            R.layout.fragment_home,
+            container,
+            false
         )
 
         binding = fragmentBinding

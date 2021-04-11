@@ -11,7 +11,7 @@ import com.example.olegweatherapp.databinding.HourlyViewItemBinding
 import com.example.olegweatherapp.models.bycityname.ForecastByCity
 import com.example.olegweatherapp.models.onecall.Hourly
 
-class HourlyAdapter() : ListAdapter<Hourly, HourlyAdapter.HourlyViewHolder>(DiffCallback) {
+class HourlyAdapter : ListAdapter<Hourly, HourlyAdapter.HourlyViewHolder>(DiffCallback) {
 
     class HourlyViewHolder(private var binding: HourlyViewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {

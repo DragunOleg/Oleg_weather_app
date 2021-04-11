@@ -45,7 +45,7 @@ class SettingsFragment : Fragment() {
 
         fun callNetworkUpdate() {
             val prefPeriod = sharedPref.getInt("updatePeriod", 60)
-            setupRecurringWork(prefPeriod)
+            setupRecurringWork(prefPeriod, requireContext())
         }
 
         binding.buttonGroup.addOnButtonCheckedListener { _, checkedId, _ ->
@@ -60,14 +60,16 @@ class SettingsFragment : Fragment() {
                 }
                 binding.buttonStandard.id -> {
                     if (binding.buttonStandard.isChecked) {
-                        Toast.makeText(this.context, "changed to standard", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this.context, "changed to standard", Toast.LENGTH_SHORT)
+                            .show()
                         sharedPref.edit().putInt("scale", 2).apply()
                         callNetworkUpdate()
                     }
                 }
                 binding.buttonImperial.id -> {
                     if (binding.buttonImperial.isChecked) {
-                        Toast.makeText(this.context, "changed to imperial", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this.context, "changed to imperial", Toast.LENGTH_SHORT)
+                            .show()
                         sharedPref.edit().putInt("scale", 3).apply()
                         callNetworkUpdate()
                     }
@@ -88,10 +90,12 @@ class SettingsFragment : Fragment() {
                 val result = (slider.value * 4).toInt() * 15
                 sharedPref.edit().putInt("updatePeriod", result).apply()
                 Timber.d("forecast: put update $result")
-                setupRecurringWork(result)
-                Toast.makeText(requireContext(),
+                setupRecurringWork(result, requireContext())
+                Toast.makeText(
+                    requireContext(),
                     "will update every ${slider.value} hours",
-                    Toast.LENGTH_SHORT)
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             }
         })

@@ -2,10 +2,10 @@ package com.example.olegweatherapp.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import com.example.olegweatherapp.Injection
 import com.example.olegweatherapp.database.DatabaseForecastOnecall
 import com.example.olegweatherapp.database.ForecastDao
 import com.example.olegweatherapp.models.onecall.ForecastOnecall
+import com.example.olegweatherapp.network.OpenWeatherMapApi
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -15,8 +15,11 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class HomeRepository @Inject constructor(private val forecastDao: ForecastDao) {
-
+class HomeRepository @Inject constructor(
+    private val forecastDao: ForecastDao,
+    private val service: OpenWeatherMapApi
+) {
+    //TODO() provide with hilt
     private val gson = Gson()
 
     /**
@@ -42,8 +45,7 @@ class HomeRepository @Inject constructor(private val forecastDao: ForecastDao) {
                     else -> "metric"
                 }
                 val forecastOnecall =
-                    Injection.provideNetworkApi()
-                        .getByCoordinates(loc.first, loc.second, units = scaleString)
+                    service.getByCoordinates(loc.first, loc.second, units = scaleString)
                 forecastDao.updateData(forecastOnecall.asDatabaseModel())
             } catch (e: Exception) {
                 throw IOException()

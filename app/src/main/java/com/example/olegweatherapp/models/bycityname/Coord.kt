@@ -16,6 +16,6 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 
 data class Coord(
 
-	@SerializedName("lon") val lon: Double,
-	@SerializedName("lat") val lat: Double
+    @SerializedName("lon") val lon: Double,
+    @SerializedName("lat") val lat: Double
 )
