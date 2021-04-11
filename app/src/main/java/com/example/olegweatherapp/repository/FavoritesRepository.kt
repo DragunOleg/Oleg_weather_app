@@ -4,15 +4,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.example.olegweatherapp.Injection
 import com.example.olegweatherapp.database.DatabaseForecastCity
-import com.example.olegweatherapp.database.ForecastDatabase
+import com.example.olegweatherapp.database.ForecastDao
 import com.example.olegweatherapp.models.bycityname.ForecastByCity
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.IOException
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class FavoritesRepository(private val database: ForecastDatabase) {
+@Singleton
+class FavoritesRepository @Inject constructor(private val forecastDao: ForecastDao) {
 
     private val gson = Gson()
 
@@ -20,14 +23,14 @@ class FavoritesRepository(private val database: ForecastDatabase) {
      * Observable list of favorite cities. Show this in your UI
      */
     val cities: LiveData<List<ForecastByCity>> =
-        Transformations.map(database.forecastOnecallDao.getAllCities()) {
+        Transformations.map(forecastDao.getAllCities()) {
             it?.asDomainModel()
         }
 
     suspend fun refreshForecastCities(scale: Int) {
         withContext(Dispatchers.IO) {
             Timber.d("forecast: refresh favorites is called")
-            val db = database.forecastOnecallDao.getCitiesNames()
+            val db = forecastDao.getCitiesNames()
             val citiesToInsert = mutableListOf<ForecastByCity>()
             try {
                 db.forEach {
@@ -44,7 +47,7 @@ class FavoritesRepository(private val database: ForecastDatabase) {
                         )
                     )
                 }
-                database.forecastOnecallDao.insertAllCities(citiesToInsert.asDatabaseModel())
+                forecastDao.insertAllCities(citiesToInsert.asDatabaseModel())
             } catch (e: Exception) {
                 throw IOException()
             }
@@ -65,7 +68,7 @@ class FavoritesRepository(private val database: ForecastDatabase) {
                     }
                 )
                 if (networkCityToIncert.cod == 200) {
-                    database.forecastOnecallDao.insertCity(networkCityToIncert.asDatabaseModel())
+                    forecastDao.insertCity(networkCityToIncert.asDatabaseModel())
                 }
             } catch (e: Exception) {
                 throw IOException()
@@ -77,7 +80,7 @@ class FavoritesRepository(private val database: ForecastDatabase) {
         withContext(Dispatchers.IO) {
             Timber.d("forecast: delete city with $name name")
             try {
-                database.forecastOnecallDao.deleteCity(name)
+                forecastDao.deleteCity(name)
             } catch (e: Exception) {
                 throw IOException()
             }

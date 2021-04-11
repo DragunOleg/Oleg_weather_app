@@ -1,4 +1,4 @@
-package com.example.olegweatherapp.viewmodels
+package com.example.olegweatherapp.ui
 
 import android.app.Application
 import android.content.Context
@@ -6,7 +6,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.olegweatherapp.Injection
 import com.example.olegweatherapp.repository.FavoritesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -24,9 +23,7 @@ import javax.inject.Inject
  * or fragment lifecycle events.
  */
 @HiltViewModel
-class FavoritesViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
-
-    private val favoritesRepository = FavoritesRepository(Injection.provideDatabase(application))
+class FavoritesViewModel @Inject constructor(private val favoritesRepository: FavoritesRepository, application: Application) : AndroidViewModel(application) {
 
     //hold it to have access to shared pref
     private val app = application

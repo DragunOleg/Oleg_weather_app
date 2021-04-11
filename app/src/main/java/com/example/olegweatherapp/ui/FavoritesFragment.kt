@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.olegweatherapp.R
 import com.example.olegweatherapp.databinding.FragmentFavoritesBinding
-import com.example.olegweatherapp.viewmodels.FavoritesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -28,13 +27,6 @@ class FavoritesFragment : Fragment() {
      * do in this Fragment.
      */
     private val viewModel: FavoritesViewModel by viewModels()
-//    lazy {
-//        val activity = requireNotNull(this.activity) {
-//            "You can only access the viewModel after onActivityCreated()"
-//        }
-//        ViewModelProvider(this, FavoritesViewModelFactory(activity.application))
-//                .get(FavoritesViewModel::class.java)
-//    }
 
     private var binding: FragmentFavoritesBinding? = null
 

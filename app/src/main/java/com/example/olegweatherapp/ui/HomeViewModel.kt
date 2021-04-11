@@ -1,9 +1,8 @@
-package com.example.olegweatherapp.viewmodels
+package com.example.olegweatherapp.ui
 
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.*
-import com.example.olegweatherapp.Injection
 import com.example.olegweatherapp.models.onecall.Daily
 import com.example.olegweatherapp.models.onecall.Hourly
 import com.example.olegweatherapp.repository.HomeRepository
@@ -26,12 +25,7 @@ import javax.inject.Inject
  * or fragment lifecycle events.
  */
 @HiltViewModel
-class HomeViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
-
-    /**
-     * The data source this ViewModel will fetch results from.
-     */
-    private val homeRepository = HomeRepository(Injection.provideDatabase(application))
+class HomeViewModel @Inject constructor(private val homeRepository: HomeRepository, application: Application) : AndroidViewModel(application) {
 
     private val app = application
 

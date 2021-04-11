@@ -11,7 +11,6 @@ import androidx.fragment.app.viewModels
 import com.example.olegweatherapp.R
 import com.example.olegweatherapp.databinding.FragmentHomeBinding
 import com.example.olegweatherapp.extensions.moveLocationToPref
-import com.example.olegweatherapp.viewmodels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -26,13 +25,6 @@ class HomeFragment : Fragment() {
      * do in this Fragment.
      */
     private val viewModel: HomeViewModel by viewModels()
-//    lazy {
-//        val activity = requireNotNull(this.activity) {
-//            "You can only access the viewModel after onActivityCreated()"
-//        }
-//        ViewModelProvider(this, HomeViewModelFactory(activity.application))
-//                .get(HomeViewModel::class.java)
-//    }
 
     private var binding: FragmentHomeBinding? = null
 

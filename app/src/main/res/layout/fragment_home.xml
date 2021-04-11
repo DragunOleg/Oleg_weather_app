@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.olegweatherapp.viewmodels.HomeViewModel" />
+            type="com.example.olegweatherapp.ui.HomeViewModel" />
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

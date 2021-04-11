@@ -4,15 +4,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.example.olegweatherapp.Injection
 import com.example.olegweatherapp.database.DatabaseForecastOnecall
-import com.example.olegweatherapp.database.ForecastDatabase
+import com.example.olegweatherapp.database.ForecastDao
 import com.example.olegweatherapp.models.onecall.ForecastOnecall
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.IOException
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class HomeRepository(private val database: ForecastDatabase) {
+@Singleton
+class HomeRepository @Inject constructor(private val forecastDao: ForecastDao) {
 
     private val gson = Gson()
 
@@ -20,7 +23,7 @@ class HomeRepository(private val database: ForecastDatabase) {
      * Observable object of home weather. Show this in your UI
      */
     val forecastOnecall: LiveData<ForecastOnecall> =
-        Transformations.map(database.forecastOnecallDao.getOnecall()) {
+        Transformations.map(forecastDao.getOnecall()) {
             it?.asDomainModel()
         }
 
@@ -41,7 +44,7 @@ class HomeRepository(private val database: ForecastDatabase) {
                 val forecastOnecall =
                     Injection.provideNetworkApi()
                         .getByCoordinates(loc.first, loc.second, units = scaleString)
-                database.forecastOnecallDao.updateData(forecastOnecall.asDatabaseModel())
+                forecastDao.updateData(forecastOnecall.asDatabaseModel())
             } catch (e: Exception) {
                 throw IOException()
             }

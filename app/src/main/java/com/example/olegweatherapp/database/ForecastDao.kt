@@ -7,7 +7,7 @@ import androidx.room.*
  * Dao for both tables
  */
 @Dao
-interface ForecastOnecallDao {
+interface ForecastDao {
     /**
      * Onecall methods******************************************
      */
