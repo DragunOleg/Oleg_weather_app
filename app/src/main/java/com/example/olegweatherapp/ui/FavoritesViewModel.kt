@@ -24,8 +24,8 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(
-    private val favoritesRepository: FavoritesRepository,
-    private val app: Application
+        private val favoritesRepository: FavoritesRepository,
+        private val app: Application
 ) : AndroidViewModel(app) {
 
     //cities displayed on the screen

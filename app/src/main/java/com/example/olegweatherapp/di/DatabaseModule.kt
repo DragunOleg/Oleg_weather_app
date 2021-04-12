@@ -1,8 +1,8 @@
 package com.example.olegweatherapp.di
 
 import android.content.Context
-import com.example.olegweatherapp.database.ForecastDao
-import com.example.olegweatherapp.database.ForecastDatabase
+import com.example.olegweatherapp.data.ForecastDao
+import com.example.olegweatherapp.data.ForecastDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

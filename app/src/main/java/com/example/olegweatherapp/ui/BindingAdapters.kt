@@ -32,14 +32,14 @@ fun bindFavoritesRecyclerView(recyclerView: RecyclerView, data: List<ForecastByC
 
 @BindingAdapter("hourlyListData")
 fun bindHourlyRecyclerView(recyclerView: RecyclerView, data: List<Hourly>?) {
-    val adapter = recyclerView.adapter as HourlyAdapter
+    val adapter = recyclerView.adapter as HomeHourlyAdapter
     adapter.submitList(data)
 
 }
 
 @BindingAdapter("dailyListData")
 fun bindDailyRecyclerView(recyclerView: RecyclerView, data: List<Daily>?) {
-    val adapter = recyclerView.adapter as DailyAdapter
+    val adapter = recyclerView.adapter as HomeDailyAdapter
     adapter.submitList(data)
 }
 

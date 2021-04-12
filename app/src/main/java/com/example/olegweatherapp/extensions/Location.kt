@@ -10,6 +10,8 @@ import com.google.android.gms.location.LocationServices
 
 /**
  * move location to shared pref
+ * TODO() call current new location instead of fused location
+ * it is currently not UPDATING loc, just checking update from others
  */
 fun moveLocationToPref(activity: Activity?) {
 

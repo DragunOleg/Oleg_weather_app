@@ -1,4 +1,4 @@
-package com.example.olegweatherapp.network
+package com.example.olegweatherapp.data
 
 import com.example.olegweatherapp.models.bycityname.ForecastByCity
 import com.example.olegweatherapp.models.onecall.ForecastOnecall
@@ -7,6 +7,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
+/**
+ * models are in models package
+ */
 interface OpenWeatherMapApi {
 
     @GET("data/2.5/onecall")

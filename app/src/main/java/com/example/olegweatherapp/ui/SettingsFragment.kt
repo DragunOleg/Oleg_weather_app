@@ -12,6 +12,9 @@ import com.example.olegweatherapp.R
 import com.example.olegweatherapp.databinding.FragmentSettingsBinding
 import com.example.olegweatherapp.setupRecurringWork
 import com.google.android.material.slider.Slider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class SettingsFragment : Fragment() {
@@ -45,7 +48,9 @@ class SettingsFragment : Fragment() {
 
         fun callNetworkUpdate() {
             val prefPeriod = sharedPref.getInt("updatePeriod", 60)
-            setupRecurringWork(prefPeriod, requireContext())
+            CoroutineScope(Dispatchers.IO).launch {
+                setupRecurringWork(prefPeriod, requireContext())
+            }
         }
 
         binding.buttonGroup.addOnButtonCheckedListener { _, checkedId, _ ->
@@ -90,7 +95,9 @@ class SettingsFragment : Fragment() {
                 val result = (slider.value * 4).toInt() * 15
                 sharedPref.edit().putInt("updatePeriod", result).apply()
                 Timber.d("forecast: put update $result")
-                setupRecurringWork(result, requireContext())
+                CoroutineScope(Dispatchers.IO).launch {
+                    setupRecurringWork(result, requireContext())
+                }
                 Toast.makeText(
                     requireContext(),
                     "will update every ${slider.value} hours",

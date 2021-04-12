@@ -3,9 +3,9 @@ package com.example.olegweatherapp.ui
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.*
+import com.example.olegweatherapp.repository.HomeRepository
 import com.example.olegweatherapp.models.onecall.Daily
 import com.example.olegweatherapp.models.onecall.Hourly
-import com.example.olegweatherapp.repository.HomeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.io.IOException

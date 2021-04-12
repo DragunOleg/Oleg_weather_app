@@ -7,16 +7,17 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.olegweatherapp.R
-import com.example.olegweatherapp.databinding.HourlyViewItemBinding
+import com.example.olegweatherapp.databinding.DailyViewItemBinding
 import com.example.olegweatherapp.models.bycityname.ForecastByCity
-import com.example.olegweatherapp.models.onecall.Hourly
+import com.example.olegweatherapp.models.onecall.Daily
 
-class HourlyAdapter : ListAdapter<Hourly, HourlyAdapter.HourlyViewHolder>(DiffCallback) {
 
-    class HourlyViewHolder(private var binding: HourlyViewItemBinding) :
+class HomeDailyAdapter : ListAdapter<Daily, HomeDailyAdapter.DailyViewHolder>(DiffCallback) {
+
+    class DailyViewHolder(private var binding: DailyViewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(hourly: Hourly) {
-            binding.hourly = hourly
+        fun bind(daily: Daily) {
+            binding.daily = daily
 
             binding.executePendingBindings()
         }
@@ -27,30 +28,30 @@ class HourlyAdapter : ListAdapter<Hourly, HourlyAdapter.HourlyViewHolder>(DiffCa
      * has been updated.
      * ru explanation of diffutil https://habr.com/ru/company/redmadrobot/blog/460673/
      */
-    companion object DiffCallback : DiffUtil.ItemCallback<Hourly>() {
-        override fun areItemsTheSame(oldItem: Hourly, newItem: Hourly): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<Daily>() {
+        override fun areItemsTheSame(oldItem: Daily, newItem: Daily): Boolean {
             //comparing items in memory
             return oldItem.dt == newItem.dt
         }
 
-        override fun areContentsTheSame(oldItem: Hourly, newItem: Hourly): Boolean {
+        override fun areContentsTheSame(oldItem: Daily, newItem: Daily): Boolean {
             //comparing based on content from JSON
             return oldItem == newItem
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HourlyViewHolder {
-        val withDataBinding: HourlyViewItemBinding = DataBindingUtil.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DailyViewHolder {
+        val withDataBinding: DailyViewItemBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
-            R.layout.hourly_view_item,
+            R.layout.daily_view_item,
             parent,
             false
         )
-        return HourlyViewHolder(withDataBinding)
+        return DailyViewHolder(withDataBinding)
     }
 
-    override fun onBindViewHolder(holder: HourlyViewHolder, position: Int) {
-        val hourly = getItem(position)
-        holder.bind(hourly)
+    override fun onBindViewHolder(holder: DailyViewHolder, position: Int) {
+        val daily = getItem(position)
+        holder.bind(daily)
     }
 }

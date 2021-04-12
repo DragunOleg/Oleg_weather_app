@@ -1,6 +1,6 @@
 package com.example.olegweatherapp.di
 
-import com.example.olegweatherapp.network.OpenWeatherMapApi
+import com.example.olegweatherapp.data.OpenWeatherMapApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

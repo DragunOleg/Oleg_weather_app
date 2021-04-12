@@ -55,8 +55,8 @@ class HomeFragment : Fragment() {
             viewModel = this@HomeFragment.viewModel
 
             //binding adapters would connect adapter with data from ViewModel
-            hourlyList.adapter = HourlyAdapter()
-            dailyList.adapter = DailyAdapter()
+            hourlyList.adapter = HomeHourlyAdapter()
+            dailyList.adapter = HomeDailyAdapter()
 
             //refresh only on explicit user action
             swipeRefreshHome.setOnRefreshListener {

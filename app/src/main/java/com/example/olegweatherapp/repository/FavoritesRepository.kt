@@ -2,10 +2,10 @@ package com.example.olegweatherapp.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import com.example.olegweatherapp.database.DatabaseForecastCity
-import com.example.olegweatherapp.database.ForecastDao
+import com.example.olegweatherapp.data.DatabaseForecastCity
+import com.example.olegweatherapp.data.ForecastDao
+import com.example.olegweatherapp.data.OpenWeatherMapApi
 import com.example.olegweatherapp.models.bycityname.ForecastByCity
-import com.example.olegweatherapp.network.OpenWeatherMapApi
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

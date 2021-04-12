@@ -1,9 +1,9 @@
-package com.example.olegweatherapp.database
+package com.example.olegweatherapp.data
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
 
-//TODO() Split it to 2 different DAO so repo is not loading not needed extras
+//TODO() Split it to 2 different DAO so repos aren't loading not needed extras
 @Dao
 interface ForecastDao {
     /**
