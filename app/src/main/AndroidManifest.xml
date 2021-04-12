@@ -17,14 +17,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OlegWeatherApp">
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:name=".SplashActivity"
+            android:theme="@style/Theme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name">
+
+        </activity>
+
+
         <!--needed to use hilt+workmanager-->
         <provider
             android:name="androidx.work.impl.WorkManagerInitializer"
