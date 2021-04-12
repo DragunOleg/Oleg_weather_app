@@ -9,6 +9,7 @@ import com.example.olegweatherapp.extensions.moveLocationToPref
 import com.example.olegweatherapp.extensions.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        Timber.d("forecast: move loc to pref")
         moveLocationToPref(this)
         if (savedInstanceState == null) {
             setupBottomNavigationBar()

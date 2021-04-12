@@ -12,6 +12,7 @@ import com.example.olegweatherapp.R
 import com.example.olegweatherapp.databinding.FragmentHomeBinding
 import com.example.olegweatherapp.extensions.moveLocationToPref
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 /**
  * Show last available forecast
@@ -61,6 +62,7 @@ class HomeFragment : Fragment() {
             //refresh only on explicit user action
             swipeRefreshHome.setOnRefreshListener {
                 //update current location
+                Timber.d("forecast: move loc to pref")
                 moveLocationToPref(requireActivity())
                 //refresh data
                 this@HomeFragment.viewModel.refreshDataFromRepository()

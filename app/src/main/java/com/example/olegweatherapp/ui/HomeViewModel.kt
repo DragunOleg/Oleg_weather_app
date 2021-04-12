@@ -3,9 +3,9 @@ package com.example.olegweatherapp.ui
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.*
-import com.example.olegweatherapp.repository.HomeRepository
 import com.example.olegweatherapp.models.onecall.Daily
 import com.example.olegweatherapp.models.onecall.Hourly
+import com.example.olegweatherapp.repository.HomeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -100,12 +100,13 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             val sharedPref = app.getSharedPreferences("settings", Context.MODE_PRIVATE)
             val scale = sharedPref.getInt("scale", 1)
+            val lat = sharedPref.getFloat("latitude", (40.462212).toFloat()).toDouble()
+            val lon = sharedPref.getFloat("longitude", (-2.96039).toFloat()).toDouble()
             val loc =
-                if (sharedPref != null && sharedPref.contains("latitude") && sharedPref.contains("longitude")) {
-                    val lat = sharedPref.getFloat("latitude", (40.462212).toFloat()).toDouble()
-                    val lon = sharedPref.getFloat("longitude", (-2.96039).toFloat()).toDouble()
+                //if (sharedPref != null && sharedPref.contains("latitude") && sharedPref.contains("longitude")) {
+
                     Pair(lat, lon)
-                } else Pair(40.462212, -2.96039)
+                //} else Pair(40.462212, -2.96039)
             try {
                 homeRepository.refreshForecastOnecall(loc, scale)
                 _eventNetworkError.value = false
