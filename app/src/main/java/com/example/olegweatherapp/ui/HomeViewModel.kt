@@ -1,5 +1,6 @@
 package com.example.olegweatherapp.ui
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.*
@@ -8,7 +9,6 @@ import com.example.olegweatherapp.models.onecall.Hourly
 import com.example.olegweatherapp.repository.HomeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -19,14 +19,14 @@ import javax.inject.Inject
  * work such as fetching network results can continue through configuration changes and deliver
  * results after the new Fragment or Activity is available.
  *
- * @param application The application that this viewmodel is attached to, it's safe to hold a
+ * @param app The application that this viewmodel is attached to, it's safe to hold a
  * reference to applications across rotation since Application is never recreated during actiivty
  * or fragment lifecycle events.
  */
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val homeRepository: HomeRepository,
-    private val app: Application
+        private val homeRepository: HomeRepository,
+        private val app: Application
 ) : AndroidViewModel(app) {
 
     /**
@@ -93,7 +93,6 @@ class HomeViewModel @Inject constructor(
     /**
      * Refresh data from the repository. Use a coroutine launch to run in a
      * background thread.
-     * @param loc is pair with lat/lon to update weather with current location
      */
     fun refreshDataFromRepository() {
 
@@ -102,16 +101,12 @@ class HomeViewModel @Inject constructor(
             val scale = sharedPref.getInt("scale", 1)
             val lat = sharedPref.getFloat("latitude", (40.462212).toFloat()).toDouble()
             val lon = sharedPref.getFloat("longitude", (-2.96039).toFloat()).toDouble()
-            val loc =
-                //if (sharedPref != null && sharedPref.contains("latitude") && sharedPref.contains("longitude")) {
-
-                    Pair(lat, lon)
-                //} else Pair(40.462212, -2.96039)
+            val loc = Pair(lat, lon)
             try {
                 homeRepository.refreshForecastOnecall(loc, scale)
                 _eventNetworkError.value = false
                 _isNetworkErrorShown.value = false
-            } catch (networkError: IOException) {
+            } catch (networkError: Exception) {
                 //Show a Toast error message
                 if (forecastOnecall.value == null) {
                     _eventNetworkError.value = true
@@ -127,6 +122,7 @@ class HomeViewModel @Inject constructor(
         _isNetworkErrorShown.value = true
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun dtToTime(utc: Int?): String {
         if (utc != null) {
             try {

@@ -1,5 +1,6 @@
 package com.example.olegweatherapp.models.onecall
 
+import android.annotation.SuppressLint
 import com.example.olegweatherapp.models.Weather
 import com.google.gson.annotations.SerializedName
 import java.text.SimpleDateFormat
@@ -19,24 +20,25 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 
 data class Hourly(
 
-    @SerializedName("dt") val dt: Int,
-    @SerializedName("temp") val temp: Double,
-    @SerializedName("feels_like") val feels_like: Double,
-    @SerializedName("pressure") val pressure: Double,
-    @SerializedName("humidity") val humidity: Double,
-    @SerializedName("dew_point") val dew_point: Double,
-    @SerializedName("uvi") val uvi: Double,
-    @SerializedName("clouds") val clouds: Double,
-    @SerializedName("visibility") val visibility: Double,
-    @SerializedName("wind_speed") val windSpeed: Double,
-    @SerializedName("wind_deg") val windDeg: Double,
-    @SerializedName("wind_gust") val windGust: Double,
-    @SerializedName("weather") val weather: List<Weather>,
-    @SerializedName("pop") val pop: Double
+        @SerializedName("dt") val dt: Int,
+        @SerializedName("temp") val temp: Double,
+        @SerializedName("feels_like") val feels_like: Double,
+        @SerializedName("pressure") val pressure: Double,
+        @SerializedName("humidity") val humidity: Double,
+        @SerializedName("dew_point") val dew_point: Double,
+        @SerializedName("uvi") val uvi: Double,
+        @SerializedName("clouds") val clouds: Double,
+        @SerializedName("visibility") val visibility: Double,
+        @SerializedName("wind_speed") val windSpeed: Double,
+        @SerializedName("wind_deg") val windDeg: Double,
+        @SerializedName("wind_gust") val windGust: Double,
+        @SerializedName("weather") val weather: List<Weather>,
+        @SerializedName("pop") val pop: Double
 ) {
     val formattedDt: String
         get() = dtToTime(dt)
 
+    @SuppressLint("SimpleDateFormat")
     private fun dtToTime(utc: Int?): String {
         if (utc != null) {
             try {

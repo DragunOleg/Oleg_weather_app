@@ -14,7 +14,7 @@ import com.example.olegweatherapp.models.onecall.Hourly
 class HomeHourlyAdapter : ListAdapter<Hourly, HomeHourlyAdapter.HourlyViewHolder>(DiffCallback) {
 
     class HourlyViewHolder(private var binding: HourlyViewItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+            RecyclerView.ViewHolder(binding.root) {
         fun bind(hourly: Hourly) {
             binding.hourly = hourly
 
@@ -41,10 +41,10 @@ class HomeHourlyAdapter : ListAdapter<Hourly, HomeHourlyAdapter.HourlyViewHolder
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HourlyViewHolder {
         val withDataBinding: HourlyViewItemBinding = DataBindingUtil.inflate(
-            LayoutInflater.from(parent.context),
-            R.layout.hourly_view_item,
-            parent,
-            false
+                LayoutInflater.from(parent.context),
+                R.layout.hourly_view_item,
+                parent,
+                false
         )
         return HourlyViewHolder(withDataBinding)
     }

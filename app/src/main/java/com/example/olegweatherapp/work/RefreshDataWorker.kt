@@ -17,10 +17,10 @@ import timber.log.Timber
 //this thing is called on application creation and on changes in settings fragment
 @HiltWorker
 class RefreshDataWorker @AssistedInject constructor(
-    @Assisted private val appContext: Context,
-    @Assisted params: WorkerParameters,
-    private val homeRepository: HomeRepository,
-    private val favoritesRepository: FavoritesRepository
+        @Assisted private val appContext: Context,
+        @Assisted params: WorkerParameters,
+        private val homeRepository: HomeRepository,
+        private val favoritesRepository: FavoritesRepository
 ) :
         Worker(appContext, params) {
 
@@ -47,7 +47,7 @@ class RefreshDataWorker @AssistedInject constructor(
             Timber.d("forecast: WorkManager e: $e")
             return Result.retry()
         }
-        Timber.d("Forecast WorkManager success")
+        Timber.d("forecast: WorkManager success")
         return Result.success()
     }
 }

@@ -61,7 +61,7 @@
                     app:imageUrl="@{viewModel.forecastOnecall.current.weather.get(0).iconUrl}"
                     app:layout_constraintStart_toStartOf="@+id/left_wall"
                     app:layout_constraintTop_toTopOf="@+id/top_wall"
-                    app:srcCompat="@drawable/ic_action_name" />
+                    tools:srcCompat="@drawable/ic_action_name" />
 
                 <TextView
                     android:id="@+id/home_city_name"

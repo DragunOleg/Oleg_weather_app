@@ -11,5 +11,8 @@
     <string name="feels_like">Feels like %s\u00B0</string>
     <string name="wind">Wind speed %s</string>
     <string name="wind_hourly">Wind\n%s</string>
+    <string name="dash">-</string>
+    <string name="night">Night:</string>
+    <string name="day">Day:</string>
 
 </resources>

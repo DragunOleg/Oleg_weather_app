@@ -1,8 +1,10 @@
-package com.example.olegweatherapp;
+package com.example.olegweatherapp.ui
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.olegweatherapp.MainActivity
+import com.example.olegweatherapp.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

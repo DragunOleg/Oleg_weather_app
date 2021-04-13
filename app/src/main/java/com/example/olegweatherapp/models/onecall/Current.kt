@@ -17,21 +17,21 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 
 data class Current(
 
-    @SerializedName("dt") val dt: Int,
-    @SerializedName("sunrise") val sunrise: Int,
-    @SerializedName("sunset") val sunset: Int,
-    @SerializedName("temp") val temp: Double,
-    @SerializedName("feels_like") val feelsLike: Double,
-    @SerializedName("pressure") val pressure: Double,
-    @SerializedName("humidity") val humidity: Double,
-    @SerializedName("dew_point") val dewPoint: Double,
-    @SerializedName("uvi") val uvi: Double,
-    @SerializedName("clouds") val clouds: Double,
-    @SerializedName("visibility") val visibility: Double,
-    @SerializedName("wind_speed") val windSpeed: Double,
-    @SerializedName("wind_deg") val windDeg: Double,
-    @SerializedName("wind_gust") val windGust: Double,
-    @SerializedName("weather") val weather: List<Weather>
+        @SerializedName("dt") val dt: Int,
+        @SerializedName("sunrise") val sunrise: Int,
+        @SerializedName("sunset") val sunset: Int,
+        @SerializedName("temp") val temp: Double,
+        @SerializedName("feels_like") val feelsLike: Double,
+        @SerializedName("pressure") val pressure: Double,
+        @SerializedName("humidity") val humidity: Double,
+        @SerializedName("dew_point") val dewPoint: Double,
+        @SerializedName("uvi") val uvi: Double,
+        @SerializedName("clouds") val clouds: Double,
+        @SerializedName("visibility") val visibility: Double,
+        @SerializedName("wind_speed") val windSpeed: Double,
+        @SerializedName("wind_deg") val windDeg: Double,
+        @SerializedName("wind_gust") val windGust: Double,
+        @SerializedName("weather") val weather: List<Weather>
 )
 
 

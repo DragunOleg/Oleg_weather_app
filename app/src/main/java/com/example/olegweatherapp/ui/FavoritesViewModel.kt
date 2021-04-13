@@ -9,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.olegweatherapp.repository.FavoritesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.io.IOException
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -18,7 +18,7 @@ import javax.inject.Inject
  * work such as fetching network results can continue through configuration changes and deliver
  * results after the new Fragment or Activity is available.
  *
- * @param application The application that this viewmodel is attached to, it's safe to hold a
+ * @param app The application that this viewmodel is attached to, it's safe to hold a
  * reference to applications across rotation since Application is never recreated during actiivty
  * or fragment lifecycle events.
  */
@@ -68,7 +68,8 @@ class FavoritesViewModel @Inject constructor(
                 favoritesRepository.refreshForecastCities(getScaleFromPref())
                 _eventNetworkError.value = false
                 _isNetworkErrorShown.value = false
-            } catch (networkError: IOException) {
+            } catch (e: Exception) {
+                Timber.d("forecast: refresh fav exception $e")
                 //Show a Toast error message
                 if (citiesList.value.isNullOrEmpty()) {
                     _eventNetworkError.value = true
@@ -83,7 +84,8 @@ class FavoritesViewModel @Inject constructor(
                 favoritesRepository.insertCity(city, getScaleFromPref())
                 _eventNetworkError.value = false
                 _isNetworkErrorShown.value = false
-            } catch (networkError: IOException) {
+            } catch (e: Exception) {
+                Timber.d("forecast: add city $city exception $e")
                 //Show a Toast error message
                 _eventNetworkError.value = true
             }
@@ -106,7 +108,10 @@ class FavoritesViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 favoritesRepository.deleteCity(city)
-            } catch (networkError: IOException) {
+                _eventNetworkError.value = false
+                _isNetworkErrorShown.value = false
+            } catch (e: Exception) {
+                Timber.d("forecast: delete city exception $e")
                 //Show a Toast error message
                 _eventNetworkError.value = true
             }

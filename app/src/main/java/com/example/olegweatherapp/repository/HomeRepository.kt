@@ -16,8 +16,8 @@ import javax.inject.Singleton
 
 @Singleton
 class HomeRepository @Inject constructor(
-    private val forecastDao: ForecastDao,
-    private val service: OpenWeatherMapApi
+        private val forecastDao: ForecastDao,
+        private val service: OpenWeatherMapApi
 ) {
     //TODO() provide with hilt
     private val gson = Gson()
@@ -26,9 +26,9 @@ class HomeRepository @Inject constructor(
      * Observable object of home weather. Show this in your UI
      */
     val forecastOnecall: LiveData<ForecastOnecall> =
-        Transformations.map(forecastDao.getOnecall()) {
-            it?.asDomainModel()
-        }
+            Transformations.map(forecastDao.getOnecall()) {
+                it?.asDomainModel()
+            }
 
     /**
      * @param loc is lat + lon
@@ -45,7 +45,7 @@ class HomeRepository @Inject constructor(
                     else -> "metric"
                 }
                 val forecastOnecall =
-                    service.getByCoordinates(loc.first, loc.second, units = scaleString)
+                        service.getByCoordinates(loc.first, loc.second, units = scaleString)
                 forecastDao.updateData(forecastOnecall.asDatabaseModel())
             } catch (e: Exception) {
                 throw IOException()
@@ -60,8 +60,8 @@ class HomeRepository @Inject constructor(
     private fun ForecastOnecall.asDatabaseModel(): DatabaseForecastOnecall {
         //from object to Json string
         return DatabaseForecastOnecall(
-            dt = this.current.dt,
-            forecastOnecall = gson.toJson(this)
+                dt = this.current.dt,
+                forecastOnecall = gson.toJson(this)
         )
     }
 

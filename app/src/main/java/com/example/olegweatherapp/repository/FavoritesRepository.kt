@@ -16,8 +16,8 @@ import javax.inject.Singleton
 
 @Singleton
 class FavoritesRepository @Inject constructor(
-    private val forecastDao: ForecastDao,
-    private val service: OpenWeatherMapApi
+        private val forecastDao: ForecastDao,
+        private val service: OpenWeatherMapApi
 ) {
 
     //TODO() provide with hilt
@@ -27,9 +27,9 @@ class FavoritesRepository @Inject constructor(
      * Observable list of favorite cities. Show this in your UI
      */
     val cities: LiveData<List<ForecastByCity>> =
-        Transformations.map(forecastDao.getAllCities()) {
-            it?.asDomainModel()
-        }
+            Transformations.map(forecastDao.getAllCities()) { list ->
+                list?.asDomainModel()?.sortedBy { it.name }
+            }
 
     suspend fun refreshForecastCities(scale: Int) {
         withContext(Dispatchers.IO) {
@@ -39,15 +39,15 @@ class FavoritesRepository @Inject constructor(
             try {
                 db.forEach {
                     citiesToInsert.add(
-                        service.getByCityName(
-                            it,
-                            units = when (scale) {
-                                1 -> "metric"
-                                2 -> "standard"
-                                3 -> "imperial"
-                                else -> "metric"
-                            }
-                        )
+                            service.getByCityName(
+                                    it,
+                                    units = when (scale) {
+                                        1 -> "metric"
+                                        2 -> "standard"
+                                        3 -> "imperial"
+                                        else -> "metric"
+                                    }
+                            )
                     )
                 }
                 forecastDao.insertAllCities(citiesToInsert.asDatabaseModel())
@@ -62,13 +62,13 @@ class FavoritesRepository @Inject constructor(
             Timber.d("forecast: insert city with $name name")
             try {
                 val networkCityToIncert = service.getByCityName(
-                    name,
-                    units = when (scale) {
-                        1 -> "metric"
-                        2 -> "standard"
-                        3 -> "imperial"
-                        else -> "metric"
-                    }
+                        name,
+                        units = when (scale) {
+                            1 -> "metric"
+                            2 -> "standard"
+                            3 -> "imperial"
+                            else -> "metric"
+                        }
                 )
                 if (networkCityToIncert.cod == 200) {
                     forecastDao.insertCity(networkCityToIncert.asDatabaseModel())
@@ -97,8 +97,8 @@ class FavoritesRepository @Inject constructor(
         //from object to Json string
         return map {
             DatabaseForecastCity(
-                cityId = it.name,
-                forecastCity = gson.toJson(it)
+                    cityId = it.name,
+                    forecastCity = gson.toJson(it)
             )
         }
     }
@@ -108,8 +108,8 @@ class FavoritesRepository @Inject constructor(
      */
     private fun ForecastByCity.asDatabaseModel(): DatabaseForecastCity {
         return DatabaseForecastCity(
-            cityId = this.name,
-            forecastCity = gson.toJson(this)
+                cityId = this.name,
+                forecastCity = gson.toJson(this)
         )
     }
 

@@ -21,12 +21,12 @@ class SettingsFragment : Fragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         val binding: FragmentSettingsBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_settings, container, false
+                inflater, R.layout.fragment_settings, container, false
         )
 
         setupSlider(binding)
@@ -66,7 +66,7 @@ class SettingsFragment : Fragment() {
                 binding.buttonStandard.id -> {
                     if (binding.buttonStandard.isChecked) {
                         Toast.makeText(this.context, "changed to standard", Toast.LENGTH_SHORT)
-                            .show()
+                                .show()
                         sharedPref.edit().putInt("scale", 2).apply()
                         callNetworkUpdate()
                     }
@@ -74,7 +74,7 @@ class SettingsFragment : Fragment() {
                 binding.buttonImperial.id -> {
                     if (binding.buttonImperial.isChecked) {
                         Toast.makeText(this.context, "changed to imperial", Toast.LENGTH_SHORT)
-                            .show()
+                                .show()
                         sharedPref.edit().putInt("scale", 3).apply()
                         callNetworkUpdate()
                     }
@@ -99,11 +99,10 @@ class SettingsFragment : Fragment() {
                     setupRecurringWork(result, requireContext())
                 }
                 Toast.makeText(
-                    requireContext(),
-                    "will update every ${slider.value} hours",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
+                        requireContext(),
+                        "will update every ${slider.value} hours",
+                        Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }

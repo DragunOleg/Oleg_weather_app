@@ -38,11 +38,13 @@
                 android:id="@+id/imageView3"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                app:imageUrl="@{daily.weather.get(0).iconUrl}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/daily_range"
                 app:layout_constraintStart_toEndOf="@+id/day_of_week"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_action_name" />
+                app:srcCompat="@drawable/ic_action_name"
+                android:contentDescription="@{daily.weather.get(0).description}" />
 
             <TextView
                 android:id="@+id/temp_min"
@@ -72,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Day: "
+                android:text="@string/day"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@+id/temp_min"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -82,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="Night: "
+                android:text="@string/night"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/temp_night" />
@@ -104,7 +106,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text=" - "
+                android:text="@string/dash"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@+id/temp_max"
                 app:layout_constraintTop_toTopOf="parent" />

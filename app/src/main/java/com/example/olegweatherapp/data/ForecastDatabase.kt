@@ -24,9 +24,9 @@ abstract class ForecastDatabase : RoomDatabase() {
         // https://medium.com/google-developers/7-pro-tips-for-room-fbadea4bfbd1#4785
         private fun buildDatabase(context: Context): ForecastDatabase {
             return Room.databaseBuilder(
-                context.applicationContext,
-                ForecastDatabase::class.java,
-                "databaseforecast"
+                    context.applicationContext,
+                    ForecastDatabase::class.java,
+                    "databaseforecast"
             ).build()
         }
     }
