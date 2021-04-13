@@ -59,7 +59,7 @@ class FavoritesFragment : Fragment() {
                 swipeRefreshFavorites.isRefreshing = false
             }
 
-            cityList.adapter = FavortesAdapter(ForecastListener { cityName ->
+            cityList.adapter = FavoritesAdapter(ForecastListener { cityName ->
                 Toast.makeText(context, "$cityName gone", Toast.LENGTH_SHORT).show()
                 this@FavoritesFragment.viewModel.deleteCity(cityName)
             })

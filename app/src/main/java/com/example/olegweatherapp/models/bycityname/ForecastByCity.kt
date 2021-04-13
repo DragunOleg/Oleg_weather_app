@@ -41,13 +41,13 @@ data class ForecastByCity(
         get() = dtToTime(dt)
 
     private fun dtToTime(utc: Int): String {
-        try {
+        return try {
             val sdf = SimpleDateFormat("MMM dd, yyyy HH:mm:ss", Locale.US)
             val diff = TimeZone.getDefault().rawOffset / 1000 - timezone
             val netDate = Date((utc - diff) * 1000L)
-            return sdf.format(netDate)
+            sdf.format(netDate)
         } catch (e: Exception) {
-            return e.toString()
+            e.toString()
         }
     }
 

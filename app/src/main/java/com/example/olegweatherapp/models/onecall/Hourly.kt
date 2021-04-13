@@ -41,12 +41,12 @@ data class Hourly(
     @SuppressLint("SimpleDateFormat")
     private fun dtToTime(utc: Int?): String {
         if (utc != null) {
-            try {
+            return try {
                 val sdf = SimpleDateFormat("HH:mm")
                 val netDate = Date(utc.toLong() * 1000)
-                return sdf.format(netDate)
+                sdf.format(netDate)
             } catch (e: Exception) {
-                return e.toString()
+                e.toString()
             }
         }
         return ""

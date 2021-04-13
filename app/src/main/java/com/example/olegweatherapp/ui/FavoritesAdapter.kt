@@ -18,8 +18,8 @@ import kotlin.math.roundToInt
  * Tricky item click listener to delete explained here
  * https://developer.android.com/codelabs/kotlin-android-training-interacting-with-items#3
  */
-class FavortesAdapter(val clickListener: ForecastListener) :
-        ListAdapter<ForecastByCity, FavortesAdapter.ForecastViewHolder>(DiffCallback) {
+class FavoritesAdapter(val clickListener: ForecastListener) :
+        ListAdapter<ForecastByCity, FavoritesAdapter.ForecastViewHolder>(DiffCallback) {
 
     /**
      * The PictureViewHolder constructor takes the binding variable from the associated

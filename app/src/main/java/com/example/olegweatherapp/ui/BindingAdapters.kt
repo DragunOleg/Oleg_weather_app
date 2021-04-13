@@ -26,7 +26,7 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 
 @BindingAdapter("favoritesListData")
 fun bindFavoritesRecyclerView(recyclerView: RecyclerView, data: List<ForecastByCity>?) {
-    val adapter = recyclerView.adapter as FavortesAdapter
+    val adapter = recyclerView.adapter as FavoritesAdapter
     adapter.submitList(data)
 }
 

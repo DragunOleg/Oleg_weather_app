@@ -38,13 +38,13 @@
                 android:id="@+id/imageView3"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:contentDescription="@{daily.weather.get(0).description}"
                 app:imageUrl="@{daily.weather.get(0).iconUrl}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/daily_range"
                 app:layout_constraintStart_toEndOf="@+id/day_of_week"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_action_name"
-                android:contentDescription="@{daily.weather.get(0).description}" />
+                app:srcCompat="@drawable/ic_action_name" />
 
             <TextView
                 android:id="@+id/temp_min"
