@@ -2,7 +2,7 @@ package com.example.olegweatherapp.work
 
 import android.content.Context
 import androidx.hilt.work.HiltWorker
-import androidx.work.Worker
+import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.olegweatherapp.repository.FavoritesRepository
 import com.example.olegweatherapp.repository.HomeRepository
@@ -13,7 +13,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-//it is not coroutineWorker cause of trouble with HiltWorker
 //this thing is called on application creation and on changes in settings fragment
 @HiltWorker
 class RefreshDataWorker @AssistedInject constructor(
@@ -22,13 +21,13 @@ class RefreshDataWorker @AssistedInject constructor(
         private val homeRepository: HomeRepository,
         private val favoritesRepository: FavoritesRepository
 ) :
-        Worker(appContext, params) {
+        CoroutineWorker(appContext, params) {
 
     companion object {
         const val WORK_NAME = "com.example.olegweatherapp.work.RefreshDataWorker"
     }
 
-    override fun doWork(): Result {
+    override suspend fun doWork(): Result {
         Timber.d("forecast: doWork called")
         try {
             val sharedPref =
